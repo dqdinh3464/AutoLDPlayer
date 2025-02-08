@@ -15,10 +15,7 @@ namespace Auto_LDPlayer
     {
         public static string PathLD = @"C:\LDPlayer\LDPlayer4.0\ldconsole.exe";
 
-        //----------------------Emulator Interaction--------------------------------//
-
-        //Group 1 - Control
-
+        #region Group 1 - Control
         public static void Open(LDType ldType, string nameOrId)
         {
             ExecuteLD($"launch --{ldType.ToName()} {nameOrId}");
@@ -43,12 +40,12 @@ namespace Auto_LDPlayer
         {
             ExecuteLD($"reboot --{ldType.ToName()} {nameOrId}");
         }
+        #endregion
 
-        //Group 2 - More Custom
-
+        #region Group 2 - More Custom
         public static void Create(string name)
         {
-            ExecuteLD("add --name " + name);
+            ExecuteLD($"add --name {name}");
         }
 
         public static void Copy(string name, string fromNameOrId)
@@ -65,6 +62,7 @@ namespace Auto_LDPlayer
         {
             ExecuteLD($"rename --{ldType.ToName()} {nameOrId} --title {titleNew}");
         }
+        #endregion
 
         //Group 3 - Change Setting
 
@@ -202,16 +200,18 @@ namespace Auto_LDPlayer
 
         public static List<string> GetDevices()
         {
-            var arr = ExecuteLDForResult("list").Trim().Split('\n');
-            for (var i = 0; i < arr.Length; i++)
+            var devices = ExecuteLDForResult("list")?.Trim().Split('\n');
+            if (devices == null)
+                return new List<string>();
+
+            for (var i = 0; i < devices.Length; i++)
             {
-                if (arr[i] == "")
+                if (devices[i] == "")
                     return new List<string>();
-                arr[i] = arr[i].Trim();
+                devices[i] = devices[i].Trim();
             }
 
-            //System.Windows.Forms.MessageBox.Show(string.Join("|", arr));
-            return arr.ToList();
+            return devices.ToList();
         }
 
         public static List<string> GetDevicesRunning()
@@ -310,7 +310,6 @@ namespace Auto_LDPlayer
 
         public static string ExecuteLDForResult(string cmdCommand, int timeout = 10000, int retry = 2)
         {
-            string result;
             try
             {
                 var process = new Process();
@@ -324,7 +323,6 @@ namespace Auto_LDPlayer
                     RedirectStandardInput = true,
                     RedirectStandardOutput = true
                 };
-                // process.WaitForExit();
 
                 while (retry >= 0)
                 {
@@ -340,15 +338,12 @@ namespace Auto_LDPlayer
                     }
                 }
 
-                var text = process.StandardOutput.ReadToEnd();
-                result = text;
+                return process.StandardOutput.ReadToEnd();
             }
             catch
             {
-                result = null;
+                return null;
             }
-
-            return result;
         }
 
         public static Point GetScreenResolution(LDType ldType, string nameOrId)

@@ -1,36 +1,36 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Dev\\C#\\AutoLDPlayer\\Lib_Auto_LDPlayer\\Auto_LDPlayer.csproj": {}
+    "D:\\Projects\\AutoLDPlayer\\Lib_Auto_LDPlayer\\Auto_LDPlayer.csproj": {}
   },
   "projects": {
-    "D:\\Dev\\C#\\AutoLDPlayer\\Lib_Auto_LDPlayer\\Auto_LDPlayer.csproj": {
+    "D:\\Projects\\AutoLDPlayer\\Lib_Auto_LDPlayer\\Auto_LDPlayer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Dev\\C#\\AutoLDPlayer\\Lib_Auto_LDPlayer\\Auto_LDPlayer.csproj",
+        "projectUniqueName": "D:\\Projects\\AutoLDPlayer\\Lib_Auto_LDPlayer\\Auto_LDPlayer.csproj",
         "projectName": "Auto_LDPlayer",
-        "projectPath": "D:\\Dev\\C#\\AutoLDPlayer\\Lib_Auto_LDPlayer\\Auto_LDPlayer.csproj",
-        "packagesPath": "C:\\Users\\xuanl\\.nuget\\packages\\",
-        "outputPath": "D:\\Dev\\C#\\AutoLDPlayer\\Lib_Auto_LDPlayer\\obj\\",
+        "projectPath": "D:\\Projects\\AutoLDPlayer\\Lib_Auto_LDPlayer\\Auto_LDPlayer.csproj",
+        "packagesPath": "C:\\Users\\dqdin\\.nuget\\packages\\",
+        "outputPath": "D:\\Projects\\AutoLDPlayer\\Lib_Auto_LDPlayer\\obj\\",
         "projectStyle": "PackageReference",
         "skipContentFileWrite": true,
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\xuanl\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\dqdin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net471"
+          "net48"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net471": {
+          "net48": {
             "projectReferences": {}
           }
         },
@@ -41,7 +41,7 @@
         }
       },
       "frameworks": {
-        "net471": {
+        "net48": {
           "dependencies": {
             "EMGU.CV": {
               "target": "Package",

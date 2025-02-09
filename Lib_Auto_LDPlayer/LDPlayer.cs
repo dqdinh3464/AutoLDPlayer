@@ -254,7 +254,6 @@ namespace Auto_LDPlayer
                     listLDPlayer.Add(devices);
                 }
 
-                //System.Windows.Forms.MessageBox.Show(string.Join("\n", arr));
                 return listLDPlayer;
             }
             catch
@@ -291,7 +290,6 @@ namespace Auto_LDPlayer
             {
                 return null;
             }
-            //System.Windows.Forms.MessageBox.Show(string.Join("\n", arr));
         }
 
         public static void ExecuteLD(string cmd)
@@ -534,7 +532,7 @@ namespace Auto_LDPlayer
         }
 
 
-        // Navigation
+        #region Navigation
         public static void Back(LDType ldType, string nameOrId)
         {
             PressKey(ldType, nameOrId, LDKeyEvent.KEYCODE_BACK);
@@ -549,7 +547,7 @@ namespace Auto_LDPlayer
         {
             PressKey(ldType, nameOrId, LDKeyEvent.KEYCODE_APP_SWITCH);
         }
-
+        #endregion
 
         //IMG OpenCV
         public static bool TapImg(LDType ldType, string nameOrId, Bitmap imgFind)
@@ -573,6 +571,25 @@ namespace Auto_LDPlayer
         public static void RemoveProxy(LDType ldType, string nameOrId)
         {
             Adb(ldType, nameOrId, "shell settings put global http_proxy :0");
+        }
+
+        public static bool IsInstalledApp(string deviceName, string package)
+        {
+            var result = ExecuteLDForResult($"adb --name {deviceName} --command \"shell pm list packages\"");
+
+            return result.Contains(package);
+        }
+
+        public static bool IsInstalledApps(string deviceName, List<string> packages)
+        {
+            var result = ExecuteLDForResult($"adb --name {deviceName} --command \"shell pm list packages\"");
+            foreach (var package in packages)
+            {
+                if (!result.Contains(package))
+                    return false;
+            }
+
+            return true;
         }
     }
 }

@@ -70,6 +70,13 @@ namespace Auto_LDPlayer
         {
             ExecuteLD($"rename --{ldType.ToName()} {nameOrId} --title {titleNew}");
         }
+        
+        public static bool IsLoaded(LDType ldType, string nameOrId)
+        {
+            var result = Adb(ldType, nameOrId, "shell getprop sys.boot_completed");
+            
+            return result.Contains("1");
+        }
         #endregion
 
         #region Change Setting

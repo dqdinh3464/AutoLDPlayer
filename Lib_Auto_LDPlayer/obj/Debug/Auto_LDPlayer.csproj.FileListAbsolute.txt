@@ -12,7 +12,9 @@ D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\Auto_LDPlayer.pdb
 D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\Emgu.CV.dll
 D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\KAutoHelper.dll
 D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll
+D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\Serilog.dll
 D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\System.Buffers.dll
+D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\System.Diagnostics.DiagnosticSource.dll
 D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\System.Drawing.Common.dll
 D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\System.Drawing.Common.pdb
 D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\System.Memory.dll
@@ -20,6 +22,7 @@ D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\System.Numerics.Vectors.dll
 D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
 D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\System.Text.Encodings.Web.dll
 D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\System.Text.Json.dll
+D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\System.Threading.Channels.dll
 D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\System.Threading.Tasks.Extensions.dll
 D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\System.ValueTuple.dll
 D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\ZedGraph.dll
@@ -37,6 +40,8 @@ D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\tr\ZedGraph.resources.dll
 D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\zh-cn\ZedGraph.resources.dll
 D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\zh-tw\ZedGraph.resources.dll
 D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\obj\Debug\Auto_LDPlayer.csproj.AssemblyReference.cache
+D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\obj\Debug\Auto_LDPlayer.Properties.Resources.resources
+D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\obj\Debug\Auto_LDPlayer.csproj.GenerateResource.cache
 D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\obj\Debug\Auto_LDPlayer.csproj.CoreCompileInputs.cache
 D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\obj\Debug\Auto_LDP.5BB64F2E.Up2Date
 D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\obj\Debug\Auto_LDPlayer.dll

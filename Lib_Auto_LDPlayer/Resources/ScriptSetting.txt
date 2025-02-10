@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScriptSetting>
+    <Scriptes>
+        <ScriptKey>
+            <Key>ClickXY</Key>
+            <Value>input tap {0}</Value>
+        </ScriptKey>
+        <ScriptKey>
+            <Key>Send_key</Key>
+            <Value>input keyevent {0}</Value>
+        </ScriptKey>
+        <ScriptKey>
+            <Key>Wait</Key>
+            <Value>sleep {0}</Value>
+        </ScriptKey>
+        <ScriptKey>
+            <Key>Open_app</Key>
+            <Value>monkey -p {0} -c android.intent.category.LAUNCHER 1</Value>
+        </ScriptKey>
+        <ScriptKey>
+            <Key>Close_app</Key>
+            <Value>am force-stop {0}</Value>
+        </ScriptKey>
+        <ScriptKey>
+            <Key>Swipe</Key>
+            <Value>input touchscreen swipe {0}</Value>
+        </ScriptKey>
+        <ScriptKey>
+            <Key>Start_apk</Key>
+            <Value>am start -a {0}</Value>
+        </ScriptKey>
+        <ScriptKey>
+            <Key>Send_text</Key>
+            <Value>input text {0}</Value>
+        </ScriptKey>
+        <ScriptKey>
+            <Key>TextFromFile</Key>
+            <Value>input text {0}</Value>
+        </ScriptKey>
+        <ScriptKey>
+            <Key>RandomFromFile</Key>
+            <Value>input text {0}</Value>
+        </ScriptKey>
+    </Scriptes>
+</ScriptSetting>

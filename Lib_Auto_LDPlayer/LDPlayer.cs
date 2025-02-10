@@ -1,13 +1,21 @@
-﻿using Auto_LDPlayer.Enums;
+﻿using Auto_LDPlayer.Constants;
+using Auto_LDPlayer.Enums;
 using Auto_LDPlayer.Extensions;
+using Auto_LDPlayer.Models;
+using Auto_LDPlayer.Models.XML;
+using Auto_LDPlayer.Properties;
 using KAutoHelper;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Resources;
+using System.Text;
 using System.Threading;
+using System.Xml.Serialization;
 
 namespace Auto_LDPlayer
 {
@@ -15,7 +23,7 @@ namespace Auto_LDPlayer
     {
         public static string PathLD = @"C:\LDPlayer\LDPlayer4.0\ldconsole.exe";
 
-        #region Group 1 - Control
+        #region Control
         public static void Open(LDType ldType, string nameOrId)
         {
             ExecuteLD($"launch --{ldType.ToName()} {nameOrId}");
@@ -42,7 +50,7 @@ namespace Auto_LDPlayer
         }
         #endregion
 
-        #region Group 2 - More Custom
+        #region Action LD
         public static void Create(string name)
         {
             ExecuteLD($"add --name {name}");
@@ -64,8 +72,7 @@ namespace Auto_LDPlayer
         }
         #endregion
 
-        //Group 3 - Change Setting
-
+        #region Change Setting
         public static void InstallAppFile(LDType ldType, string nameOrId, string fileName)
         {
             ExecuteLD($@"installapp --{ldType.ToName()} {nameOrId} --filename ""{fileName}""");
@@ -126,8 +133,7 @@ namespace Auto_LDPlayer
 
         public static string Adb(LDType ldType, string nameOrId, string cmd, int timeout = 10000, int retry = 1)
         {
-            return ExecuteLDForResult($"adb --{ldType.ToName()} \"{nameOrId}\" --command \"{cmd}\"", timeout,
-                retry);
+            return ExecuteLDForResult($"adb --{ldType.ToName()} \"{nameOrId}\" --command \"{cmd}\"", timeout, retry);
         }
 
         public static void DownCpu(LDType ldType, string nameOrId, string rate)
@@ -190,8 +196,7 @@ namespace Auto_LDPlayer
             ExecuteLD($@"restoreapp --{ldType.ToName()} {nameOrId} --packagename {packageName} --file ""{filePath}""");
         }
 
-        public static void GlobalConfig(LDType ldType, string nameOrId, string fps, string audio, string fastPlay,
-            string cleanMode)
+        public static void GlobalConfig(LDType ldType, string nameOrId, string fps, string audio, string fastPlay, string cleanMode)
         {
             //  [--fps <0~60>] [--audio <1 | 0>] [--fastplay <1 | 0>] [--cleanmode <1 | 0>]
             ExecuteLD(
@@ -335,8 +340,9 @@ namespace Auto_LDPlayer
                         break;
                     }
                 }
+                var result = process.StandardOutput.ReadToEnd();
 
-                return process.StandardOutput.ReadToEnd();
+                return result;
             }
             catch
             {
@@ -373,8 +379,7 @@ namespace Auto_LDPlayer
             Adb(ldType, nameOrId, $"shell input keyevent {key}", 200);
         }
 
-        public static void SwipeByPercent(LDType ldType, string nameOrId, double x1, double y1, double x2, double y2,
-            int duration = 100)
+        public static void SwipeByPercent(LDType ldType, string nameOrId, double x1, double y1, double x2, double y2, int duration = 100)
         {
             var screenResolution = GetScreenResolution(ldType, nameOrId);
             var num1 = (int) (x1 * (screenResolution.X * 1.0 / 100.0));
@@ -389,12 +394,9 @@ namespace Auto_LDPlayer
             Adb(ldType, nameOrId, $"shell input swipe {x1} {y1} {x2} {y2} {duration}", 200);
         }
 
-
         public static void InputText(LDType ldType, string nameOrId, string text)
         {
-            Adb(ldType, nameOrId,
-                $"shell input text \"{text.Replace(" ", "%s").Replace("&", "\\&").Replace("<", "\\<").Replace(">", "\\>").Replace("?", "\\?").Replace(":", "\\:").Replace("{", "\\{").Replace("}", "\\}").Replace("[", "\\[").Replace("]", "\\]").Replace("|", "\\|")}\""
-            );
+            Adb(ldType, nameOrId,  $"shell input text \"{text.Replace(" ", "%s").Replace("&", "\\&").Replace("<", "\\<").Replace(">", "\\>").Replace("?", "\\?").Replace(":", "\\:").Replace("{", "\\{").Replace("}", "\\}").Replace("[", "\\[").Replace("]", "\\]").Replace("|", "\\|")}\"");
         }
 
         public static void LongPress(LDType ldType, string nameOrId, int x, int y, int duration = 100)
@@ -402,8 +404,7 @@ namespace Auto_LDPlayer
             Swipe(ldType, nameOrId, x, y, x, y, duration);
         }
 
-        public static Bitmap ScreenShoot(LDType ldType, string nameOrId, bool isDeleteImageAfterCapture = true,
-            string fileName = "screenShoot.png")
+        public static Bitmap ScreenShoot(LDType ldType, string nameOrId, bool isDeleteImageAfterCapture = true, string fileName = "screenShoot.png")
         {
             var str1 = ldType + "_" + nameOrId;
 
@@ -530,7 +531,7 @@ namespace Auto_LDPlayer
             Tap(ldType, nameOrId, point.Value.X, point.Value.Y);
             return true;
         }
-
+        #endregion
 
         #region Navigation
         public static void Back(LDType ldType, string nameOrId)
@@ -549,7 +550,7 @@ namespace Auto_LDPlayer
         }
         #endregion
 
-        //IMG OpenCV
+        #region OpenCV
         public static bool TapImg(LDType ldType, string nameOrId, Bitmap imgFind)
         {
             var bm = (Bitmap) imgFind.Clone();
@@ -561,11 +562,17 @@ namespace Auto_LDPlayer
 
             //MessageBox.Show("Can't find it");
         }
+        #endregion
 
-        //Change Proxy
+        #region Change Proxy
         public static void ChangeProxy(LDType ldType, string nameOrId, string ipProxy, string portProxy)
         {
             Adb(ldType, nameOrId, $"shell settings put global http_proxy {ipProxy}:{portProxy}");
+        }
+
+        public static void ChangeProxy(LDType ldType, string nameOrId, string proxy)
+        {
+            Adb(ldType, nameOrId, $"shell settings put global http_proxy {proxy}");
         }
 
         public static void RemoveProxy(LDType ldType, string nameOrId)
@@ -591,5 +598,373 @@ namespace Auto_LDPlayer
 
             return true;
         }
+        #endregion
+
+        #region Text
+        public static string ExportText(LDType ldType, string nameOrId)
+        {
+            var path = string.Concat(Path.GetTempPath(), "window_dump.xml");
+            var cmd1 = "shell uiautomator dump";
+            var cmd2 = $"pull /sdcard/window_dump.xml \"{path}\"";
+
+            Adb(ldType, nameOrId, cmd1);
+            Adb(ldType, nameOrId, cmd2);
+            var end = string.Empty;
+            try
+            {
+                FileStream fileStream = new FileStream(path, FileMode.Open, FileAccess.Read);
+                using (StreamReader streamReader = new StreamReader(fileStream, Encoding.UTF8))
+                {
+                    end = streamReader.ReadToEnd();
+                }
+                File.Delete(path);
+            }
+            catch (Exception ex)
+            {
+            }
+            ExecuteLD("rm -rf sdcard/window_dump.xml");
+
+            return end;
+        }
+
+        public static SearchText FindText(LDType ldType, string nameOrId, string text)
+        {
+            var exportText = ExportText(ldType, nameOrId);
+            if (!string.IsNullOrEmpty(exportText))
+            {
+                text = text.Split(new char[] { '|' })[0];
+                var listTextFromPhone = GetListTextFromPhone(exportText);
+
+                return listTextFromPhone.FirstOrDefault(x => x.TEXT.Equals(text) || x.CONTENT_DESC.Equals(text) || x.RESOURCE_ID.Equals(text));
+            }
+
+            return null;
+        }
+
+        public static List<SearchText> GetListTextFromPhone(string fileDump)
+        {
+            Hierarchy hierarchy;
+            List<SearchText> searchTexts = new List<SearchText>();
+            var random = new Random();
+            try
+            {
+                string str = fileDump.Replace("</node>", "").Replace("]\">", "]\"/>");
+                XmlSerializer xmlSerializer = new XmlSerializer(typeof(Hierarchy));
+                using (TextReader stringReader = new StringReader(str))
+                {
+                    hierarchy = xmlSerializer.Deserialize(stringReader) as Hierarchy;
+                }
+                for (int i = 0; i < hierarchy.Node.Count; i++)
+                {
+                    var item = hierarchy.Node[i];
+                    if (!string.IsNullOrEmpty(item.Text) || !string.IsNullOrEmpty(item.ContentDesc) || !string.IsNullOrEmpty(item.ResourceId) || !string.IsNullOrEmpty(item.Password))
+                    {
+                        var searchText = new SearchText
+                        {
+                            TEXT = item.Text,
+                            CONTENT_DESC = item.ContentDesc,
+                            RESOURCE_ID = item.ResourceId,
+                            PASSWORD = item.Password,
+                            CHECKED = bool.Parse(item.Checked),
+                            INDEX = i
+                        };
+                        string str1 = item.Bounds.Replace("][", "@");
+                        str1 = str1.Replace(",", "@");
+                        str1 = str1.Replace("[", "");
+                        str1 = str1.Replace("]", "");
+                        string[] strArrays = str1.Split(new char[] { '@' });
+                        searchText.WIDTH_1 = strArrays[0];
+                        searchText.HEIGHT_1 = strArrays[1];
+                        searchText.WIDTH_2 = strArrays[2];
+                        searchText.HEIGHT_2 = strArrays[3];
+                        var x = (int.Parse(searchText.WIDTH_1) + int.Parse(searchText.WIDTH_2)) / 2;
+                        var y = (int.Parse(searchText.HEIGHT_1) + int.Parse(searchText.HEIGHT_2)) / 2;
+                        searchText.X = string.Concat(x.ToString(), ".0");
+                        searchText.Y = string.Concat(y.ToString(), ".0");
+                        searchText.X_NUM = x;
+                        searchText.Y_NUM = y;
+
+                        searchTexts.Add(searchText);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Information($"GetListTextFromPhone has an EXCEPTION: {ex}");
+            }
+            return searchTexts;
+        }
+        #endregion
+
+        #region Scripts
+        public static void RunScript(LDType ldType, string nameOrId, string command)
+        {
+            var scriptFromSearchText = GetScriptFromSearchText(ldType, nameOrId, command);
+            int num = 0;
+            while (true)
+            {
+                if (scriptFromSearchText.Count == 0)
+                {
+                    if (num == 2)
+                    {
+                        break;
+                    }
+                    scriptFromSearchText = GetScriptFromSearchText(ldType, nameOrId, command);
+                    num++;
+                }
+                else
+                {
+                    List<string>.Enumerator enumerator = scriptFromSearchText.GetEnumerator();
+                    try
+                    {
+                        while (enumerator.MoveNext())
+                        {
+                            string current = enumerator.Current;
+                            try
+                            {
+                                string[] strArrays = current.Split(new char[] { '=' });
+                                if (!strArrays[0].Equals(ScriptConstants.Wait.Replace("=", "")))
+                                {
+                                    var result = Adb(ldType, nameOrId, CreateScript(command));
+                                }
+                                else
+                                {
+                                    Thread.Sleep(int.Parse(strArrays[1]));
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                            }
+                        }
+                        break;
+                    }
+                    finally
+                    {
+                        ((IDisposable)enumerator).Dispose();
+                    }
+                }
+            }
+        }
+
+        private static List<string> GetScriptFromSearchText(LDType ldType, string nameOrId, string script)
+        {
+            List<string> strs;
+            try
+            {
+                var strs1 = new List<string>();
+                var strArrays = script.Split(new char[] { '=' });
+                if (ScriptConstants.SearchAndClick.IndexOf(strArrays[0]) >= 0 || ScriptConstants.SearchAndClickExactly.IndexOf(strArrays[0]) >= 0 || ScriptConstants.SearchAndClickStop.IndexOf(strArrays[0]) >= 0 || ScriptConstants.SearchAndRunScript.IndexOf(strArrays[0]) >= 0 || ScriptConstants.SmartSearchText.IndexOf(strArrays[0]) >= 0)
+                {
+                    if (strArrays.Length < 2)
+                    {
+                        strs = strs1;
+                        return strs;
+                    }
+                    else
+                    {
+                        SearchText searchText = FindText(ldType, nameOrId, strArrays[1]);
+                        string str = strArrays[1];
+                        string[] strArrays1 = str.Split(new char[] { '|' });
+                        int num = 0;
+                        if (strArrays1.Length >= 2)
+                        {
+                            num = int.Parse(strArrays1[1]);
+                        }
+                        DateTime now = DateTime.Now;
+                        TimeSpan timeSpan = DateTime.Now - now;
+                        double totalMilliseconds = timeSpan.TotalMilliseconds;
+                        while (searchText == null)
+                        {
+                            if (totalMilliseconds < (double)num)
+                            {
+                                searchText = FindText(ldType, nameOrId, strArrays[1]);
+                                timeSpan = DateTime.Now - now;
+                                totalMilliseconds = timeSpan.TotalMilliseconds;
+                            }
+                            else if (ScriptConstants.SmartSearchText.IndexOf(strArrays[0]) >= 0 && (int)strArrays1.Length >= 3)
+                            {
+                                script = string.Concat("ScriptFromFileNew=", strArrays1[2]);
+                                strs1.Add(script);
+                                strs = strs1;
+                                return strs;
+                            }
+                            else if (ScriptConstants.SearchAndClick.IndexOf(strArrays[0]) < 0)
+                            {
+                                strs = strs1;
+                                return strs;
+                            }
+                            else
+                            {
+                                strs = strs1;
+                                return strs;
+                            }
+                        }
+                        int num1 = int.Parse(searchText.WIDTH_1);
+                        int num2 = int.Parse(searchText.HEIGHT_1);
+                        int num3 = int.Parse(searchText.WIDTH_2);
+                        int num4 = int.Parse(searchText.HEIGHT_2);
+                        num1 = (num1 + num3) / 2;
+                        num2 = (num2 + num4) / 2;
+                        string str1 = string.Concat(num1.ToString(), ".0");
+                        string str2 = string.Concat(num2.ToString(), ".0");
+                        string.Concat(num3.ToString(), ".0");
+                        string.Concat(num4.ToString(), ".0");
+                        if (ScriptConstants.SearchAndClick.IndexOf(strArrays[0]) >= 0)
+                        {
+                            script = string.Concat("ClickXY=", str1, " ", str2);
+                            strs1.Add(script);
+                            strs = strs1;
+                            return strs;
+                        }
+                        else if (ScriptConstants.SearchAndClickStop.IndexOf(strArrays[0]) >= 0)
+                        {
+                            script = string.Concat("ClickXY=", str1, " ", str2);
+                            strs1.Add(script);
+                            strs = strs1;
+                            return strs;
+                        }
+                        else if (ScriptConstants.SearchAndRunScript.IndexOf(strArrays[0]) >= 0 && (int)strArrays1.Length >= 3)
+                        {
+                            script = string.Concat("ScriptSmall=", strArrays1[2]);
+                            strs1.Add(script);
+                            strs = strs1;
+                            return strs;
+                        }
+                        else if (ScriptConstants.SmartSearchText.IndexOf(strArrays[0]) >= 0)
+                        {
+                            script = string.Concat("ClickXY=", str1, " ", str2);
+                            strs1.Add(script);
+                            strs = strs1;
+                            return strs;
+                        }
+                        else if (ScriptConstants.SearchWaitClick.IndexOf(strArrays[0]) >= 0)
+                        {
+                            script = string.Concat(ScriptConstants.Wait, strArrays1[2]);
+                            strs1.Add(script);
+                            script = string.Concat("ClickXY=", str1, " ", str2);
+                            strs1.Add(script);
+                            strs = strs1;
+                            return strs;
+                        }
+                    }
+                }
+                strs1.Add(script);
+                strs = strs1;
+            }
+            catch (Exception exception)
+            {
+                strs = new List<string>();
+            }
+            return strs;
+        }
+
+        private static string CreateScript(string command)
+        {
+            var str = string.Empty;
+            if (command.IndexOf(ScriptConstants.SendCommand) < 0)
+            {
+                string commandLine = GetCommandLine(command);
+                str = (commandLine.IndexOf("shell") >= 0 || commandLine.IndexOf("pull") >= 0 || commandLine.IndexOf("reboot") >= 0 || commandLine.IndexOf("disconnect") >= 0 || commandLine.IndexOf("push") >= 0 ? string.Concat(str, commandLine) : string.Concat(str, "shell ", commandLine));
+            }
+            else
+            {
+                string[] strArrays = command.Split(new char[] { '=' });
+                str = string.Concat(str, strArrays[1].Trim());
+            }
+
+            return str;
+        }
+
+        private static string GetCommandLine(string command)
+        {
+            string str = "";
+            ScriptSetting scriptSetting = GetScriptSetting();
+            bool flag = false;
+            string[] strArrays = command.Split(new char[] { '=' });
+            if (scriptSetting != null && (int)strArrays.Length >= 2)
+            {
+                ScriptKey[] sCRIPTKEY = scriptSetting.SCRIPTKEY;
+                int num = 0;
+                while (num < (int)sCRIPTKEY.Length)
+                {
+                    ScriptKey scriptKey = sCRIPTKEY[num];
+                    if (strArrays[0].Equals(scriptKey.KEY))
+                    {
+                        string str1 = strArrays[1];
+                        if (strArrays[0].Equals(ScriptConstants.Send_text.Replace("=", "")))
+                        {
+                            str1 = str1.Trim();
+                            str1 = str1.Replace(" ", "%");
+                        }
+                        else if (strArrays[0].Equals(ScriptConstants.RandomFromFile.Replace("=", "")))
+                        {
+                            str1 = str1.Trim();
+                            str1 = str1.Replace(" ", "%");
+                        }
+                        else if (strArrays[0].Equals(ScriptConstants.TextFromFile.Replace("=", "")))
+                        {
+                            str1 = str1.Trim();
+                            str1 = str1.Replace(" ", "%");
+                        }
+                        str = string.Format(scriptKey.VALUE, str1);
+                        flag = true;
+                        if (!flag)
+                        {
+                            str = command;
+                        }
+                        return str;
+                    }
+                    else
+                    {
+                        num++;
+                    }
+                }
+            }
+            if (!flag)
+            {
+                str = command;
+            }
+            return str;
+        }
+
+        private static ScriptSetting GetScriptSetting()
+        {
+            ScriptSetting scriptSetting;
+            string str = Resources.ScriptSetting;
+            try
+            {
+                MemoryStream memoryStream = new MemoryStream(Encoding.ASCII.GetBytes(str));
+                XmlSerializer xmlSerializer = new XmlSerializer(typeof(ScriptSetting));
+                scriptSetting = (ScriptSetting)xmlSerializer.Deserialize(new StreamReader(memoryStream));
+            }
+            catch (Exception exception)
+            {
+                scriptSetting = null;
+            }
+            return scriptSetting;
+        }
+        #endregion
+
+        #region Actions
+        public static bool WaitClickFindText(LDType ldType, string nameOrId, string text, int times = 15)
+        {
+            var xy = FindText(ldType, nameOrId, text);
+            var i = 0;
+            while (xy == null && i < times)
+            {
+                xy = FindText(ldType, nameOrId, text);
+                i++;
+                Thread.Sleep(1000);
+            }
+            if (xy != null)
+            {
+                RunScript(ldType, nameOrId, $"ClickXY={xy.X} {xy.Y}");
+
+                return true;
+            }
+
+            return false;
+        }
+        #endregion
     }
 }

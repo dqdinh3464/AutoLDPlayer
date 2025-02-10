@@ -98,6 +98,14 @@ namespace Auto_LDPlayer
             ExecuteLD($"killapp --{ldType.ToName()} {nameOrId} --packagename {packageName}");
         }
 
+        public static void KillApps(LDType ldType, string nameOrId, List<string> packages)
+        {
+            foreach(var package in packages)
+            {
+                KillApp(ldType, nameOrId, package);
+            }
+        }
+
         public static void Locate(LDType ldType, string nameOrId, string lng, string lat)
         {
             ExecuteLD($"locate --{ldType.ToName()} {nameOrId} --LLI {lng},{lat}");

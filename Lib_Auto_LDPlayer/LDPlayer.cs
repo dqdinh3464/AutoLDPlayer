@@ -1,6 +1,7 @@
 ﻿using Auto_LDPlayer.Constants;
 using Auto_LDPlayer.Enums;
 using Auto_LDPlayer.Extensions;
+using Auto_LDPlayer.Helpers.Commons;
 using Auto_LDPlayer.Models;
 using Auto_LDPlayer.Models.XML;
 using Auto_LDPlayer.Properties;
@@ -20,6 +21,8 @@ namespace Auto_LDPlayer
 {
     public class LDPlayer
     {
+        private static Random Random = new Random();
+
         public static string PathLD = @"C:\LDPlayer\LDPlayer4.0\ldconsole.exe";
 
         #region Control
@@ -485,8 +488,14 @@ namespace Auto_LDPlayer
 
         public static void Delay(double delayTime)
         {
+            delayTime = delayTime * 1000;
             for (var num = 0.0; num < delayTime; num += 100.0)
-                Thread.Sleep(TimeSpan.FromMilliseconds(100.0));
+                Thread.Sleep(100);
+        }
+
+        public static void DelayRandom(int delayTime1, int delayTime2)
+        {
+            Delay(Random.Next(delayTime1, delayTime2 + 1));
         }
 
         public static Point? FindImage(LDType ldType, string nameOrId, string imagePath, int count = 5)
@@ -537,6 +546,20 @@ namespace Auto_LDPlayer
             Tap(ldType, nameOrId, point.Value.X, point.Value.Y);
             return true;
         }
+
+        public static void ChangeTimeZone(LDType ldType, string nameOrId)
+        {
+            Adb(ldType, nameOrId, "shell settings put global auto_time_zone 0");
+            Adb(ldType, nameOrId, "shell setprop persist.sys.country US");
+            Adb(ldType, nameOrId, $"shell setprop persist.sys.timezone {LDCommon.RandomTimeZone()}");
+        }
+        
+        public static void ChangeLanguage(LDType ldType, string nameOrId)
+        {
+            Adb(ldType, nameOrId, "shell settings put global auto_locale 0");
+            Adb(ldType, nameOrId, "shell setprop persist.sys.locale en-US");
+            Adb(ldType, nameOrId, "shell settings put system system_locales en-US");
+        }
         #endregion
 
         #region Navigation
@@ -584,28 +607,6 @@ namespace Auto_LDPlayer
         public static void RemoveProxy(LDType ldType, string nameOrId)
         {
             Adb(ldType, nameOrId, "shell settings put global http_proxy :0");
-        }
-
-        public static bool IsInstalledApp(string deviceName, string package)
-        {
-            var result = ExecuteLDForResult($"adb --name {deviceName} --command \"shell pm list packages\"");
-
-            return result.Contains(package);
-        }
-
-        public static bool IsInstalledApps(string deviceName, List<string> packages)
-        {
-            var result = ExecuteLDForResult($"adb --name {deviceName} --command \"shell pm list packages\"");
-            if (!result.Contains("not found"))
-            {
-                foreach (var package in packages)
-                {
-                    if (!result.Contains(package))
-                        return false;
-                }
-            }
-
-            return true;
         }
         #endregion
 
@@ -962,8 +963,8 @@ namespace Auto_LDPlayer
             while (xy == null && i < times)
             {
                 xy = FindText(ldType, nameOrId, text);
+                Delay(1);
                 i++;
-                Thread.Sleep(1000);
             }
             if (xy != null)
             {
@@ -975,12 +976,60 @@ namespace Auto_LDPlayer
             return false;
         }
 
+        public static bool WaitFindText(LDType ldType, string nameOrId, string text, int times = 15)
+        {
+            var xy = FindText(ldType, nameOrId, text);
+            var i = 0;
+            while (xy == null && i < times)
+            {
+                xy = FindText(ldType, nameOrId, text);
+                Delay(1);
+                i++;
+            }
+
+            return xy != null;
+        }
+
         public static void ClearApp(LDType ldType, string nameOrId, List<string> packages)
         {
             foreach (var package in packages)
             {
                 RunScript(ldType, nameOrId, $"Clear_app={package}");
             }
+        }
+        
+        public static bool ClearDataLD(LDType ldType, string nameOrId)
+        {
+            var result = Adb(ldType, nameOrId, "shell rm -rf /data/* && reboot");
+
+            return result.Contains("Success");
+        }
+
+        public static void KillApps(LDType name, string device, object packages)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool IsInstalledApp(string deviceName, string package)
+        {
+            var result = ExecuteLDForResult($"adb --name {deviceName} --command \"shell pm list packages\"");
+
+            return result.Contains(package);
+        }
+
+        public static bool IsInstalledApps(string deviceName, List<string> packages)
+        {
+            var result = ExecuteLDForResult($"adb --name {deviceName} --command \"shell pm list packages\"");
+            if (!result.Contains("not found"))
+            {
+                foreach (var package in packages)
+                {
+                    if (!result.Contains(package))
+                        return false;
+                }
+            }
+
+            return true;
         }
         #endregion
     }

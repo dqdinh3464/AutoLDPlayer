@@ -62,19 +62,12 @@ namespace Auto_LDPlayer
 
         public static void Delete(LDType ldType, string nameOrId)
         {
-            ExecuteLD($"remove --{ldType.ToName()} {nameOrId}");
+            var result = ExecuteLDForResult($"remove --{ldType.ToName()} {nameOrId}");
         }
 
         public static void Rename(LDType ldType, string nameOrId, string titleNew)
         {
             ExecuteLD($"rename --{ldType.ToName()} {nameOrId} --title {titleNew}");
-        }
-        
-        public static bool IsLoaded(LDType ldType, string nameOrId)
-        {
-            var result = Adb(ldType, nameOrId, "shell getprop sys.boot_completed");
-            
-            return result.Contains("1");
         }
         #endregion
 
@@ -137,7 +130,7 @@ namespace Auto_LDPlayer
 
         public static void SetProp(LDType ldType, string nameOrId, string key, string value)
         {
-            ExecuteLD($"setprop --{ldType.ToName()} {nameOrId} --key {key} --value {value}");
+            var result = ExecuteLDForResult($"setprop --{ldType.ToName()} {nameOrId} --key {key} --value {value}");
         }
 
         public static string GetProp(LDType ldType, string nameOrId, string key)
@@ -162,7 +155,7 @@ namespace Auto_LDPlayer
 
         public static void Restore(LDType ldType, string nameOrId, string filePath)
         {
-            ExecuteLD($@"restore --{ldType.ToName()} {nameOrId} --file ""{filePath}""");
+            var result = ExecuteLDForResult($@"restore --{ldType.ToName()} {nameOrId} --file ""{filePath}""");
         }
 
         public static void Action(LDType ldType, string nameOrId, string key, string value)
@@ -213,8 +206,7 @@ namespace Auto_LDPlayer
         public static void GlobalConfig(LDType ldType, string nameOrId, string fps, string audio, string fastPlay, string cleanMode)
         {
             //  [--fps <0~60>] [--audio <1 | 0>] [--fastplay <1 | 0>] [--cleanmode <1 | 0>]
-            ExecuteLD(
-                $"globalsetting --{ldType.ToName()} {nameOrId} --audio {audio} --fastplay {fastPlay} --cleanmode {cleanMode}");
+            ExecuteLD($"globalsetting --{ldType.ToName()} {nameOrId} --audio {audio} --fastplay {fastPlay} --cleanmode {cleanMode}");
         }
 
         public static List<string> GetDevices()
@@ -604,10 +596,13 @@ namespace Auto_LDPlayer
         public static bool IsInstalledApps(string deviceName, List<string> packages)
         {
             var result = ExecuteLDForResult($"adb --name {deviceName} --command \"shell pm list packages\"");
-            foreach (var package in packages)
+            if (!result.Contains("not found"))
             {
-                if (!result.Contains(package))
-                    return false;
+                foreach (var package in packages)
+                {
+                    if (!result.Contains(package))
+                        return false;
+                }
             }
 
             return true;
@@ -978,6 +973,14 @@ namespace Auto_LDPlayer
             }
 
             return false;
+        }
+
+        public static void ClearApp(LDType ldType, string nameOrId, List<string> packages)
+        {
+            foreach (var package in packages)
+            {
+                RunScript(ldType, nameOrId, $"Clear_app={package}");
+            }
         }
         #endregion
     }

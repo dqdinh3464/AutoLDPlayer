@@ -26,6 +26,7 @@ namespace Auto_LDPlayer
         private static Random Random = new Random();
 
         public static string PathLD = @"C:\LDPlayer\LDPlayer4.0\ldconsole.exe";
+        public static string FolderLD = @"C:\LDPlayer\LDPlayer4.0";
 
         #region Control
         public static void Open(LDType ldType, string nameOrId)
@@ -367,6 +368,45 @@ namespace Auto_LDPlayer
             }
         }
 
+        public static string ExecuteCMD(string command, int timeout = 10000, int retry = 2)
+        {
+            try
+            {
+                var process = new Process();
+                process.StartInfo = new ProcessStartInfo
+                {
+                    FileName = PathLD,
+                    Arguments = command,
+                    CreateNoWindow = true,
+                    UseShellExecute = false,
+                    WindowStyle = ProcessWindowStyle.Hidden,
+                    RedirectStandardInput = true,
+                    RedirectStandardOutput = true
+                };
+
+                while (retry >= 0)
+                {
+                    retry--;
+                    process.Start();
+                    if (!process.WaitForExit(timeout))
+                    {
+                        process.Kill();
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                var result = process.StandardOutput.ReadToEnd();
+
+                return result;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         public static Point GetScreenResolution(LDType ldType, string nameOrId)
         {
             var str1 = Adb(ldType, nameOrId, "shell dumpsys display | grep \"mCurrentDisplayRect\"");
@@ -629,6 +669,7 @@ namespace Auto_LDPlayer
         public static void ProxyOFF(LDType ldType, string nameOrId)
         {
             var result2 = Adb(ldType, nameOrId, "shell settings put global http_proxy :0");
+            Log.Information($"shell settings put global http_proxy :0={result2}");
         }
         #endregion
 

@@ -1,10 +1,12 @@
 ﻿using Auto_LDPlayer.Constants;
 using Auto_LDPlayer.Enums;
 using Auto_LDPlayer.Extensions;
+using Auto_LDPlayer.Helpers;
 using Auto_LDPlayer.Helpers.Commons;
 using Auto_LDPlayer.Models;
 using Auto_LDPlayer.Models.XML;
 using Auto_LDPlayer.Properties;
+using Emgu.CV.Dnn;
 using KAutoHelper;
 using Serilog;
 using System;
@@ -400,7 +402,7 @@ namespace Auto_LDPlayer
 
         public static void Swipe(LDType ldType, string nameOrId, int x1, int y1, int x2, int y2, int duration = 100)
         {
-            Adb(ldType, nameOrId, $"shell input swipe {x1} {y1} {x2} {y2} {duration}", 200);
+            Adb(ldType, nameOrId, $"shell input swipe {x1} {y1} {x2} {y2} {duration}");
         }
 
         public static void InputText(LDType ldType, string nameOrId, string text)
@@ -560,6 +562,13 @@ namespace Auto_LDPlayer
             Adb(ldType, nameOrId, "shell setprop persist.sys.locale en-US");
             Adb(ldType, nameOrId, "shell settings put system system_locales en-US");
         }
+
+        public static void OffLocation(LDType ldType, string nameOrId)
+        {
+            Adb(ldType, nameOrId, "shell settings put secure location_mode 0");
+            Adb(ldType, nameOrId, "shell settings put secure location_providers_allowed -gps");
+            Adb(ldType, nameOrId, "shell settings put secure location_providers_allowed -network");
+        }
         #endregion
 
         #region Navigation
@@ -599,13 +608,21 @@ namespace Auto_LDPlayer
             Adb(ldType, nameOrId, $"shell settings put global http_proxy {ipProxy}:{portProxy}");
         }
 
-        public static void ChangeProxy(LDType ldType, string nameOrId, string proxy)
-        {
-            Adb(ldType, nameOrId, $"shell settings put global http_proxy {proxy}");
-        }
-
         public static void RemoveProxy(LDType ldType, string nameOrId)
         {
+            Adb(ldType, nameOrId, "shell settings put global http_proxy :0");
+        }
+
+        public static void ProxyON(LDType ldType, string nameOrId, NetIP netIP)
+        {
+            var result1 = Adb(ldType, nameOrId, $"shell settings put global http_proxy {netIP.HostNamePortforward}:{netIP.PortForward}");
+            var result2 = Adb(ldType, nameOrId, "shell settings put global private_dns_mode hostname");
+            var result3 = Adb(ldType, nameOrId, "shell settings put global private_dns_specifier 1.1.1.1");
+        }
+
+        public static void ProxyOFF(LDType ldType, string nameOrId)
+        {
+            Adb(ldType, nameOrId, "shell su -c /system/bin/iptables -t nat -F OUTPUT");
             Adb(ldType, nameOrId, "shell settings put global http_proxy :0");
         }
         #endregion

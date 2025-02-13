@@ -52,6 +52,12 @@ namespace Auto_LDPlayer
         {
             ExecuteLD($"reboot --{ldType.ToName()} {nameOrId}");
         }
+
+        public static bool IsAppOpened(LDType ldType, string nameOrId, string package)
+        {
+            var result = Adb(ldType, nameOrId, $"shell pidof {package}");
+            return result != string.Empty;
+        }
         #endregion
 
         #region Action LD
@@ -616,14 +622,13 @@ namespace Auto_LDPlayer
         public static void ProxyON(LDType ldType, string nameOrId, NetIP netIP)
         {
             var result1 = Adb(ldType, nameOrId, $"shell settings put global http_proxy {netIP.HostNamePortforward}:{netIP.PortForward}");
-            var result2 = Adb(ldType, nameOrId, "shell settings put global private_dns_mode hostname");
-            var result3 = Adb(ldType, nameOrId, "shell settings put global private_dns_specifier 1.1.1.1");
+            //var result2 = Adb(ldType, nameOrId, "shell settings put global private_dns_mode hostname");
+            //var result3 = Adb(ldType, nameOrId, "shell settings put global private_dns_specifier 1.1.1.1");
         }
 
         public static void ProxyOFF(LDType ldType, string nameOrId)
         {
-            Adb(ldType, nameOrId, "shell su -c /system/bin/iptables -t nat -F OUTPUT");
-            Adb(ldType, nameOrId, "shell settings put global http_proxy :0");
+            var result2 = Adb(ldType, nameOrId, "shell settings put global http_proxy :0");
         }
         #endregion
 

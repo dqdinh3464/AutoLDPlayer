@@ -15,7 +15,7 @@ namespace Auto_LDPlayer.Helpers
         public string Username { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
         public NetIPOption NetIPOption { get; set; }
-        public int PortForward { get; set; }
+        public int PortForward { get; set; } = 0;
         public string HostNamePortforward { get; set; } = "127.0.0.1";
 
         public NetIP(string netIP, NetIPOption netIPOption)
@@ -57,6 +57,8 @@ namespace Auto_LDPlayer.Helpers
                         proxyServer.ExternalProxy.Password = Password;
                     }
                     proxyServer.StartProxyServer();
+
+                    return true;
                 }
             }
             catch { }
@@ -73,7 +75,11 @@ namespace Auto_LDPlayer.Helpers
         {
             using (var http = new HttpRequest())
             {
-                http.Proxy = ProxyClient.Parse(ProxyType.HTTP, $"{HostNamePortforward}:{PortForward}");
+                if (PortForward > 0)
+                {
+                    http.Proxy = ProxyClient.Parse(ProxyType.HTTP, $"{HostNamePortforward}:{PortForward}");
+                }
+
                 try
                 {
                     var ipAddress = http.Get("https://api64.ipify.org/").ToString();

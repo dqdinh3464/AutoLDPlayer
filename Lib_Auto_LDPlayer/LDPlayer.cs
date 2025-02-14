@@ -51,7 +51,8 @@ namespace Auto_LDPlayer
 
         public static void ReBoot(LDType ldType, string nameOrId)
         {
-            ExecuteLD($"reboot --{ldType.ToName()} {nameOrId}");
+            var result = ExecuteLDForResult($"quit --{ldType.ToName()} {nameOrId}");
+            Log.Information($"{nameOrId} ReBoot() => {result}");
         }
 
         public static bool IsAppOpened(LDType ldType, string nameOrId, string package)
@@ -152,7 +153,29 @@ namespace Auto_LDPlayer
 
         public static string Adb(LDType ldType, string nameOrId, string cmd, int timeout = 10000, int retry = 1)
         {
-            return ExecuteLDForResult($"adb --{ldType.ToName()} \"{nameOrId}\" --command \"{cmd}\"", timeout, retry);
+            var command = $"adb --{ldType.ToName()} \"{nameOrId}\" --command \"{cmd}\"";
+            var result = ExecuteLDForResult(command, timeout, retry);
+            if (!command.Contains("pull /sdcard/window_dump.xml") && !command.Contains("shell uiautomator dump"))
+            {
+                Log.Information($"{command} => result: {result}");
+            }
+
+            if (result.Contains("error: failed to") || result.Contains("not found") || result.Contains("device offline"))
+            {
+                ReBoot(ldType, nameOrId);
+                Delay(3);
+                Open(ldType, nameOrId);
+                Delay(15);
+                SortWnd();
+
+                result = ExecuteLDForResult(command, timeout, retry);
+                if (!command.Contains("pull /sdcard/window_dump.xml"))
+                {
+                    Log.Information($"{command} => result: {result}");
+                }
+            }
+
+            return result;
         }
 
         public static void DownCpu(LDType ldType, string nameOrId, string rate)
@@ -162,7 +185,8 @@ namespace Auto_LDPlayer
 
         public static void Backup(LDType ldType, string nameOrId, string filePath)
         {
-            ExecuteLD($@"backup --{ldType.ToName()} {nameOrId} --file ""{filePath}""");
+            var result = ExecuteLDForResult($@"backup --{ldType.ToName()} {nameOrId} --file ""{filePath}""");
+            Log.Information($"{nameOrId} Backup()=> result={result}");
         }
 
         public static void Restore(LDType ldType, string nameOrId, string filePath)
@@ -207,7 +231,7 @@ namespace Auto_LDPlayer
 
         public static void BackupApp(LDType ldType, string nameOrId, string packageName, string filePath)
         {
-            ExecuteLD($@"backupapp --{ldType.ToName()} {nameOrId} --packagename {packageName} --file ""{filePath}""");
+            var result = ExecuteLDForResult($@"backupapp --{ldType.ToName()} {nameOrId} --packagename {packageName} --file ""{filePath}""");
         }
 
         public static void RestoreApp(LDType ldType, string nameOrId, string packageName, string filePath)
@@ -661,15 +685,12 @@ namespace Auto_LDPlayer
 
         public static void ProxyON(LDType ldType, string nameOrId, NetIP netIP)
         {
-            var result1 = Adb(ldType, nameOrId, $"shell settings put global http_proxy {netIP.HostNamePortforward}:{netIP.PortForward}");
-            //var result2 = Adb(ldType, nameOrId, "shell settings put global private_dns_mode hostname");
-            //var result3 = Adb(ldType, nameOrId, "shell settings put global private_dns_specifier 1.1.1.1");
+            Adb(ldType, nameOrId, $"shell settings put global http_proxy {netIP.HostNamePortforward}:{netIP.PortForward}");
         }
 
         public static void ProxyOFF(LDType ldType, string nameOrId)
         {
-            var result2 = Adb(ldType, nameOrId, "shell settings put global http_proxy :0");
-            Log.Information($"shell settings put global http_proxy :0={result2}");
+            Adb(ldType, nameOrId, "shell settings put global http_proxy :0");
         }
         #endregion
 
@@ -1057,7 +1078,7 @@ namespace Auto_LDPlayer
         {
             foreach (var package in packages)
             {
-                RunScript(ldType, nameOrId, $"Clear_app={package}");
+                Adb(ldType, nameOrId, $"shell pm clear {package}");
             }
         }
         
@@ -1080,9 +1101,9 @@ namespace Auto_LDPlayer
             return result.Contains(package);
         }
 
-        public static bool IsInstalledApps(string deviceName, List<string> packages)
+        public static bool IsInstalledApps(LDType ldType, string nameOrId, List<string> packages)
         {
-            var result = ExecuteLDForResult($"adb --name {deviceName} --command \"shell pm list packages\"");
+            var result = ExecuteLDForResult($"adb --{ldType.ToName()} {nameOrId} --command \"shell pm list packages\"");
             if (!result.Contains("not found"))
             {
                 foreach (var package in packages)

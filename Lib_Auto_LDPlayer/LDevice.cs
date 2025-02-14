@@ -12,10 +12,10 @@ namespace Auto_LDPlayer
         public int dnplayerPID;
         public int vboxPID;
 
-        public int Index
+        public string Index
         {
-            get => index;
-            set => index = value;
+            get => index.ToString();
+            set => index = Convert.ToInt32(value);
         }
 
         public string Name

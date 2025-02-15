@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants\ScriptConstants.cs" />
+    <Compile Include="Enums\FileTransferAction.cs" />
     <Compile Include="Enums\LDType.cs" />
     <Compile Include="Enums\NetIPOption.cs" />
     <Compile Include="Extensions\EnumExtensions .cs" />
@@ -59,6 +60,7 @@
     <Compile Include="Models\ScriptKey.cs" />
     <Compile Include="Models\ScriptSetting.cs" />
     <Compile Include="Models\SearchText.cs" />
+    <Compile Include="Models\UID3rdPackage.cs" />
     <Compile Include="Models\XML\Hierarchy.cs" />
     <Compile Include="Models\XML\Node.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -6,7 +6,6 @@ using Auto_LDPlayer.Helpers.Commons;
 using Auto_LDPlayer.Models;
 using Auto_LDPlayer.Models.XML;
 using Auto_LDPlayer.Properties;
-using Emgu.CV.Dnn;
 using KAutoHelper;
 using Serilog;
 using System;
@@ -175,6 +174,12 @@ namespace Auto_LDPlayer
                 }
             }
 
+            if (result.Contains("Permission denied"))
+            {
+                ExecuteADB("root");
+                result = ExecuteLDForResult(command, timeout, retry);
+            }
+
             return result;
         }
 
@@ -229,14 +234,178 @@ namespace Auto_LDPlayer
             ExecuteLD($@"push --{ldType.ToName()} {nameOrId} --remote ""{remoteFilePath}"" --local ""{localFilePath}""");
         }
 
-        public static void BackupApp(LDType ldType, string nameOrId, string packageName, string filePath)
+        public static bool BackupApp(LDType ldType, string nameOrId, List<string> packages, string filePath, string fileName)
         {
-            var result = ExecuteLDForResult($@"backupapp --{ldType.ToName()} {nameOrId} --packagename {packageName} --file ""{filePath}""");
+            EnableADBRoot();
+            var result = Adb(ldType, nameOrId, "shell mkdir /data/backup");
+            var args = string.Empty;
+            foreach (var package in packages)
+            {
+                args += $" /data/data/{package} /data/user_de/0/{package} /sdcard/Android/data/{package} /data/misc/profiles/cur/0/{package} /data/misc/profiles/ref/{package}";
+            }
+
+            result = string.Empty;
+            var checkbackup = "false";
+            var i = 0;
+            while (checkbackup.Contains("false") && i < 5)
+            {
+                result = Adb(ldType, nameOrId, $"shell tar -zcvf /data/backup/{fileName}.tar.gz {args}");
+                checkbackup = Adb(ldType, nameOrId, $"shell if [ -e /data/backup/{fileName}.tar.gz ]; then echo true; else echo false; fi");
+                Log.Information($"{nameOrId} checkbackup: {checkbackup}");
+                
+                if (checkbackup.Contains("false"))
+                {
+                    result = Adb(ldType, nameOrId, "shell rm -rf /data/backup/* && echo \"File removed\" || echo \"Failed to remove file\"");
+                    Log.Information($"{nameOrId} Backup fail => remove file backup /data/backup/{fileName}.tar.gz => result: {result}");
+                    Thread.Sleep(2000);
+                    i++;
+
+                    continue;
+                }
+
+                break;
+            }
+            if (i == 5)
+            {
+                return false;
+            }
+
+            i = 0;
+            while (i < 5)
+            {
+                PullOrPushFile(ldType, nameOrId, FileTransferAction.PULL, $"/data/backup/{fileName}.tar.gz", filePath);
+                if (!File.Exists(filePath))
+                {
+                    Thread.Sleep(2000);
+                    i++;
+
+                    continue;
+                }
+                result = Adb(ldType, nameOrId, $"shell rm -rf /data/backup/* && echo \"File removed\" || echo \"Failed to remove file\"");
+                Log.Information($"{nameOrId} remove file backup /data/backup/{fileName}.tar.gz SUCCESS => result: {result}");
+
+                break;
+            }
+            if (i == 5)
+            {
+                result = Adb(ldType, nameOrId, $"shell rm -rf /data/backup/* && echo \"File removed\" || echo \"Failed to remove file\"");
+                Log.Information($"{nameOrId} Pull file to folder FAIL => remove file backup /data/backup/{fileName}.tar.gz => result: {result}");
+
+                return false;
+            }
+
+            return true;
+            //result = ExecuteLDForResult($@"backupapp --{ldType.ToName()} {nameOrId} --packagename {packageName} --file ""{filePath}""");
         }
 
-        public static void RestoreApp(LDType ldType, string nameOrId, string packageName, string filePath)
+        public static void PullOrPushFile(LDType ldType, string nameOrId, FileTransferAction action, string sourcePath, string destinationPath)
         {
-            ExecuteLD($@"restoreapp --{ldType.ToName()} {nameOrId} --packagename {packageName} --file ""{filePath}""");
+            var arg = Enum.GetName(typeof(FileTransferAction), action).ToLower();
+            var result = Adb(ldType, nameOrId, string.Format("{0} \"{1}\" \"{2}\"", arg, sourcePath, destinationPath));
+            Log.Information($"{nameOrId} PullOrPushFile arg={arg} result: {result}");
+        }
+
+        public static bool RestoreApp(LDType ldType, string nameOrId, List<string> packages, string filePath, string fileName)
+        {
+            EnableADBRoot();
+            var uid3rdPackages = GetIDApplications(ldType, nameOrId, packages);
+            WipePackages(ldType, nameOrId, packages);
+            fileName = fileName.Replace(".ldbk", "") + ".tar.gz";
+
+            var countPUSH = 5;
+        CallbackPUSH:
+            PullOrPushFile(ldType, nameOrId, FileTransferAction.PUSH, filePath, $"/data/backup/{fileName}");
+            var checkbackup = Adb(ldType, nameOrId, $"shell if [ -e /data/backup/{fileName} ]; then echo true; else echo false; fi");
+            if (checkbackup.Contains("false"))
+            {
+                if (countPUSH >= 0)
+                {
+                    countPUSH--;
+                    Thread.Sleep(2000);
+
+                    goto CallbackPUSH;
+                }
+                return false;
+            }
+
+            var excludeFolderExtract = "--exclude data/system/package-cstats.list --exclude data/system/package-dcl.list --exclude data/system/package-dex-usage.list --exclude data/system/package-usage.list --exclude data/system/package-watchdog.xml --exclude data/system/package_cache --exclude data/system/packages-warnings.xml --exclude data/system/users/0.xml --exclude data/system/users/userlist.xml --exclude data/system/users/0/wallpaper_info* --exclude data/system/users/0/package-restrictions.xml --exclude data/system/packages.list --exclude data/system/packages.xml --exclude data/system/recoverablekeystore";
+            Adb(ldType, nameOrId, $"shell tar -xvf /data/backup/{fileName} {excludeFolderExtract} -C /");
+
+            foreach (var uid3rdPackage in uid3rdPackages)
+            {
+                if (!string.IsNullOrWhiteSpace(uid3rdPackage.PackageName) && !string.IsNullOrWhiteSpace(uid3rdPackage.UID))
+                {
+                    SetIDApplication(ldType, nameOrId, uid3rdPackage.UID, uid3rdPackage.PackageName);
+                }
+            }
+            Adb(ldType, nameOrId, "shell rm -rf /data/system/users/0/runtime-permissions* /data/system/users/0/wallpaper* /data/data/com.android.vending/cache/* /data/data/com.android.vending/code_cache");
+            Adb(ldType, nameOrId, $"shell rm -rf /data/backup/{fileName}");
+
+            return true;
+            //ExecuteLD($@"restoreapp --{ldType.ToName()} {nameOrId} --packagename {packageName} --file ""{filePath}""");
+        }
+
+        private static void SetIDApplication(LDType ldType, string nameOrId, string uid, string package)
+        {
+            Adb(ldType, nameOrId, $"shell chown -R {uid}:{uid} /data/data/{package}/");
+            Adb(ldType, nameOrId, $"shell chown -R {uid} /data/user_de/0/{package}/");
+            Adb(ldType, nameOrId, $"shell chown -R {uid} /data/user/0/{package}/");
+            Adb(ldType, nameOrId, $"shell chown -R {uid} /sdcard/Android/data/{package}/");
+
+            //Adb(ldType, nameOrId, $"shell chown -R {uid} /sdcard/Android/obb/{package}/");
+            Adb(ldType, nameOrId, $"shell chown -R {uid} /data/misc/profiles/ref/{package}/");
+            Adb(ldType, nameOrId, $"shell chown -R {uid} /data/misc/profiles/cur/0/{package}/");
+        }
+
+        private static void WipePackages(LDType ldType, string nameOrId, List<string> packages)
+        {
+            foreach (var package in packages)
+            {
+                Adb(ldType, nameOrId, $"shell rm -rf /data/data/{package} /data/user_de/0/{package} /data/user/0/{package} /sdcard/Android/data/{package} /data/misc/profiles/ref/{package} /data/misc/profiles/cur/0/{package}");
+            }
+        }
+
+        private static List<UID3rdPackage> GetIDApplications(LDType ldType, string nameOrId, List<string> packages)
+        {
+            var uids = new List<UID3rdPackage>();
+            try
+            {
+                foreach (var package in packages)
+                {
+                    if (!string.IsNullOrWhiteSpace(package))
+                    {
+                        var uid = GetIDApplication(ldType, nameOrId, $"/data/data/{package}");
+                        if (!string.IsNullOrWhiteSpace(uid))
+                        {
+                            uids.Add(new UID3rdPackage
+                            {
+                                PackageName = package,
+                                UID = uid
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Information($"GetIDApplications has an EXCEPTION: {e}");
+            }
+
+            return uids;
+        }
+
+        private static string GetIDApplication(LDType ldType, string nameOrId, string package)
+        {
+            try
+            {
+                var result = Adb(ldType, nameOrId, $"shell stat -c '%u%' {package}");
+                return result.Substring(0, result.LastIndexOf('?'));
+            }
+            catch (Exception)
+            {
+            }
+
+            return string.Empty;
         }
 
         public static void GlobalConfig(LDType ldType, string nameOrId, string fps, string audio, string fastPlay, string cleanMode)
@@ -353,7 +522,7 @@ namespace Auto_LDPlayer
             p.Close();
         }
 
-        public static string ExecuteLDForResult(string cmdCommand, int timeout = 10000, int retry = 2)
+        public static string ExecuteLDForResult(string cmd, int timeout = 10000, int retry = 2)
         {
             try
             {
@@ -361,7 +530,7 @@ namespace Auto_LDPlayer
                 process.StartInfo = new ProcessStartInfo
                 {
                     FileName = PathLD,
-                    Arguments = cmdCommand,
+                    Arguments = cmd,
                     CreateNoWindow = true,
                     UseShellExecute = false,
                     WindowStyle = ProcessWindowStyle.Hidden,
@@ -392,15 +561,15 @@ namespace Auto_LDPlayer
             }
         }
 
-        public static string ExecuteCMD(string command, int timeout = 10000, int retry = 2)
+        public static string ExecuteADB(string cmd, int timeout = 10000, int retry = 2)
         {
             try
             {
                 var process = new Process();
                 process.StartInfo = new ProcessStartInfo
                 {
-                    FileName = PathLD,
-                    Arguments = command,
+                    FileName = $"{FolderLD}\\adb.exe",
+                    Arguments = cmd,
                     CreateNoWindow = true,
                     UseShellExecute = false,
                     WindowStyle = ProcessWindowStyle.Hidden,
@@ -638,6 +807,12 @@ namespace Auto_LDPlayer
             Adb(ldType, nameOrId, "shell settings put secure location_mode 0");
             Adb(ldType, nameOrId, "shell settings put secure location_providers_allowed -gps");
             Adb(ldType, nameOrId, "shell settings put secure location_providers_allowed -network");
+        }
+
+        public static void EnableADBRoot()
+        {
+            var result = ExecuteADB("root");
+            Log.Information($"EnableADBRoot() result: {result}");
         }
         #endregion
 

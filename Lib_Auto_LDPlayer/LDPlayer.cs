@@ -48,12 +48,6 @@ namespace Auto_LDPlayer
             ExecuteLD("quitall");
         }
 
-        public static void ReBoot(LDType ldType, string nameOrId)
-        {
-            var result = ExecuteLDForResult($"quit --{ldType.ToName()} {nameOrId}");
-            Log.Information($"{nameOrId} ReBoot() => {result}");
-        }
-
         public static bool IsAppOpened(LDType ldType, string nameOrId, string package)
         {
             var result = Adb(ldType, nameOrId, $"shell pidof {package}");
@@ -152,31 +146,27 @@ namespace Auto_LDPlayer
 
         public static string Adb(LDType ldType, string nameOrId, string cmd, int timeout = 10000, int retry = 1)
         {
+            EnableADBRoot();
             var command = $"adb --{ldType.ToName()} \"{nameOrId}\" --command \"{cmd}\"";
             var result = ExecuteLDForResult(command, timeout, retry);
             if (!command.Contains("pull /sdcard/window_dump.xml") && !command.Contains("shell uiautomator dump"))
             {
-                Log.Information($"{command} => result: {result}");
+                Log.Information($"{command} => Adb() result1: {result}");
             }
 
             if (result.Contains("error: failed to") || result.Contains("not found") || result.Contains("device offline"))
             {
-                ReBoot(ldType, nameOrId);
-                Delay(3);
-                Open(ldType, nameOrId);
-                Delay(15);
-                SortWnd();
-
+                Delay(20);
                 result = ExecuteLDForResult(command, timeout, retry);
-                if (!command.Contains("pull /sdcard/window_dump.xml"))
+                if (!command.Contains("pull /sdcard/window_dump.xml") && !command.Contains("shell uiautomator dump"))
                 {
-                    Log.Information($"{command} => result: {result}");
+                    Log.Information($"{command} => Adb() result2: {result}");
                 }
             }
 
             if (result.Contains("Permission denied"))
             {
-                ExecuteADB("root");
+                EnableADBRoot();
                 result = ExecuteLDForResult(command, timeout, retry);
             }
 
@@ -236,7 +226,6 @@ namespace Auto_LDPlayer
 
         public static bool BackupApp(LDType ldType, string nameOrId, List<string> packages, string filePath, string fileName)
         {
-            EnableADBRoot();
             var result = Adb(ldType, nameOrId, "shell mkdir /data/backup");
             var args = string.Empty;
             foreach (var package in packages)
@@ -307,7 +296,6 @@ namespace Auto_LDPlayer
 
         public static bool RestoreApp(LDType ldType, string nameOrId, List<string> packages, string filePath, string fileName)
         {
-            EnableADBRoot();
             var uid3rdPackages = GetIDApplications(ldType, nameOrId, packages);
             WipePackages(ldType, nameOrId, packages);
             fileName = fileName.Replace(".ldbk", "") + ".tar.gz";
@@ -484,27 +472,27 @@ namespace Auto_LDPlayer
             {
                 var listLDPlayer = new List<LDevice>();
                 var deviceRunning = GetDevicesRunning();
-                var arr = ExecuteLDForResult("list2").Trim().Split('\n');
-                foreach (var t in arr)
+                var devices = ExecuteLDForResult("list2").Trim().Split('\n');
+                foreach (var t in devices)
                 {
-                    var devices = new LDevice();
+                    var device = new LDevice();
                     var aDetail = t.Trim().Split(',');
-                    devices.index = int.Parse(aDetail[0]);
-                    devices.name = aDetail[1];
-                    devices.topHandle = new IntPtr(Convert.ToInt32(aDetail[2], 16));
-                    devices.bindHandle = new IntPtr(Convert.ToInt32(aDetail[3], 16));
-                    devices.androidState = int.Parse(aDetail[4]);
-                    devices.dnplayerPID = int.Parse(aDetail[5]);
-                    devices.vboxPID = int.Parse(aDetail[6]);
-                    if (!deviceRunning.Contains(devices.name)) continue;
-                    listLDPlayer.Add(devices);
+                    device.index = int.Parse(aDetail[0]);
+                    device.name = aDetail[1];
+                    device.topHandle = new IntPtr(Convert.ToInt32(aDetail[2], 16));
+                    device.bindHandle = new IntPtr(Convert.ToInt32(aDetail[3], 16));
+                    device.androidState = int.Parse(aDetail[4]);
+                    device.dnplayerPID = int.Parse(aDetail[5]);
+                    device.vboxPID = int.Parse(aDetail[6]);
+                    if (!deviceRunning.Contains(device.name)) continue;
+                    listLDPlayer.Add(device);
                 }
 
                 return listLDPlayer;
             }
             catch
             {
-                return null;
+                return new List<LDevice>();
             }
         }
 

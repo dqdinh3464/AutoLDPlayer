@@ -316,15 +316,14 @@ namespace Auto_LDPlayer
                 return false;
             }
 
-            var excludeFolderExtract = "--exclude data/system/package-cstats.list --exclude data/system/package-dcl.list --exclude data/system/package-dex-usage.list --exclude data/system/package-usage.list --exclude data/system/package-watchdog.xml --exclude data/system/package_cache --exclude data/system/packages-warnings.xml --exclude data/system/users/0.xml --exclude data/system/users/userlist.xml --exclude data/system/users/0/wallpaper_info* --exclude data/system/users/0/package-restrictions.xml --exclude data/system/packages.list --exclude data/system/packages.xml --exclude data/system/recoverablekeystore";
-            Adb(ldType, nameOrId, $"shell tar -xvf /data/backup/{fileName} {excludeFolderExtract} -C /");
+            //var excludeFolderExtract = "--exclude data/system/package-cstats.list --exclude data/system/package-dcl.list --exclude data/system/package-dex-usage.list --exclude data/system/package-usage.list --exclude data/system/package-watchdog.xml --exclude data/system/package_cache --exclude data/system/packages-warnings.xml --exclude data/system/users/0.xml --exclude data/system/users/userlist.xml --exclude data/system/users/0/wallpaper_info* --exclude data/system/users/0/package-restrictions.xml --exclude data/system/packages.list --exclude data/system/packages.xml --exclude data/system/recoverablekeystore";
+            //Adb(ldType, nameOrId, $"shell su -c 'tar -xvf /data/backup/{fileName} {excludeFolderExtract} -C /'");
+            Adb(ldType, nameOrId, $"shell su -c 'tar -xvf /data/backup/{fileName} -C /'");
 
             foreach (var uid3rdPackage in uid3rdPackages)
             {
                 if (!string.IsNullOrWhiteSpace(uid3rdPackage.PackageName) && !string.IsNullOrWhiteSpace(uid3rdPackage.UID))
-                {
                     SetIDApplication(ldType, nameOrId, uid3rdPackage.UID, uid3rdPackage.PackageName);
-                }
             }
             Adb(ldType, nameOrId, "shell rm -rf /data/system/users/0/runtime-permissions* /data/system/users/0/wallpaper* /data/data/com.android.vending/cache/* /data/data/com.android.vending/code_cache");
             Adb(ldType, nameOrId, $"shell rm -rf /data/backup/{fileName}");
@@ -337,7 +336,6 @@ namespace Auto_LDPlayer
         {
             Adb(ldType, nameOrId, $"shell chown -R {uid}:{uid} /data/data/{package}/");
             Adb(ldType, nameOrId, $"shell chown -R {uid} /data/user_de/0/{package}/");
-            Adb(ldType, nameOrId, $"shell chown -R {uid} /data/user/0/{package}/");
             Adb(ldType, nameOrId, $"shell chown -R {uid} /sdcard/Android/data/{package}/");
 
             //Adb(ldType, nameOrId, $"shell chown -R {uid} /sdcard/Android/obb/{package}/");
@@ -349,7 +347,7 @@ namespace Auto_LDPlayer
         {
             foreach (var package in packages)
             {
-                Adb(ldType, nameOrId, $"shell rm -rf /data/data/{package} /data/user_de/0/{package} /data/user/0/{package} /sdcard/Android/data/{package} /data/misc/profiles/ref/{package} /data/misc/profiles/cur/0/{package}");
+                Adb(ldType, nameOrId, $"shell rm -rf /data/data/{package} /data/user_de/0/{package} /sdcard/Android/data/{package} /data/misc/profiles/ref/{package} /data/misc/profiles/cur/0/{package}");
             }
         }
 
@@ -465,7 +463,7 @@ namespace Auto_LDPlayer
                 return null;
             }
         }
-
+        
         public static List<LDevice> GetDevices2Running()
         {
             try
@@ -493,6 +491,26 @@ namespace Auto_LDPlayer
             catch
             {
                 return new List<LDevice>();
+            }
+        }
+
+        public static List<string> GetDevices3()
+        {
+            try
+            {
+                var listLDPlayer = new List<string>();
+                var devices = ExecuteADB("devices").Trim().Split('\n');
+                for (var i = 1; i < devices.Length; i++)
+                {
+                    var device = devices[i].Replace("\tdevice", string.Empty);
+                    listLDPlayer.Add(device);
+                }
+                
+                return listLDPlayer;
+            }
+            catch
+            {
+                return new List<string>();
             }
         }
 
@@ -800,7 +818,6 @@ namespace Auto_LDPlayer
         public static void EnableADBRoot()
         {
             var result = ExecuteADB("root");
-            Log.Information($"EnableADBRoot() result: {result}");
         }
         #endregion
 

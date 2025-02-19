@@ -144,11 +144,10 @@ namespace Auto_LDPlayer
             return ExecuteLDForResult($"getprop --{ldType.ToName()} {nameOrId} --key {key}");
         }
 
-        public static string Adb(LDType ldType, string nameOrId, string cmd, int timeout = 10000, int retry = 1)
+        public static string Adb(LDType ldType, string nameOrId, string cmd)
         {
-            EnableADBRoot();
             var command = $"adb --{ldType.ToName()} \"{nameOrId}\" --command \"{cmd}\"";
-            var result = ExecuteLDForResult(command, timeout, retry);
+            var result = ExecuteLDForResult(command);
             if (!command.Contains("pull /sdcard/window_dump.xml") && !command.Contains("shell uiautomator dump"))
             {
                 Log.Information($"{command} => Adb() result1: {result}");
@@ -156,18 +155,13 @@ namespace Auto_LDPlayer
 
             if (result.Contains("error: failed to") || result.Contains("not found") || result.Contains("device offline"))
             {
-                Delay(20);
-                result = ExecuteLDForResult(command, timeout, retry);
+                Log.Information($"{command} => Adb() error: failed to || not found || device offline");
+                Delay(10);
+                result = ExecuteLDForResult(command);
                 if (!command.Contains("pull /sdcard/window_dump.xml") && !command.Contains("shell uiautomator dump"))
                 {
                     Log.Information($"{command} => Adb() result2: {result}");
                 }
-            }
-
-            if (result.Contains("Permission denied"))
-            {
-                EnableADBRoot();
-                result = ExecuteLDForResult(command, timeout, retry);
             }
 
             return result;
@@ -226,25 +220,26 @@ namespace Auto_LDPlayer
 
         public static bool BackupApp(LDType ldType, string nameOrId, List<string> packages, string filePath, string fileName)
         {
-            var result = Adb(ldType, nameOrId, "shell mkdir /data/backup");
+            Adb(ldType, nameOrId, "shell su -c 'chown -R shell:shell /data/backup'");
+            Adb(ldType, nameOrId, "shell mkdir /data/backup");
             var args = string.Empty;
             foreach (var package in packages)
             {
                 args += $" /data/data/{package} /data/user_de/0/{package} /sdcard/Android/data/{package} /data/misc/profiles/cur/0/{package} /data/misc/profiles/ref/{package}";
             }
 
-            result = string.Empty;
+            var result = string.Empty;
             var checkbackup = "false";
             var i = 0;
             while (checkbackup.Contains("false") && i < 5)
             {
-                result = Adb(ldType, nameOrId, $"shell tar -zcvf /data/backup/{fileName}.tar.gz {args}");
+                result = Adb(ldType, nameOrId, $"shell su -c 'tar -zcvf /data/backup/{fileName}.tar.gz {args}'");
                 checkbackup = Adb(ldType, nameOrId, $"shell if [ -e /data/backup/{fileName}.tar.gz ]; then echo true; else echo false; fi");
                 Log.Information($"{nameOrId} checkbackup: {checkbackup}");
                 
                 if (checkbackup.Contains("false"))
                 {
-                    result = Adb(ldType, nameOrId, "shell rm -rf /data/backup/* && echo \"File removed\" || echo \"Failed to remove file\"");
+                    result = Adb(ldType, nameOrId, "shell su -c 'rm -rf /data/backup/* && echo \"File removed\" || echo \"Failed to remove file\"'");
                     Log.Information($"{nameOrId} Backup fail => remove file backup /data/backup/{fileName}.tar.gz => result: {result}");
                     Thread.Sleep(2000);
                     i++;
@@ -270,28 +265,18 @@ namespace Auto_LDPlayer
 
                     continue;
                 }
-                result = Adb(ldType, nameOrId, $"shell rm -rf /data/backup/* && echo \"File removed\" || echo \"Failed to remove file\"");
+                result = Adb(ldType, nameOrId, $"shell su -c 'rm -rf /data/backup/* && echo \"File removed\" || echo \"Failed to remove file\"'");
                 Log.Information($"{nameOrId} remove file backup /data/backup/{fileName}.tar.gz SUCCESS => result: {result}");
 
                 break;
             }
             if (i == 5)
             {
-                result = Adb(ldType, nameOrId, $"shell rm -rf /data/backup/* && echo \"File removed\" || echo \"Failed to remove file\"");
-                Log.Information($"{nameOrId} Pull file to folder FAIL => remove file backup /data/backup/{fileName}.tar.gz => result: {result}");
-
                 return false;
             }
 
             return true;
             //result = ExecuteLDForResult($@"backupapp --{ldType.ToName()} {nameOrId} --packagename {packageName} --file ""{filePath}""");
-        }
-
-        public static void PullOrPushFile(LDType ldType, string nameOrId, FileTransferAction action, string sourcePath, string destinationPath)
-        {
-            var arg = Enum.GetName(typeof(FileTransferAction), action).ToLower();
-            var result = Adb(ldType, nameOrId, string.Format("{0} \"{1}\" \"{2}\"", arg, sourcePath, destinationPath));
-            Log.Information($"{nameOrId} PullOrPushFile arg={arg} result: {result}");
         }
 
         public static bool RestoreApp(LDType ldType, string nameOrId, List<string> packages, string filePath, string fileName)
@@ -325,11 +310,19 @@ namespace Auto_LDPlayer
                 if (!string.IsNullOrWhiteSpace(uid3rdPackage.PackageName) && !string.IsNullOrWhiteSpace(uid3rdPackage.UID))
                     SetIDApplication(ldType, nameOrId, uid3rdPackage.UID, uid3rdPackage.PackageName);
             }
-            Adb(ldType, nameOrId, "shell rm -rf /data/system/users/0/runtime-permissions* /data/system/users/0/wallpaper* /data/data/com.android.vending/cache/* /data/data/com.android.vending/code_cache");
-            Adb(ldType, nameOrId, $"shell rm -rf /data/backup/{fileName}");
+            Adb(ldType, nameOrId, "shell su -c 'rm -rf /data/system/users/0/runtime-permissions* /data/system/users/0/wallpaper* /data/data/com.android.vending/cache/* /data/data/com.android.vending/code_cache'");
+            Adb(ldType, nameOrId, $"shell su -c 'rm -rf /data/backup/{fileName}'");
 
             return true;
             //ExecuteLD($@"restoreapp --{ldType.ToName()} {nameOrId} --packagename {packageName} --file ""{filePath}""");
+        }
+
+        public static void PullOrPushFile(LDType ldType, string nameOrId, FileTransferAction action, string sourcePath, string destinationPath)
+        {
+            Adb(ldType, nameOrId, "shell su -c 'chown -R shell:shell /data/backup'");
+            var arg = Enum.GetName(typeof(FileTransferAction), action).ToLower();
+            var result = Adb(ldType, nameOrId, $"{arg} \"{sourcePath}\" \"{destinationPath}\"");
+            Log.Information($"{nameOrId} PullOrPushFile arg={arg} result: {result}");
         }
 
         private static void SetIDApplication(LDType ldType, string nameOrId, string uid, string package)
@@ -347,7 +340,7 @@ namespace Auto_LDPlayer
         {
             foreach (var package in packages)
             {
-                Adb(ldType, nameOrId, $"shell rm -rf /data/data/{package} /data/user_de/0/{package} /sdcard/Android/data/{package} /data/misc/profiles/ref/{package} /data/misc/profiles/cur/0/{package}");
+                Adb(ldType, nameOrId, $"shell su -c 'rm -rf /data/data/{package} /data/user_de/0/{package} /sdcard/Android/data/{package} /data/misc/profiles/ref/{package} /data/misc/profiles/cur/0/{package}'");
             }
         }
 
@@ -426,7 +419,6 @@ namespace Auto_LDPlayer
                 arr[i] = arr[i].Trim();
             }
 
-            //System.Windows.Forms.MessageBox.Show(string.Join("|", arr));
             return arr.ToList();
         }
 
@@ -549,21 +541,16 @@ namespace Auto_LDPlayer
                     retry--;
                     process.Start();
                     if (!process.WaitForExit(timeout))
-                    {
                         process.Kill();
-                    }
                     else
-                    {
                         break;
-                    }
                 }
-                var result = process.StandardOutput.ReadToEnd();
 
-                return result;
+                return process.StandardOutput.ReadToEnd();
             }
             catch
             {
-                return null;
+                return string.Empty;
             }
         }
 
@@ -627,12 +614,12 @@ namespace Auto_LDPlayer
             var cmdCommand = $"shell input tap {x} {y}";
             for (var index = 1; index < count; ++index)
                 cmdCommand += (" && " + cmdCommand);
-            Adb(ldType, nameOrId, cmdCommand, 200);
+            Adb(ldType, nameOrId, cmdCommand);
         }
 
         public static void PressKey(LDType ldType, string nameOrId, LDKeyEvent key)
         {
-            Adb(ldType, nameOrId, $"shell input keyevent {key}", 200);
+            Adb(ldType, nameOrId, $"shell input keyevent {key}");
         }
 
         public static void SwipeByPercent(LDType ldType, string nameOrId, double x1, double y1, double x2, double y2, int duration = 100)
@@ -817,7 +804,7 @@ namespace Auto_LDPlayer
 
         public static void EnableADBRoot()
         {
-            var result = ExecuteADB("root");
+            ExecuteADB("root");
         }
         #endregion
 

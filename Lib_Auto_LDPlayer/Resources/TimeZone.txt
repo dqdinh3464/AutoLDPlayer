@@ -1,6 +1,6 @@
-America/New_York
-America/Chicago
-America/Denver
-America/Phoenix
-America/Los_Angeles
-America/Honolulu
+New_York
+Chicago
+Denver
+Phoenix
+Los_Angeles
+Honolulu

@@ -17,6 +17,8 @@ D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\Microsoft.Bcl.AsyncInterfac
 D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\Microsoft.Win32.Registry.dll
 D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\BouncyCastle.Crypto.dll
 D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\Serilog.dll
+D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\SharpCompress.dll
+D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\SharpCompress.pdb
 D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\System.Buffers.dll
 D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\System.Diagnostics.DiagnosticSource.dll
 D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\System.Drawing.Common.dll
@@ -46,6 +48,7 @@ D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\sv\ZedGraph.resources.dll
 D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\tr\ZedGraph.resources.dll
 D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\zh-cn\ZedGraph.resources.dll
 D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\zh-tw\ZedGraph.resources.dll
+D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\ZstdSharp.dll
 D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\obj\Debug\Auto_LDPlayer.csproj.AssemblyReference.cache
 D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\obj\Debug\Auto_LDPlayer.Properties.Resources.resources
 D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\obj\Debug\Auto_LDPlayer.csproj.GenerateResource.cache

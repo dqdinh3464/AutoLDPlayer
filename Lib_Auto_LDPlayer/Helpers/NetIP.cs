@@ -75,7 +75,7 @@ namespace Auto_LDPlayer.Helpers
         {
             using (var http = new HttpRequest())
             {
-                if (PortForward > 0)
+                if (!string.IsNullOrWhiteSpace(HostNamePortforward) && PortForward > 0)
                 {
                     http.Proxy = ProxyClient.Parse(ProxyType.HTTP, $"{HostNamePortforward}:{PortForward}");
                 }

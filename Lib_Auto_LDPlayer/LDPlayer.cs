@@ -7,6 +7,7 @@ using Auto_LDPlayer.Helpers.IO;
 using Auto_LDPlayer.Models;
 using Auto_LDPlayer.Models.XML;
 using Auto_LDPlayer.Properties;
+using Emgu.CV.Flann;
 using KAutoHelper;
 using Serilog;
 using System;
@@ -17,6 +18,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace Auto_LDPlayer
@@ -229,29 +231,31 @@ namespace Auto_LDPlayer
 
         public static bool BackupApp(LDType ldType, string nameOrId, List<string> packages, string filePath, string fileName)
         {
+            KillApps(ldType, nameOrId, packages);
             AdbNoResult(ldType, nameOrId, "shell mkdir /data/backup");
 
             var args = string.Empty;
             foreach (var package in packages)
             {
-                args += $"/data/data/{package} ";
-                args += $"/data/user_de/0/{package} ";
-                args += $"/sdcard/Android/data/{package} ";
-                args += $"/data/misc/profiles/ref/{package} ";
-                args += $"/data/misc/profiles/cur/0/{package} ";
+                //args += $"/data/data/{package} ";
+                //args += $"/data/user_de/0/{package} ";
+                //args += $"/sdcard/Android/data/{package} ";
+                //args += $"/data/misc/profiles/ref/{package} ";
+                //args += $"/data/misc/profiles/cur/0/{package} ";
             }
+            args += "/data/data/com.facebook.katana/app_light_prefs ";
             args += "--exclude=*.so --exclude=*.dex --exclude=*.oat ";
-            //foreach (var package in packages)
-            //{
             args += $"--exclude=/data/data/com.facebook.katana/app_state_logs/ --exclude=/data/data/com.facebook.katana/app_compactdisk/ --exclude=/data/data/com.facebook.katana/modules/ --exclude=/data/data/com.facebook.katana/cache/ ";
-            //}
+            Adb(ldType, nameOrId, $"shell tar -cvpzf /data/backup/{fileName}.vh {args}");
 
-            Adb(ldType, nameOrId, $"shell tar -cvzf /data/backup/{fileName}.vh {args}");
             var pathVH = $@"{Directory.GetCurrentDirectory()}\data\accounts\{fileName}.vh";
-            var cmd = $"pull /data/backup/{fileName}.vh \"\"{pathVH}\"\"";
-            Adb(ldType, nameOrId, cmd);
-            var cmd2 = $"shell rm -f \"\"/sdcard/{fileName}.vh\"\"";
-            Adb(ldType, nameOrId, cmd2);
+            var result = Adb(ldType, nameOrId, $"pull /data/backup/{fileName}.vh \"\"{pathVH}\"\"");
+            if (string.IsNullOrEmpty(result) || result.Contains("error"))
+            {
+                return false;
+            }
+
+            Adb(ldType, nameOrId, $"shell rm -f \"\"/sdcard/{fileName}.vh\"\"");
 
             return File.Exists(pathVH);
 
@@ -304,17 +308,47 @@ namespace Auto_LDPlayer
         {
             try
             {
+                KillApps(ldType, nameOrId, packages);
+                ClearApp(ldType, nameOrId, packages);
+
                 var folder = filePath.Replace(".vh", string.Empty);
-                DirectoryInfo directory = new DirectoryInfo(folder);
-                if (!directory.Exists)
+                try
                 {
-                    directory.Create();
+                    if (!Directory.Exists(folder))
+                    {
+                        Directory.CreateDirectory(folder);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"{nameOrId} ❌ Lỗi tạo thư mục tạm: " + ex.Message);
+                    return false;
                 }
 
-                TarHelper.ExtractTGZ(filePath, folder);
-                PullOrPushFile(ldType, nameOrId, FileTransferAction.PUSH, folder, "/");
+                try
+                {
+                    TarHelper.ExtractTGZ(filePath, folder);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"{nameOrId} ❌ Lỗi giải nén: " + ex.Message);
+                    return false;
+                }
 
-                Directory.Delete(folder, true);
+                PullOrPushFile(ldType, nameOrId, FileTransferAction.PUSH, folder, "/data/data/com.facebook.katana/");
+                Adb(ldType, nameOrId, "shell chown -R u0_a100:u0_a100 /data/data/com.facebook.katana");
+                Adb(ldType, nameOrId, "shell chmod -R 755 /data/data/com.facebook.katana");
+                Adb(ldType, nameOrId, "shell restorecon -R /data/data/com.facebook.katana");
+
+                try
+                {
+                    Directory.Delete(folder, true);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"{nameOrId} ⚠️ Lỗi xóa thư mục tạm: " + ex.Message);
+                }
+                Console.WriteLine($"{nameOrId} ✅ Khôi phục hoàn tất!");
 
                 return true;
             }
@@ -323,39 +357,39 @@ namespace Auto_LDPlayer
                 return false;
             }
 
-        //    var uid3rdPackages = GetIDApplications(ldType, nameOrId, packages);
-        //    WipePackages(ldType, nameOrId, packages);
-        //    fileName = fileName.Replace(".ldbk", "") + ".tar.gz";
+            //    var uid3rdPackages = GetIDApplications(ldType, nameOrId, packages);
+            //    WipePackages(ldType, nameOrId, packages);
+            //    fileName = fileName.Replace(".ldbk", "") + ".tar.gz";
 
-        //    var countPUSH = 5;
-        //CallbackPUSH:
-        //    PullOrPushFile(ldType, nameOrId, FileTransferAction.PUSH, filePath, $"/data/backup/{fileName}");
-        //    var checkbackup = Adb(ldType, nameOrId, $"shell if [ -e /data/backup/{fileName} ]; then echo true; else echo false; fi");
-        //    if (checkbackup.Contains("false"))
-        //    {
-        //        if (countPUSH >= 0)
-        //        {
-        //            Thread.Sleep(2000);
-        //            countPUSH--;
+            //    var countPUSH = 5;
+            //CallbackPUSH:
+            //    PullOrPushFile(ldType, nameOrId, FileTransferAction.PUSH, filePath, $"/data/backup/{fileName}");
+            //    var checkbackup = Adb(ldType, nameOrId, $"shell if [ -e /data/backup/{fileName} ]; then echo true; else echo false; fi");
+            //    if (checkbackup.Contains("false"))
+            //    {
+            //        if (countPUSH >= 0)
+            //        {
+            //            Thread.Sleep(2000);
+            //            countPUSH--;
 
-        //            goto CallbackPUSH;
-        //        }
-        //        return false;
-        //    }
+            //            goto CallbackPUSH;
+            //        }
+            //        return false;
+            //    }
 
-        //    //var excludeFolderExtract = "--exclude data/system/package-cstats.list --exclude data/system/package-dcl.list --exclude data/system/package-dex-usage.list --exclude data/system/package-usage.list --exclude data/system/package-watchdog.xml --exclude data/system/package_cache --exclude data/system/packages-warnings.xml --exclude data/system/users/0.xml --exclude data/system/users/userlist.xml --exclude data/system/users/0/wallpaper_info* --exclude data/system/users/0/package-restrictions.xml --exclude data/system/packages.list --exclude data/system/packages.xml --exclude data/system/recoverablekeystore";
-        //    //Adb(ldType, nameOrId, $"shell su -c 'tar -xvf /data/backup/{fileName} {excludeFolderExtract} -C /'");
-        //    Adb(ldType, nameOrId, $"shell su -c 'tar -xvf /data/backup/{fileName} -C /'");
+            //    //var excludeFolderExtract = "--exclude data/system/package-cstats.list --exclude data/system/package-dcl.list --exclude data/system/package-dex-usage.list --exclude data/system/package-usage.list --exclude data/system/package-watchdog.xml --exclude data/system/package_cache --exclude data/system/packages-warnings.xml --exclude data/system/users/0.xml --exclude data/system/users/userlist.xml --exclude data/system/users/0/wallpaper_info* --exclude data/system/users/0/package-restrictions.xml --exclude data/system/packages.list --exclude data/system/packages.xml --exclude data/system/recoverablekeystore";
+            //    //Adb(ldType, nameOrId, $"shell su -c 'tar -xvf /data/backup/{fileName} {excludeFolderExtract} -C /'");
+            //    Adb(ldType, nameOrId, $"shell su -c 'tar -xvf /data/backup/{fileName} -C /'");
 
-        //    foreach (var uid3rdPackage in uid3rdPackages)
-        //    {
-        //        if (!string.IsNullOrWhiteSpace(uid3rdPackage.PackageName) && !string.IsNullOrWhiteSpace(uid3rdPackage.UID))
-        //            SetIDApplication(ldType, nameOrId, uid3rdPackage.UID, uid3rdPackage.PackageName);
-        //    }
-        //    Adb(ldType, nameOrId, "shell su -c 'rm -rf /data/system/users/0/runtime-permissions* /data/system/users/0/wallpaper* /data/data/com.android.vending/cache/* /data/data/com.android.vending/code_cache'");
-        //    Adb(ldType, nameOrId, $"shell su -c 'rm -rf /data/backup/{fileName}'");
+            //    foreach (var uid3rdPackage in uid3rdPackages)
+            //    {
+            //        if (!string.IsNullOrWhiteSpace(uid3rdPackage.PackageName) && !string.IsNullOrWhiteSpace(uid3rdPackage.UID))
+            //            SetIDApplication(ldType, nameOrId, uid3rdPackage.UID, uid3rdPackage.PackageName);
+            //    }
+            //    Adb(ldType, nameOrId, "shell su -c 'rm -rf /data/system/users/0/runtime-permissions* /data/system/users/0/wallpaper* /data/data/com.android.vending/cache/* /data/data/com.android.vending/code_cache'");
+            //    Adb(ldType, nameOrId, $"shell su -c 'rm -rf /data/backup/{fileName}'");
 
-        //    return true;
+            //    return true;
         }
 
         public static void PullOrPushFile(LDType ldType, string nameOrId, FileTransferAction action, string sourcePath, string destinationPath)
@@ -363,7 +397,10 @@ namespace Auto_LDPlayer
             Adb(ldType, nameOrId, "shell su -c 'chown -R shell:shell /data/backup'");
             var arg = Enum.GetName(typeof(FileTransferAction), action).ToLower();
             var result = Adb(ldType, nameOrId, $"{arg} \"{sourcePath}\" \"{destinationPath}\"");
-            Log.Information($"{nameOrId} PullOrPushFile arg={arg} result: {result}");
+            if (string.IsNullOrEmpty(result) || result.Contains("error"))
+            {
+                Console.WriteLine("❌ Lỗi khi push dữ liệu lên thiết bị.");
+            }
         }
 
         private static void SetIDApplication(LDType ldType, string nameOrId, string uid, string package)
@@ -549,50 +586,67 @@ namespace Auto_LDPlayer
 
         public static void ExecuteLD(string cmd)
         {
-            DelayRandom(1, 2);
-            var process = new Process
+            try
             {
-                StartInfo = new ProcessStartInfo
+                DelayRandom(1, 2);
+                using (var process = new Process())
                 {
-                    WorkingDirectory = FolderLD,
-                    FileName = PathLD,
-                    Arguments = cmd,
-                    UseShellExecute = false,
-                    CreateNoWindow = true
+                    process.StartInfo = new ProcessStartInfo
+                    {
+                        FileName = PathLD,
+                        Arguments = cmd,
+                        UseShellExecute = false,
+                        CreateNoWindow = true,
+                        WindowStyle = ProcessWindowStyle.Hidden,
+                    };
+
+                    process.Start();
+                    process.WaitForExit();
+                    process.Close();
                 }
-            };
-            process.Start();
-            process.WaitForExit();
-            process.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"ExecuteLD() Error: {ex.Message}");
+            }
         }
 
         public static string ExecuteLDForResult(string cmd, int timeout = 30000)
         {
             try
             {
-                DelayRandom(1, 2);
-                var process = new Process
+                using (var process = new Process())
                 {
-                    StartInfo = new ProcessStartInfo(PathLD)
+                    process.StartInfo = new ProcessStartInfo
                     {
-                        WorkingDirectory = FolderLD,
+                        FileName = PathLD,
                         Arguments = cmd,
-                        CreateNoWindow = true,
                         UseShellExecute = false,
-                        RedirectStandardOutput = true,
+                        WindowStyle = ProcessWindowStyle.Hidden,
+                        CreateNoWindow = true,
+                        RedirectStandardError = true,
+                        RedirectStandardOutput = true
+                    };
+
+                    process.Start();
+                    var outputTask = Task.Run(() => process.StandardOutput.ReadToEnd());
+                    if (Task.WaitAny(new Task[] { outputTask }, timeout) == 0)
+                    {
+                        process.WaitForExit();
+
+                        return outputTask.Result.Trim();
                     }
-                };
+                    else
+                    {
+                        process.Kill();
 
-                process.Start();
-                var result = process.StandardOutput.ReadToEnd();
-                process.WaitForExit(timeout);
-                process.Close();
-
-                return result;
+                        return "Timeout";
+                    }
+                }
             }
-            catch
+            catch (Exception ex)
             {
-                return "error";
+                return $"ExecuteLDForResult() Error: {ex.Message}";
             }
         }
 

@@ -43,6 +43,7 @@ namespace Auto_LDPlayer.Helpers
                 return true;
             }
             catch { }
+
             return false;
         }
         public bool StopProxyServer()

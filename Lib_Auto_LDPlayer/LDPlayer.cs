@@ -8,6 +8,7 @@ using Auto_LDPlayer.Models;
 using Auto_LDPlayer.Models.XML;
 using Auto_LDPlayer.Properties;
 using KAutoHelper;
+using Microsoft.VisualBasic;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -320,6 +320,15 @@ namespace Auto_LDPlayer
                 Console.WriteLine("❌ Lỗi khi push dữ liệu lên thiết bị.");
                 return false;
             }
+            if (result.Contains("Timeout"))
+            {
+                result = Adb(ldType, nameOrId, $"{arg} \"{sourcePath}\" \"{destinationPath}\"");
+                if (string.IsNullOrEmpty(result) || result.Contains("error"))
+                {
+                    Console.WriteLine("❌ Lỗi khi push dữ liệu lên thiết bị.");
+                    return false;
+                }
+            }
 
             return true;
         }
@@ -366,7 +375,7 @@ namespace Auto_LDPlayer
             }
             catch (Exception e)
             {
-                Log.Information($"GetIDApplications has an EXCEPTION: {e}");
+                Log.Information($"GetIDApplications EXCEPTION: {e}");
             }
 
             return uids;
@@ -812,6 +821,105 @@ namespace Auto_LDPlayer
         {
             ExecuteADB("root");
         }
+
+        public static void AllowPermission(LDType ldType, string nameOrId)
+        {
+            Adb(ldType, nameOrId, "shell pm grant com.facebook.katana android.permission.ACCESS_COARSE_LOCATION");
+            Adb(ldType, nameOrId, "shell pm grant com.facebook.katana android.permission.WAKE_LOCK");
+            Adb(ldType, nameOrId, "shell pm grant com.facebook.katana android.permission.INTERNET");
+            Adb(ldType, nameOrId, "shell pm grant com.facebook.katana android.permission.VIBRATE");
+            Adb(ldType, nameOrId, "shell pm grant com.facebook.katana android.permission.READ_CONTACTS");
+            Adb(ldType, nameOrId, "shell pm grant com.facebook.katana android.permission.WRITE_CONTACTS");
+            Adb(ldType, nameOrId, "shell pm grant com.facebook.katana android.permission.GET_ACCOUNTS");
+            Adb(ldType, nameOrId, "shell pm grant com.facebook.katana android.permission.MANAGE_ACCOUNTS");
+            Adb(ldType, nameOrId, "shell pm grant com.facebook.katana android.permission.AUTHENTICATE_ACCOUNTS");
+            Adb(ldType, nameOrId, "shell pm grant com.facebook.katana android.permission.READ_SYNC_SETTINGS");
+            Adb(ldType, nameOrId, "shell pm grant com.facebook.katana android.permission.WRITE_SYNC_SETTINGS");
+            Adb(ldType, nameOrId, "shell pm grant com.facebook.katana android.permission.ACCESS_FINE_LOCATION");
+            Adb(ldType, nameOrId, "shell pm grant com.facebook.katana android.permission.DOWNLOAD_WITHOUT_NOTIFICATION");
+            Adb(ldType, nameOrId, "shell pm grant com.facebook.katana android.permission.CAMERA");
+            Adb(ldType, nameOrId, "shell pm grant com.facebook.katana android.permission.SYSTEM_ALERT_WINDOW");
+            Adb(ldType, nameOrId, "shell pm grant com.facebook.katana android.permission.RECORD_AUDIO");
+            Adb(ldType, nameOrId, "shell pm grant com.facebook.katana android.permission.WRITE_EXTERNAL_STORAGE");
+            Adb(ldType, nameOrId, "shell pm grant com.facebook.katana android.permission.ACCESS_NETWORK_STATE");
+            Adb(ldType, nameOrId, "shell pm grant com.facebook.katana android.permission.ACCESS_WIFI_STATE");
+            Adb(ldType, nameOrId, "shell pm grant com.facebook.katana android.permission.READ_PHONE_STATE");
+            Adb(ldType, nameOrId, "shell pm grant com.facebook.katana android.permission.RECEIVE_BOOT_COMPLETED");
+            Adb(ldType, nameOrId, "shell pm grant com.facebook.katana android.permission.GET_TASKS");
+            Adb(ldType, nameOrId, "shell pm grant com.facebook.katana android.permission.REORDER_TASKS");
+            Adb(ldType, nameOrId, "shell pm grant com.facebook.katana android.permission.CALL_PHONE");
+            Adb(ldType, nameOrId, "shell pm grant com.facebook.katana android.permission.BATTERY_STATS");
+            Adb(ldType, nameOrId, "shell pm grant com.facebook.katana android.permission.READ_EXTERNAL_STORAGE");
+            Adb(ldType, nameOrId, "shell pm grant com.facebook.katana android.permission.READ_CALL_LOG");
+            Adb(ldType, nameOrId, "shell pm grant com.facebook.katana android.permission.WRITE_CALL_LOG");
+        }
+
+        public static bool OpenLink(LDType ldType, string nameOrId, string link)
+        {
+            link = link.Replace("&", "\\&");
+            Adb(ldType, nameOrId, $"shell am start -a android.intent.action.VIEW -d \"{link}\"");
+            Delay(1);
+            ClickText(ldType, nameOrId, "Always", 0, 0);
+            return true;
+        }
+
+        public static bool ClickText(LDType ldType, string nameOrId, string text, int xC = 0, int yC = 0)
+        {
+            checked
+            {
+                try
+                {
+                    var result = DumpScreen(ldType, nameOrId);
+                    if (result.Contains(text))
+                    {
+                        var arrStr = result.Split(new char[] { '>' });
+                        foreach (var str in arrStr)
+                        {
+                            if (str.Contains(text))
+                            {
+                                var element = str;
+                                element = Strings.Mid(element, element.IndexOf("bounds=") + 10);
+                                element = Strings.Mid(element, 1, element.IndexOf("\"") - 1);
+                                var array3 = element.Split(new char[] { ']' });
+                                var array4 = array3[0].Split(new char[] { ',' });
+                                var array5 = array3[1].Replace("[", "").Split(new char[] { ',' });
+                                
+                                var num = (int)Math.Round(unchecked((double)(Convert.ToInt16(array4[0]) + Convert.ToInt16(array5[0])) / 2.0 + 10.0));
+                                var num2 = (int)Math.Round((double)(unchecked(Convert.ToInt16(array4[1]) + Convert.ToInt16(array5[1]))) / 2.0);
+                                ADBHelper.Tap(nameOrId, num + xC, num2 + yC);
+
+                                return true;
+                            }
+                        }
+                    }
+                }
+                catch
+                {
+                }
+                return false;
+            }
+        }
+
+        public static string DumpScreen(LDType ldType, string nameOrId)
+        {
+            try
+            {
+                var result = Adb(ldType, nameOrId, "shell uiautomator dump").ToString().Split(new char[] { ':' })[1].Trim();
+
+                var path = $"{Directory.GetCurrentDirectory()}\\data\\account\\_x{nameOrId}";
+                Adb(ldType, nameOrId, $"pull {result} {path}");
+
+                var result2 = File.ReadAllText(path);
+                File.Delete(path);
+
+                return result2;
+            }
+            catch
+            {
+            }
+
+            return string.Empty;
+        }
         #endregion
 
         #region Navigation
@@ -834,14 +942,14 @@ namespace Auto_LDPlayer
         #region OpenCV
         public static bool TapImg(LDType ldType, string nameOrId, Bitmap imgFind)
         {
-            var bm = (Bitmap) imgFind.Clone();
+            var bm = (Bitmap)imgFind.Clone();
             var screen = ScreenShoot(ldType, nameOrId);
             var point = ImageScanOpenCV.FindOutPoint(screen, bm);
             if (point == null) return false;
-            Tap(ldType, nameOrId, point.Value.X, point.Value.Y);
-            return true;
 
-            //MessageBox.Show("Can't find it");
+            Tap(ldType, nameOrId, point.Value.X, point.Value.Y);
+
+            return true;
         }
         #endregion
 
@@ -955,7 +1063,7 @@ namespace Auto_LDPlayer
             }
             catch (Exception ex)
             {
-                Log.Information($"GetListTextFromPhone has an EXCEPTION: {ex.Message}");
+                Log.Information($"GetListTextFromPhone EXCEPTION: {ex.Message}");
             }
             return searchTexts;
         }

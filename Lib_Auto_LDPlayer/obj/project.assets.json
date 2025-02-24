@@ -87,6 +87,18 @@
           "buildTransitive/net462/_._": {}
         }
       },
+      "Microsoft.VisualBasic/10.3.0": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "Microsoft.VisualBasic"
+        ],
+        "compile": {
+          "ref/net45/_._": {}
+        },
+        "runtime": {
+          "lib/net45/_._": {}
+        }
+      },
       "Microsoft.Win32.Registry/5.0.0": {
         "type": "package",
         "dependencies": {
@@ -111,6 +123,15 @@
             "assetType": "runtime",
             "rid": "win"
           }
+        }
+      },
+      "Otp.NET/1.4.0": {
+        "type": "package",
+        "compile": {
+          "lib/net461/Otp.NET.dll": {}
+        },
+        "runtime": {
+          "lib/net461/Otp.NET.dll": {}
         }
       },
       "Portable.BouncyCastle/1.8.8": {
@@ -639,6 +660,18 @@
           "buildTransitive/net462/_._": {}
         }
       },
+      "Microsoft.VisualBasic/10.3.0": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "Microsoft.VisualBasic"
+        ],
+        "compile": {
+          "ref/net45/_._": {}
+        },
+        "runtime": {
+          "lib/net45/_._": {}
+        }
+      },
       "Microsoft.Win32.Registry/5.0.0": {
         "type": "package",
         "dependencies": {
@@ -657,6 +690,15 @@
           "runtimes/win/lib/net461/Microsoft.Win32.Registry.dll": {
             "related": ".xml"
           }
+        }
+      },
+      "Otp.NET/1.4.0": {
+        "type": "package",
+        "compile": {
+          "lib/net461/Otp.NET.dll": {}
+        },
+        "runtime": {
+          "lib/net461/Otp.NET.dll": {}
         }
       },
       "Portable.BouncyCastle/1.8.8": {
@@ -1163,6 +1205,18 @@
           "buildTransitive/net462/_._": {}
         }
       },
+      "Microsoft.VisualBasic/10.3.0": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "Microsoft.VisualBasic"
+        ],
+        "compile": {
+          "ref/net45/_._": {}
+        },
+        "runtime": {
+          "lib/net45/_._": {}
+        }
+      },
       "Microsoft.Win32.Registry/5.0.0": {
         "type": "package",
         "dependencies": {
@@ -1181,6 +1235,15 @@
           "lib/net461/Microsoft.Win32.Registry.dll": {
             "related": ".xml"
           }
+        }
+      },
+      "Otp.NET/1.4.0": {
+        "type": "package",
+        "compile": {
+          "lib/net461/Otp.NET.dll": {}
+        },
+        "runtime": {
+          "lib/net461/Otp.NET.dll": {}
         }
       },
       "Portable.BouncyCastle/1.8.8": {
@@ -1687,6 +1750,18 @@
           "buildTransitive/net462/_._": {}
         }
       },
+      "Microsoft.VisualBasic/10.3.0": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "Microsoft.VisualBasic"
+        ],
+        "compile": {
+          "ref/net45/_._": {}
+        },
+        "runtime": {
+          "lib/net45/_._": {}
+        }
+      },
       "Microsoft.Win32.Registry/5.0.0": {
         "type": "package",
         "dependencies": {
@@ -1705,6 +1780,15 @@
           "lib/net461/Microsoft.Win32.Registry.dll": {
             "related": ".xml"
           }
+        }
+      },
+      "Otp.NET/1.4.0": {
+        "type": "package",
+        "compile": {
+          "lib/net461/Otp.NET.dll": {}
+        },
+        "runtime": {
+          "lib/net461/Otp.NET.dll": {}
         }
       },
       "Portable.BouncyCastle/1.8.8": {
@@ -2211,6 +2295,18 @@
           "buildTransitive/net462/_._": {}
         }
       },
+      "Microsoft.VisualBasic/10.3.0": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "Microsoft.VisualBasic"
+        ],
+        "compile": {
+          "ref/net45/_._": {}
+        },
+        "runtime": {
+          "lib/net45/_._": {}
+        }
+      },
       "Microsoft.Win32.Registry/5.0.0": {
         "type": "package",
         "dependencies": {
@@ -2229,6 +2325,15 @@
           "lib/net461/Microsoft.Win32.Registry.dll": {
             "related": ".xml"
           }
+        }
+      },
+      "Otp.NET/1.4.0": {
+        "type": "package",
+        "compile": {
+          "lib/net461/Otp.NET.dll": {}
+        },
+        "runtime": {
+          "lib/net461/Otp.NET.dll": {}
         }
       },
       "Portable.BouncyCastle/1.8.8": {
@@ -2752,6 +2857,60 @@
         "useSharedDesignerContext.txt"
       ]
     },
+    "Microsoft.VisualBasic/10.3.0": {
+      "sha512": "AvMDjmJHjz9bdlvxiSdEHHcWP+sZtp7zwule5ab6DaUbgoBnwCsd7nymj69vSz18ypXuEv3SI7ZUNwbIKrvtMA==",
+      "type": "package",
+      "path": "microsoft.visualbasic/10.3.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net45/_._",
+        "lib/netcore50/Microsoft.VisualBasic.dll",
+        "lib/netcoreapp2.0/_._",
+        "lib/netstandard1.3/Microsoft.VisualBasic.dll",
+        "lib/netstandard2.0/Microsoft.VisualBasic.dll",
+        "lib/portable-net45+win8+wpa81/_._",
+        "lib/uap10.0.16299/_._",
+        "lib/win8/_._",
+        "lib/wpa81/_._",
+        "microsoft.visualbasic.10.3.0.nupkg.sha512",
+        "microsoft.visualbasic.nuspec",
+        "ref/net45/_._",
+        "ref/netcore50/Microsoft.VisualBasic.dll",
+        "ref/netcore50/Microsoft.VisualBasic.xml",
+        "ref/netcore50/de/Microsoft.VisualBasic.xml",
+        "ref/netcore50/es/Microsoft.VisualBasic.xml",
+        "ref/netcore50/fr/Microsoft.VisualBasic.xml",
+        "ref/netcore50/it/Microsoft.VisualBasic.xml",
+        "ref/netcore50/ja/Microsoft.VisualBasic.xml",
+        "ref/netcore50/ko/Microsoft.VisualBasic.xml",
+        "ref/netcore50/ru/Microsoft.VisualBasic.xml",
+        "ref/netcore50/zh-hans/Microsoft.VisualBasic.xml",
+        "ref/netcore50/zh-hant/Microsoft.VisualBasic.xml",
+        "ref/netcoreapp2.0/_._",
+        "ref/netstandard1.1/Microsoft.VisualBasic.dll",
+        "ref/netstandard1.1/Microsoft.VisualBasic.xml",
+        "ref/netstandard1.1/de/Microsoft.VisualBasic.xml",
+        "ref/netstandard1.1/es/Microsoft.VisualBasic.xml",
+        "ref/netstandard1.1/fr/Microsoft.VisualBasic.xml",
+        "ref/netstandard1.1/it/Microsoft.VisualBasic.xml",
+        "ref/netstandard1.1/ja/Microsoft.VisualBasic.xml",
+        "ref/netstandard1.1/ko/Microsoft.VisualBasic.xml",
+        "ref/netstandard1.1/ru/Microsoft.VisualBasic.xml",
+        "ref/netstandard1.1/zh-hans/Microsoft.VisualBasic.xml",
+        "ref/netstandard1.1/zh-hant/Microsoft.VisualBasic.xml",
+        "ref/netstandard2.0/Microsoft.VisualBasic.dll",
+        "ref/netstandard2.0/Microsoft.VisualBasic.xml",
+        "ref/portable-net45+win8+wpa81/_._",
+        "ref/uap10.0.16299/_._",
+        "ref/win8/_._",
+        "ref/wpa81/_._",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    },
     "Microsoft.Win32.Registry/5.0.0": {
       "sha512": "dDoKi0PnDz31yAyETfRntsLArTlVAVzUzCIvvEDsDsucrl33Dl8pIJG06ePTJTI3tGpeyHS9Cq7Foc/s4EeKcg==",
       "type": "package",
@@ -2794,6 +2953,26 @@
         "runtimes/win/lib/netstandard2.0/Microsoft.Win32.Registry.xml",
         "useSharedDesignerContext.txt",
         "version.txt"
+      ]
+    },
+    "Otp.NET/1.4.0": {
+      "sha512": "Fk1NKc0lWmlo6LAFYpFJInRgFKt72knRNEvxndDYoQHFwYOPXav+WEUBvQA0k4lxq5xt0SymrZ+oi0F/G40bPQ==",
+      "type": "package",
+      "path": "otp.net/1.4.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.txt",
+        "README.md",
+        "icon.png",
+        "lib/net461/Otp.NET.dll",
+        "lib/net5.0/Otp.NET.dll",
+        "lib/net6.0/Otp.NET.dll",
+        "lib/net7.0/Otp.NET.dll",
+        "lib/net8.0/Otp.NET.dll",
+        "lib/netstandard2.0/Otp.NET.dll",
+        "otp.net.1.4.0.nupkg.sha512",
+        "otp.net.nuspec"
       ]
     },
     "Portable.BouncyCastle/1.8.8": {
@@ -3583,6 +3762,8 @@
       "EMGU.CV >= 4.8.1.5350",
       "KAutoHelper_Kteam >= 1.0.1.2",
       "Leaf.xNet >= 5.2.10",
+      "Microsoft.VisualBasic >= 10.3.0",
+      "Otp.NET >= 1.4.0",
       "Serilog >= 4.2.0",
       "SharpCompress >= 0.39.0",
       "System.Drawing.Common >= 8.0.3",
@@ -3647,6 +3828,14 @@
           "Leaf.xNet": {
             "target": "Package",
             "version": "[5.2.10, )"
+          },
+          "Microsoft.VisualBasic": {
+            "target": "Package",
+            "version": "[10.3.0, )"
+          },
+          "Otp.NET": {
+            "target": "Package",
+            "version": "[1.4.0, )"
           },
           "Serilog": {
             "target": "Package",

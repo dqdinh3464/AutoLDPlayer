@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "sjTrhiklXH0=",
+  "dgSpecHash": "uVKXMRkm2tU=",
   "success": true,
   "projectFilePath": "D:\\Projects\\AutoLDPlayer\\Lib_Auto_LDPlayer\\Auto_LDPlayer.csproj",
   "expectedPackageFiles": [
@@ -9,7 +9,9 @@
     "C:\\Users\\dqdin\\.nuget\\packages\\kautohelper_kteam\\1.0.1.2\\kautohelper_kteam.1.0.1.2.nupkg.sha512",
     "C:\\Users\\dqdin\\.nuget\\packages\\leaf.xnet\\5.2.10\\leaf.xnet.5.2.10.nupkg.sha512",
     "C:\\Users\\dqdin\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\7.0.0\\microsoft.bcl.asyncinterfaces.7.0.0.nupkg.sha512",
+    "C:\\Users\\dqdin\\.nuget\\packages\\microsoft.visualbasic\\10.3.0\\microsoft.visualbasic.10.3.0.nupkg.sha512",
     "C:\\Users\\dqdin\\.nuget\\packages\\microsoft.win32.registry\\5.0.0\\microsoft.win32.registry.5.0.0.nupkg.sha512",
+    "C:\\Users\\dqdin\\.nuget\\packages\\otp.net\\1.4.0\\otp.net.1.4.0.nupkg.sha512",
     "C:\\Users\\dqdin\\.nuget\\packages\\portable.bouncycastle\\1.8.8\\portable.bouncycastle.1.8.8.nupkg.sha512",
     "C:\\Users\\dqdin\\.nuget\\packages\\serilog\\4.2.0\\serilog.4.2.0.nupkg.sha512",
     "C:\\Users\\dqdin\\.nuget\\packages\\sharpcompress\\0.39.0\\sharpcompress.0.39.0.nupkg.sha512",

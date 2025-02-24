@@ -55,6 +55,14 @@
               "target": "Package",
               "version": "[5.2.10, )"
             },
+            "Microsoft.VisualBasic": {
+              "target": "Package",
+              "version": "[10.3.0, )"
+            },
+            "Otp.NET": {
+              "target": "Package",
+              "version": "[1.4.0, )"
+            },
             "Serilog": {
               "target": "Package",
               "version": "[4.2.0, )"

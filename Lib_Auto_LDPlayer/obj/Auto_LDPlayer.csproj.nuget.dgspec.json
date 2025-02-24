@@ -43,9 +43,9 @@
       "frameworks": {
         "net48": {
           "dependencies": {
-            "KAutoHelper_Kteam": {
+            "Emgu.CV": {
               "target": "Package",
-              "version": "[1.0.1.2, )"
+              "version": "[4.1.1.3497, )"
             },
             "Leaf.xNet": {
               "target": "Package",

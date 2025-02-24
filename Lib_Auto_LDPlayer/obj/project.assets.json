@@ -43,18 +43,6 @@
           "build/EMGU.CV.targets": {}
         }
       },
-      "KAutoHelper_Kteam/1.0.1.2": {
-        "type": "package",
-        "dependencies": {
-          "EMGU.CV": "4.1.1.3497"
-        },
-        "compile": {
-          "lib/net471/KAutoHelper.dll": {}
-        },
-        "runtime": {
-          "lib/net471/KAutoHelper.dll": {}
-        }
-      },
       "Leaf.xNet/5.2.10": {
         "type": "package",
         "frameworkAssemblies": [
@@ -561,18 +549,6 @@
           "build/EMGU.CV.targets": {}
         }
       },
-      "KAutoHelper_Kteam/1.0.1.2": {
-        "type": "package",
-        "dependencies": {
-          "EMGU.CV": "4.1.1.3497"
-        },
-        "compile": {
-          "lib/net471/KAutoHelper.dll": {}
-        },
-        "runtime": {
-          "lib/net471/KAutoHelper.dll": {}
-        }
-      },
       "Leaf.xNet/5.2.10": {
         "type": "package",
         "frameworkAssemblies": [
@@ -1049,18 +1025,6 @@
         },
         "build": {
           "build/EMGU.CV.targets": {}
-        }
-      },
-      "KAutoHelper_Kteam/1.0.1.2": {
-        "type": "package",
-        "dependencies": {
-          "EMGU.CV": "4.1.1.3497"
-        },
-        "compile": {
-          "lib/net471/KAutoHelper.dll": {}
-        },
-        "runtime": {
-          "lib/net471/KAutoHelper.dll": {}
         }
       },
       "Leaf.xNet/5.2.10": {
@@ -1541,18 +1505,6 @@
           "build/EMGU.CV.targets": {}
         }
       },
-      "KAutoHelper_Kteam/1.0.1.2": {
-        "type": "package",
-        "dependencies": {
-          "EMGU.CV": "4.1.1.3497"
-        },
-        "compile": {
-          "lib/net471/KAutoHelper.dll": {}
-        },
-        "runtime": {
-          "lib/net471/KAutoHelper.dll": {}
-        }
-      },
       "Leaf.xNet/5.2.10": {
         "type": "package",
         "frameworkAssemblies": [
@@ -2029,18 +1981,6 @@
         },
         "build": {
           "build/EMGU.CV.targets": {}
-        }
-      },
-      "KAutoHelper_Kteam/1.0.1.2": {
-        "type": "package",
-        "dependencies": {
-          "EMGU.CV": "4.1.1.3497"
-        },
-        "compile": {
-          "lib/net471/KAutoHelper.dll": {}
-        },
-        "runtime": {
-          "lib/net471/KAutoHelper.dll": {}
         }
       },
       "Leaf.xNet/5.2.10": {
@@ -2533,19 +2473,6 @@
         "lib/net35/Emgu.CV.UI.dll",
         "lib/net35/Emgu.CV.World.dll",
         "lib/net35/Emgu.CV.World.xml"
-      ]
-    },
-    "KAutoHelper_Kteam/1.0.1.2": {
-      "sha512": "eWwisBCEEflOv8cN5bFmtf7CZyKc6uGXWUtBJn6IF/NHmE5vGqGxtwddOrzj1AK9+TI75R2KDLunzh7oh8zASA==",
-      "type": "package",
-      "path": "kautohelper_kteam/1.0.1.2",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "content/License-LGPL.txt",
-        "kautohelper_kteam.1.0.1.2.nupkg.sha512",
-        "kautohelper_kteam.nuspec",
-        "lib/net471/KAutoHelper.dll"
       ]
     },
     "Leaf.xNet/5.2.10": {
@@ -3344,7 +3271,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETFramework,Version=v4.8": [
-      "KAutoHelper_Kteam >= 1.0.1.2",
+      "Emgu.CV >= 4.1.1.3497",
       "Leaf.xNet >= 5.2.10",
       "Microsoft.VisualBasic >= 10.3.0",
       "Otp.NET >= 1.4.0",
@@ -3401,9 +3328,9 @@
     "frameworks": {
       "net48": {
         "dependencies": {
-          "KAutoHelper_Kteam": {
+          "Emgu.CV": {
             "target": "Package",
-            "version": "[1.0.1.2, )"
+            "version": "[4.1.1.3497, )"
           },
           "Leaf.xNet": {
             "target": "Package",

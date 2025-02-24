@@ -1,12 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "ewtQzWA32X4=",
+  "dgSpecHash": "mCWv4NacXHk=",
   "success": true,
   "projectFilePath": "D:\\Projects\\AutoLDPlayer\\Lib_Auto_LDPlayer\\Auto_LDPlayer.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\dqdin\\.nuget\\packages\\brotlisharplib\\0.3.3\\brotlisharplib.0.3.3.nupkg.sha512",
     "C:\\Users\\dqdin\\.nuget\\packages\\emgu.cv\\4.1.1.3497\\emgu.cv.4.1.1.3497.nupkg.sha512",
-    "C:\\Users\\dqdin\\.nuget\\packages\\kautohelper_kteam\\1.0.1.2\\kautohelper_kteam.1.0.1.2.nupkg.sha512",
     "C:\\Users\\dqdin\\.nuget\\packages\\leaf.xnet\\5.2.10\\leaf.xnet.5.2.10.nupkg.sha512",
     "C:\\Users\\dqdin\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\5.0.0\\microsoft.bcl.asyncinterfaces.5.0.0.nupkg.sha512",
     "C:\\Users\\dqdin\\.nuget\\packages\\microsoft.visualbasic\\10.3.0\\microsoft.visualbasic.10.3.0.nupkg.sha512",

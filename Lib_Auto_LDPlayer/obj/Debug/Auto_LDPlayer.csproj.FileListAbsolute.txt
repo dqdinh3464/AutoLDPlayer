@@ -22,7 +22,6 @@ D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\Auto_LDPlayer.pdb
 D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\BrotliSharpLib.dll
 D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\Emgu.CV.UI.dll
 D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\Emgu.CV.World.dll
-D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\KAutoHelper.dll
 D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\Leaf.xNet.dll
 D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll
 D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\Microsoft.Win32.Registry.dll
@@ -58,6 +57,15 @@ D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\tr\ZedGraph.resources.dll
 D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\zh-cn\ZedGraph.resources.dll
 D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\zh-tw\ZedGraph.resources.dll
 D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\ZstdSharp.dll
+D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\KAutoHelper.dll
+D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\Emgu.CV.dll
+D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\Emgu.CV.Bitmap.dll
+D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\System.Text.Json.dll
+D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\System.IO.Pipelines.dll
+D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\System.ValueTuple.dll
+D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\System.Text.Encodings.Web.dll
+D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\KAutoHelper.pdb
+D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\bin\Debug\KAutoHelper.dll.config
 D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\obj\Debug\Auto_LDPlayer.csproj.AssemblyReference.cache
 D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\obj\Debug\Auto_LDPlayer.Properties.Resources.resources
 D:\Projects\AutoLDPlayer\Lib_Auto_LDPlayer\obj\Debug\Auto_LDPlayer.csproj.GenerateResource.cache

@@ -7,7 +7,6 @@ using Auto_LDPlayer.Helpers.IO;
 using Auto_LDPlayer.Models;
 using Auto_LDPlayer.Models.XML;
 using Auto_LDPlayer.Properties;
-using KAutoHelper;
 using Microsoft.VisualBasic;
 using Serilog;
 using System;
@@ -665,18 +664,17 @@ namespace Auto_LDPlayer
         public static Bitmap ScreenShoot(LDType ldType, string nameOrId, bool isDeleteImageAfterCapture = true, string fileName = "screenShoot.png")
         {
             var str1 = ldType + "_" + nameOrId;
-
-
             var path = Path.GetFileNameWithoutExtension(fileName) + str1 + Path.GetExtension(fileName);
             if (File.Exists(path))
+            {
                 try
                 {
                     File.Delete(path);
                 }
                 catch (Exception)
                 {
-                    // ignored
                 }
+            }
 
             var filename = Directory.GetCurrentDirectory() + "\\" + path;
             var str2 = $"\"{Directory.GetCurrentDirectory().Replace("\\\\", "\\")}\"";
@@ -694,7 +692,6 @@ namespace Auto_LDPlayer
             }
             catch
             {
-                // ignored
             }
 
             if (!isDeleteImageAfterCapture) return bitmap;
@@ -704,7 +701,6 @@ namespace Auto_LDPlayer
             }
             catch
             {
-                // ignored
             }
 
             try
@@ -713,7 +709,6 @@ namespace Auto_LDPlayer
             }
             catch
             {
-                // ignored
             }
 
             return bitmap;
@@ -745,55 +740,6 @@ namespace Auto_LDPlayer
         public static void DelayRandom(int delayTime1, int delayTime2)
         {
             Delay(Random.Next(delayTime1, delayTime2 + 1));
-        }
-
-        public static Point? FindImage(LDType ldType, string nameOrId, string imagePath, int count = 5)
-        {
-            var files = new DirectoryInfo(imagePath).GetFiles();
-            do
-            {
-                Bitmap mainBitmap = null;
-                var num = 3;
-                do
-                {
-                    try
-                    {
-                        mainBitmap = ScreenShoot(ldType, nameOrId);
-                        break;
-                    }
-                    catch (Exception)
-                    {
-                        --num;
-                        Delay(1000.0);
-                    }
-                } while (num > 0);
-
-                if (mainBitmap == null)
-                    return new Point?();
-                var image = new Point?();
-                foreach (var fileSystemInfo in files)
-                {
-                    var subBitmap = (Bitmap)Image.FromFile(fileSystemInfo.FullName);
-                    image = ImageScanOpenCV.FindOutPoint(mainBitmap, subBitmap);
-                    if (image.HasValue)
-                        break;
-                }
-
-                if (image.HasValue)
-                    return image;
-                Delay(2000.0);
-                --count;
-            } while (count > 0);
-
-            return new Point?();
-        }
-
-        public static bool FindImageAndClick(LDType ldType, string nameOrId, string imagePath, int count = 5)
-        {
-            var point = FindImage(ldType, nameOrId, imagePath, count);
-            if (!point.HasValue) return false;
-            Tap(ldType, nameOrId, point.Value.X, point.Value.Y);
-            return true;
         }
 
         public static void OffLocation(LDType ldType, string nameOrId)
@@ -939,13 +885,34 @@ namespace Auto_LDPlayer
         #endregion
 
         #region OpenCV
-        public static bool TapImg(LDType ldType, string nameOrId, Bitmap imgFind)
+        public static Point? FindImage(LDType ldType, string nameOrId, string imagePath, int count = 5)
         {
-            var bm = (Bitmap)imgFind.Clone();
-            var screen = ScreenShoot(ldType, nameOrId);
-            var point = ImageScanOpenCV.FindOutPoint(screen, bm);
-            if (point == null) return false;
+            var files = new DirectoryInfo(imagePath).GetFiles();
+            do
+            {
+                var image = new Point?();
+                foreach (var fileSystemInfo in files)
+                {
+                    var subBitmap = (Bitmap)Image.FromFile(fileSystemInfo.FullName);
+                    image = ADBHelper.FindButton(ldType, nameOrId, subBitmap);
+                    if (image.HasValue)
+                        break;
+                }
 
+                if (image.HasValue)
+                    return image;
+                Delay(2000.0);
+                --count;
+            } while (count > 0);
+
+            return new Point?();
+        }
+
+        public static bool FindImageAndClick(LDType ldType, string nameOrId, string imagePath, int count = 5)
+        {
+            var point = FindImage(ldType, nameOrId, imagePath, count);
+            if (!point.HasValue)
+                return false;
             Tap(ldType, nameOrId, point.Value.X, point.Value.Y);
 
             return true;

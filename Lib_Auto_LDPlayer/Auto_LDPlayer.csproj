@@ -32,7 +32,13 @@
     <WarningLevel>4</WarningLevel>
     <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="KAutoHelper">
+      <HintPath>..\..\KAutoHelper\bin\Debug\net48\KAutoHelper.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -78,8 +84,8 @@
     <None Include="Resources\ScriptSetting.txt" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="KAutoHelper_Kteam">
-      <Version>1.0.1.2</Version>
+    <PackageReference Include="Emgu.CV">
+      <Version>4.1.1.3497</Version>
     </PackageReference>
     <PackageReference Include="Leaf.xNet">
       <Version>5.2.10</Version>

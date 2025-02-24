@@ -7,52 +7,19 @@ namespace Auto_LDPlayer.Helpers
 {
     public class ADBHelper
     {
-        public static bool ClickButton(LDType ldType, string nameOrId, Bitmap mainBitmap, Bitmap subBitmap, double percent = 0.9)
+        public static bool ClickButton(LDType ldType, string nameOrId, Bitmap subBitmap, double percent = 0.9)
         {
             checked
             {
                 bool result;
                 try
                 {
-                    var point = ImageScanOpenCV.FindOutPoint(mainBitmap, subBitmap);
+                    var point = FindButton(ldType, nameOrId, subBitmap);
                     if (point != null)
                     {
-                        if ((point.Value.X != 0) & (point.Value.Y != 0))
+                        if ((point.X != 0) & (point.Y != 0))
                         {
-                            LDPlayer.Tap(ldType, nameOrId, point.Value.X + 10, point.Value.Y + 10);
-                            result = true;
-                        }
-                        else
-                        {
-                            result = false;
-                        }
-                    }
-                    else
-                    {
-                        result = false;
-                    }
-                }
-                catch
-                {
-                    result = false;
-                }
-                return result;
-            }
-        }
-
-        public static bool ClickButton(LDType ldType, string nameOrId, Bitmap btn, double percent = 0.9)
-        {
-            checked
-            {
-                bool result;
-                try
-                {
-                    var point = new Point?(FindButton(ldType, nameOrId, btn, percent));
-                    if (point != null)
-                    {
-                        if ((point.Value.X != 0) & (point.Value.Y != 0))
-                        {
-                            LDPlayer.Tap(ldType, nameOrId, point.Value.X + 10, point.Value.Y + 10);
+                            LDPlayer.Tap(ldType, nameOrId, point.X + 10, point.Y + 10);
                             result = true;
                         }
                         else
@@ -99,41 +66,36 @@ namespace Auto_LDPlayer.Helpers
         {
             try
             {
-                Point? point = new Point?(FindButton(ldType, nameOrID, btn, percent));
+                var point = FindButton(ldType, nameOrID, btn, percent);
                 if (point != null)
                 {
-                    if ((point.Value.X != 0) & (point.Value.Y != 0))
+                    if ((point.X != 0) & (point.Y != 0))
                     {
                         return true;
                     }
                 }
-
-            }
-            catch { }
-            return false;
-        }
-
-        public static Point FindButton(LDType ldType, string nameOrID, Bitmap btn, double percent = 0.9)
-        {
-            Point result;
-            try
-            {
-                var mainBitmap = ScreenShoot(ldType, nameOrID, true, "screenShoot.png");
-                var point = ImageScanOpenCV.FindOutPoint(mainBitmap, btn, percent);
-                if (point != null)
-                {
-                    result = point.Value;
-                }
-                else
-                {
-                    result = default(Point);
-                }
             }
             catch
             {
-                result = default(Point);
             }
-            return result;
+            return false;
+        }
+
+        public static Point FindButton(LDType ldType, string nameOrID, Bitmap subBitmap, double percent = 0.9)
+        {
+            try
+            {
+                var mainBitmap = ScreenShoot(ldType, nameOrID, true, "screenShoot.png");
+                var point = ImageScanOpenCV.FindOutPoint(mainBitmap, subBitmap, percent);
+                if (point == null)
+                    return default(Point);
+
+                return new Point(point.Value.X, point.Value.Y);
+            }
+            catch
+            {
+                return default(Point);
+            }
         }
 
         public static Bitmap ScreenShoot(LDType ldType, string nameOrID, bool isDeleteImageAfterCapture = true, string fileName = "screenShoot.png")
@@ -154,11 +116,7 @@ namespace Auto_LDPlayer.Helpers
             LDPlayer.Adb(ldType, nameOrID, $"pull \"/sdcard/{fullFileName}\"");
             LDPlayer.Adb(ldType, nameOrID, $"shell rm -f \"/sdcard/{fullFileName}\"");
 
-            Bitmap result;
-            using (Bitmap bitmap = new Bitmap(fullFileName))
-            {
-                result = new Bitmap(bitmap);
-            }
+            var result = new Bitmap(fullFileName);
             if (isDeleteImageAfterCapture)
             {
                 try
@@ -172,5 +130,8 @@ namespace Auto_LDPlayer.Helpers
 
             return result;
         }
+
+        #region Private Methods
+        #endregion
     }
 }

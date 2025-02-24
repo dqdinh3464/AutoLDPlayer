@@ -14,12 +14,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -28,9 +24,10 @@
               "RelativeDocumentMoniker": "Lib_Auto_LDPlayer\\LDPlayer.cs",
               "ToolTip": "D:\\Projects\\AutoLDPlayer\\Lib_Auto_LDPlayer\\LDPlayer.cs",
               "RelativeToolTip": "Lib_Auto_LDPlayer\\LDPlayer.cs",
-              "ViewState": "AQIAADsAAAAAAAAAAAAAwBMAAAAbAAAA",
+              "ViewState": "AQIAAAwAAAAAAAAAAAAAABMAAAAXAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-08T12:44:09.677Z",
+              "IsPinned": true,
               "EditorCaption": ""
             }
           ]

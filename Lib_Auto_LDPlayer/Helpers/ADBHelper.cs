@@ -1,7 +1,4 @@
-﻿using Emgu.CV.Structure;
-using Emgu.CV;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 using Auto_LDPlayer.Enums;
 using System.IO;
 using KAutoHelper;
@@ -122,7 +119,7 @@ namespace Auto_LDPlayer.Helpers
             try
             {
                 var mainBitmap = ScreenShoot(ldType, nameOrID, true, "screenShoot.png");
-                var point = FindOutPoint(mainBitmap, btn, percent);
+                var point = ImageScanOpenCV.FindOutPoint(mainBitmap, btn, percent);
                 if (point != null)
                 {
                     result = point.Value;

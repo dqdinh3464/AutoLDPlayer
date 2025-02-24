@@ -854,13 +854,12 @@ namespace Auto_LDPlayer
             Adb(ldType, nameOrId, "shell pm grant com.facebook.katana android.permission.WRITE_CALL_LOG");
         }
 
-        public static bool OpenLink(LDType ldType, string nameOrId, string link)
+        public static void OpenLink(LDType ldType, string nameOrId, string link)
         {
             link = link.Replace("&", "\\&");
             Adb(ldType, nameOrId, $"shell am start -a android.intent.action.VIEW -d \"{link}\"");
             Delay(1);
             ClickText(ldType, nameOrId, "Always", 0, 0);
-            return true;
         }
 
         public static bool ClickText(LDType ldType, string nameOrId, string text, int xC = 0, int yC = 0)
@@ -886,7 +885,7 @@ namespace Auto_LDPlayer
                                 
                                 var num = (int)Math.Round(unchecked((double)(Convert.ToInt16(array4[0]) + Convert.ToInt16(array5[0])) / 2.0 + 10.0));
                                 var num2 = (int)Math.Round((double)(unchecked(Convert.ToInt16(array4[1]) + Convert.ToInt16(array5[1]))) / 2.0);
-                                ADBHelper.Tap(nameOrId, num + xC, num2 + yC);
+                                Tap(ldType, nameOrId, num + xC, num2 + yC);
 
                                 return true;
                             }

@@ -7,7 +7,6 @@ using Auto_LDPlayer.Helpers.IO;
 using Auto_LDPlayer.Models;
 using Auto_LDPlayer.Models.XML;
 using Auto_LDPlayer.Properties;
-using Microsoft.VisualBasic;
 using Serilog;
 using System;
 using System.Collections.Generic;

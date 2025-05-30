@@ -2,6 +2,12 @@
 using Auto_LDPlayer.Enums;
 using System.IO;
 using KAutoHelper;
+using Emgu.CV.Structure;
+using Emgu.CV;
+using System.Web;
+using System.Web.UI;
+using System;
+using Emgu.CV.CvEnum;
 
 namespace Auto_LDPlayer.Helpers
 {
@@ -17,9 +23,9 @@ namespace Auto_LDPlayer.Helpers
                     var point = FindButton(ldType, nameOrId, subBitmap);
                     if (point != null)
                     {
-                        if ((point.X != 0) & (point.Y != 0))
+                        if ((point.Value.X != 0) & (point.Value.Y != 0))
                         {
-                            LDPlayer.Tap(ldType, nameOrId, point.X + 10, point.Y + 10);
+                            LDPlayer.Tap(ldType, nameOrId, point.Value.X + 10, point.Value.Y + 10);
                             result = true;
                         }
                         else
@@ -69,7 +75,7 @@ namespace Auto_LDPlayer.Helpers
                 var point = FindButton(ldType, nameOrID, btn, percent);
                 if (point != null)
                 {
-                    if ((point.X != 0) & (point.Y != 0))
+                    if ((point.Value.X != 0) & (point.Value.Y != 0))
                     {
                         return true;
                     }
@@ -81,16 +87,42 @@ namespace Auto_LDPlayer.Helpers
             return false;
         }
 
-        public static Point FindButton(LDType ldType, string nameOrID, Bitmap subBitmap, double percent = 0.9)
+        public static Point? FindButton(LDType ldType, string nameOrID, Bitmap subBitmap, double percent = 0.9)
         {
             try
             {
                 var mainBitmap = ScreenShoot(ldType, nameOrID, true, "screenShoot.png");
-                var point = ImageScanOpenCV.FindOutPoint(mainBitmap, subBitmap, percent);
-                if (point == null)
-                    return default(Point);
+                if (mainBitmap != null)
+                {
+                    var source = BitmapToImage(mainBitmap);
+                    var temp = BitmapToImage(subBitmap);
 
-                return new Point(point.Value.X, point.Value.Y);
+                    var imageToShow = new Mat();
+                    CvInvoke.MatchTemplate(source, temp, imageToShow, TemplateMatchingType.Ccoeff);
+
+                    double minVal = 0, maxVal = 0;
+                    Point minLoc = new Point(), maxLoc = new Point();
+                    CvInvoke.MinMaxLoc(imageToShow, ref minVal, ref maxVal, ref minLoc, ref maxLoc);
+
+                    if (maxVal < percent)
+                        return default(Point);
+
+                    return new Point(maxLoc.X, maxLoc.Y);
+                    //var image = new Image<Bgr, byte>(mainBitmap);
+                    //var image2 = new Image<Bgr, byte>(subBitmap);
+                    //using (var image3 = image.MatchTemplate(image2, Emgu.CV.CvEnum.TemplateMatchingType.CcoeffNormed))
+                    //{
+                    //    double[] array1, array2;
+                    //    Point[] array3, array4;
+                    //    image3.MinMax(out array1, out array2, out array3, out array4);
+                    //    if (array2[0] > percent)
+                    //    {
+                    //        result = new Point?(array4[0]);
+                    //    }
+                    //}
+                }
+
+                return default(Point);
             }
             catch
             {
@@ -100,38 +132,64 @@ namespace Auto_LDPlayer.Helpers
 
         public static Bitmap ScreenShoot(LDType ldType, string nameOrID, bool isDeleteImageAfterCapture = true, string fileName = "screenShoot.png")
         {
-            var fullFileName = Path.GetFileNameWithoutExtension(fileName) + nameOrID + Path.GetExtension(fileName);
-            while (File.Exists(fullFileName))
+            try
             {
-                try
+                var fullFileName = Path.GetFileNameWithoutExtension(fileName) + nameOrID + Path.GetExtension(fileName);
+                while (File.Exists(fullFileName))
                 {
-                    File.Delete(fullFileName);
+                    try
+                    {
+                        File.Delete(fullFileName);
+                    }
+                    catch
+                    {
+                    }
                 }
-                catch
+
+                LDPlayer.Adb(ldType, nameOrID, $"shell screencap -p \"/sdcard/{fullFileName}\"");
+                LDPlayer.Adb(ldType, nameOrID, $"pull \"/sdcard/{fullFileName}\"");
+                LDPlayer.Adb(ldType, nameOrID, $"shell rm -f \"/sdcard/{fullFileName}\"");
+
+                Bitmap result;
+                using (var bitmap = new Bitmap(fullFileName))
                 {
+                    result = new Bitmap(bitmap);
                 }
+
+                if (isDeleteImageAfterCapture)
+                {
+                    try
+                    {
+                        File.Delete(fullFileName);
+                    }
+                    catch
+                    {
+                    }
+                }
+
+                return result;
             }
-
-            LDPlayer.Adb(ldType, nameOrID, $"shell screencap -p \"/sdcard/{fullFileName}\"");
-            LDPlayer.Adb(ldType, nameOrID, $"pull \"/sdcard/{fullFileName}\"");
-            LDPlayer.Adb(ldType, nameOrID, $"shell rm -f \"/sdcard/{fullFileName}\"");
-
-            var result = new Bitmap(fullFileName);
-            if (isDeleteImageAfterCapture)
+            catch
             {
-                try
-                {
-                    File.Delete(fullFileName);
-                }
-                catch
-                {
-                }
+                return null;
             }
-
-            return result;
         }
 
         #region Private Methods
+        private static Image<Bgr, byte> BitmapToImage(Bitmap bitmap)
+        {
+            try
+            {
+                var mat = BitmapExtension.ToMat(bitmap);
+
+                return mat.ToImage<Bgr, byte>();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return null;
+            }
+        }
         #endregion
     }
 }

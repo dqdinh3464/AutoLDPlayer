@@ -18,29 +18,205 @@
           }
         }
       },
-      "EMGU.CV/4.1.1.3497": {
+      "Emgu.CV/4.9.0.5494": {
         "type": "package",
         "dependencies": {
-          "ZedGraph": "[5.1.7]"
+          "System.Drawing.Primitives": "4.3.0",
+          "System.Runtime": "4.3.1",
+          "System.Runtime.InteropServices.RuntimeInformation": "4.3.0",
+          "System.Text.Json": "8.0.1"
         },
         "compile": {
-          "lib/net35/Emgu.CV.UI.dll": {
-            "related": ".XML"
-          },
-          "lib/net35/Emgu.CV.World.dll": {
+          "lib/netstandard2.0/Emgu.CV.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net35/Emgu.CV.UI.dll": {
-            "related": ".XML"
-          },
-          "lib/net35/Emgu.CV.World.dll": {
+          "lib/netstandard2.0/Emgu.CV.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Emgu.CV.Bitmap/4.9.0.5494": {
+        "type": "package",
+        "dependencies": {
+          "Emgu.CV": "4.9.0.5494",
+          "System.Drawing.Common": "8.0.1"
+        },
+        "compile": {
+          "lib/netstandard2.0/Emgu.CV.Bitmap.dll": {
             "related": ".xml"
           }
         },
-        "build": {
-          "build/EMGU.CV.targets": {}
+        "runtime": {
+          "lib/netstandard2.0/Emgu.CV.Bitmap.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Emgu.CV.runtime.windows/4.9.0.5494": {
+        "type": "package",
+        "dependencies": {
+          "Emgu.CV": "4.9.0.5494",
+          "Emgu.runtime.windows.msvc.rt.arm64": "19.39.33523",
+          "Emgu.runtime.windows.msvc.rt.x64": "19.39.33523",
+          "Emgu.runtime.windows.msvc.rt.x86": "19.39.33523"
+        },
+        "runtimeTargets": {
+          "runtimes/win-arm64/native/cvextern.dll": {
+            "assetType": "native",
+            "rid": "win-arm64"
+          },
+          "runtimes/win-x64/native/cvextern.dll": {
+            "assetType": "native",
+            "rid": "win-x64"
+          },
+          "runtimes/win-x64/native/libusb-1.0.dll": {
+            "assetType": "native",
+            "rid": "win-x64"
+          },
+          "runtimes/win-x64/native/opencv_videoio_ffmpeg490_64.dll": {
+            "assetType": "native",
+            "rid": "win-x64"
+          },
+          "runtimes/win-x86/native/cvextern.dll": {
+            "assetType": "native",
+            "rid": "win-x86"
+          },
+          "runtimes/win-x86/native/libusb-1.0.dll": {
+            "assetType": "native",
+            "rid": "win-x86"
+          },
+          "runtimes/win-x86/native/opencv_videoio_ffmpeg490.dll": {
+            "assetType": "native",
+            "rid": "win-x86"
+          }
+        }
+      },
+      "Emgu.CV.UI/4.9.0.5494": {
+        "type": "package",
+        "dependencies": {
+          "Emgu.CV.Bitmap": "4.9.0.5494"
+        },
+        "frameworkAssemblies": [
+          "System.Windows.Forms"
+        ],
+        "compile": {
+          "lib/net461/Emgu.CV.Platform.NetFramework.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net461/Emgu.CV.Platform.NetFramework.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Emgu.runtime.windows.msvc.rt.arm64/19.39.33523": {
+        "type": "package",
+        "runtimeTargets": {
+          "runtimes/win-arm64/native/concrt140.dll": {
+            "assetType": "native",
+            "rid": "win-arm64"
+          },
+          "runtimes/win-arm64/native/msvcp140.dll": {
+            "assetType": "native",
+            "rid": "win-arm64"
+          },
+          "runtimes/win-arm64/native/msvcp140_1.dll": {
+            "assetType": "native",
+            "rid": "win-arm64"
+          },
+          "runtimes/win-arm64/native/msvcp140_2.dll": {
+            "assetType": "native",
+            "rid": "win-arm64"
+          },
+          "runtimes/win-arm64/native/msvcp140_atomic_wait.dll": {
+            "assetType": "native",
+            "rid": "win-arm64"
+          },
+          "runtimes/win-arm64/native/msvcp140_codecvt_ids.dll": {
+            "assetType": "native",
+            "rid": "win-arm64"
+          },
+          "runtimes/win-arm64/native/vcruntime140.dll": {
+            "assetType": "native",
+            "rid": "win-arm64"
+          },
+          "runtimes/win-arm64/native/vcruntime140_1.dll": {
+            "assetType": "native",
+            "rid": "win-arm64"
+          }
+        }
+      },
+      "Emgu.runtime.windows.msvc.rt.x64/19.39.33523": {
+        "type": "package",
+        "runtimeTargets": {
+          "runtimes/win-x64/native/concrt140.dll": {
+            "assetType": "native",
+            "rid": "win-x64"
+          },
+          "runtimes/win-x64/native/msvcp140.dll": {
+            "assetType": "native",
+            "rid": "win-x64"
+          },
+          "runtimes/win-x64/native/msvcp140_1.dll": {
+            "assetType": "native",
+            "rid": "win-x64"
+          },
+          "runtimes/win-x64/native/msvcp140_2.dll": {
+            "assetType": "native",
+            "rid": "win-x64"
+          },
+          "runtimes/win-x64/native/msvcp140_atomic_wait.dll": {
+            "assetType": "native",
+            "rid": "win-x64"
+          },
+          "runtimes/win-x64/native/msvcp140_codecvt_ids.dll": {
+            "assetType": "native",
+            "rid": "win-x64"
+          },
+          "runtimes/win-x64/native/vcruntime140.dll": {
+            "assetType": "native",
+            "rid": "win-x64"
+          },
+          "runtimes/win-x64/native/vcruntime140_1.dll": {
+            "assetType": "native",
+            "rid": "win-x64"
+          }
+        }
+      },
+      "Emgu.runtime.windows.msvc.rt.x86/19.39.33523": {
+        "type": "package",
+        "runtimeTargets": {
+          "runtimes/win-x86/native/concrt140.dll": {
+            "assetType": "native",
+            "rid": "win-x86"
+          },
+          "runtimes/win-x86/native/msvcp140.dll": {
+            "assetType": "native",
+            "rid": "win-x86"
+          },
+          "runtimes/win-x86/native/msvcp140_1.dll": {
+            "assetType": "native",
+            "rid": "win-x86"
+          },
+          "runtimes/win-x86/native/msvcp140_2.dll": {
+            "assetType": "native",
+            "rid": "win-x86"
+          },
+          "runtimes/win-x86/native/msvcp140_atomic_wait.dll": {
+            "assetType": "native",
+            "rid": "win-x86"
+          },
+          "runtimes/win-x86/native/msvcp140_codecvt_ids.dll": {
+            "assetType": "native",
+            "rid": "win-x86"
+          },
+          "runtimes/win-x86/native/vcruntime140.dll": {
+            "assetType": "native",
+            "rid": "win-x86"
+          }
         }
       },
       "Leaf.xNet/5.2.10": {
@@ -62,23 +238,23 @@
           }
         }
       },
-      "Microsoft.Bcl.AsyncInterfaces/5.0.0": {
+      "Microsoft.Bcl.AsyncInterfaces/9.0.2": {
         "type": "package",
         "dependencies": {
           "System.Threading.Tasks.Extensions": "4.5.4"
         },
-        "frameworkAssemblies": [
-          "mscorlib"
-        ],
         "compile": {
-          "lib/net461/Microsoft.Bcl.AsyncInterfaces.dll": {
+          "lib/net462/Microsoft.Bcl.AsyncInterfaces.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net461/Microsoft.Bcl.AsyncInterfaces.dll": {
+          "lib/net462/Microsoft.Bcl.AsyncInterfaces.dll": {
             "related": ".xml"
           }
+        },
+        "build": {
+          "buildTransitive/net462/_._": {}
         }
       },
       "Microsoft.VisualBasic/10.3.0": {
@@ -243,6 +419,27 @@
         },
         "runtime": {
           "lib/net45/System.Drawing.Primitives.dll": {}
+        }
+      },
+      "System.IO.Pipelines/9.0.2": {
+        "type": "package",
+        "dependencies": {
+          "System.Buffers": "4.5.1",
+          "System.Memory": "4.5.5",
+          "System.Threading.Tasks.Extensions": "4.5.4"
+        },
+        "compile": {
+          "lib/net462/System.IO.Pipelines.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net462/System.IO.Pipelines.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net462/_._": {}
         }
       },
       "System.Memory/4.5.5": {
@@ -382,6 +579,53 @@
           }
         }
       },
+      "System.Text.Encodings.Web/9.0.2": {
+        "type": "package",
+        "dependencies": {
+          "System.Buffers": "4.5.1",
+          "System.Memory": "4.5.5",
+          "System.Runtime.CompilerServices.Unsafe": "6.0.0"
+        },
+        "compile": {
+          "lib/net462/System.Text.Encodings.Web.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net462/System.Text.Encodings.Web.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net462/_._": {}
+        }
+      },
+      "System.Text.Json/9.0.2": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl.AsyncInterfaces": "9.0.2",
+          "System.Buffers": "4.5.1",
+          "System.IO.Pipelines": "9.0.2",
+          "System.Memory": "4.5.5",
+          "System.Runtime.CompilerServices.Unsafe": "6.0.0",
+          "System.Text.Encodings.Web": "9.0.2",
+          "System.Threading.Tasks.Extensions": "4.5.4",
+          "System.ValueTuple": "4.5.0"
+        },
+        "compile": {
+          "lib/net462/System.Text.Json.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net462/System.Text.Json.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net462/System.Text.Json.targets": {}
+        }
+      },
       "System.Threading.Channels/8.0.0": {
         "type": "package",
         "dependencies": {
@@ -416,6 +660,20 @@
         },
         "runtime": {
           "lib/net461/System.Threading.Tasks.Extensions.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "System.ValueTuple/4.5.0": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "mscorlib"
+        ],
+        "compile": {
+          "ref/net47/System.ValueTuple.dll": {}
+        },
+        "runtime": {
+          "lib/net47/System.ValueTuple.dll": {
             "related": ".xml"
           }
         }
@@ -524,30 +782,78 @@
           }
         }
       },
-      "EMGU.CV/4.1.1.3497": {
+      "Emgu.CV/4.9.0.5494": {
         "type": "package",
         "dependencies": {
-          "ZedGraph": "[5.1.7]"
+          "System.Drawing.Primitives": "4.3.0",
+          "System.Runtime": "4.3.1",
+          "System.Runtime.InteropServices.RuntimeInformation": "4.3.0",
+          "System.Text.Json": "8.0.1"
         },
         "compile": {
-          "lib/net35/Emgu.CV.UI.dll": {
-            "related": ".XML"
-          },
-          "lib/net35/Emgu.CV.World.dll": {
+          "lib/netstandard2.0/Emgu.CV.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net35/Emgu.CV.UI.dll": {
-            "related": ".XML"
-          },
-          "lib/net35/Emgu.CV.World.dll": {
+          "lib/netstandard2.0/Emgu.CV.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Emgu.CV.Bitmap/4.9.0.5494": {
+        "type": "package",
+        "dependencies": {
+          "Emgu.CV": "4.9.0.5494",
+          "System.Drawing.Common": "8.0.1"
+        },
+        "compile": {
+          "lib/netstandard2.0/Emgu.CV.Bitmap.dll": {
             "related": ".xml"
           }
         },
-        "build": {
-          "build/EMGU.CV.targets": {}
+        "runtime": {
+          "lib/netstandard2.0/Emgu.CV.Bitmap.dll": {
+            "related": ".xml"
+          }
         }
+      },
+      "Emgu.CV.runtime.windows/4.9.0.5494": {
+        "type": "package",
+        "dependencies": {
+          "Emgu.CV": "4.9.0.5494",
+          "Emgu.runtime.windows.msvc.rt.arm64": "19.39.33523",
+          "Emgu.runtime.windows.msvc.rt.x64": "19.39.33523",
+          "Emgu.runtime.windows.msvc.rt.x86": "19.39.33523"
+        }
+      },
+      "Emgu.CV.UI/4.9.0.5494": {
+        "type": "package",
+        "dependencies": {
+          "Emgu.CV.Bitmap": "4.9.0.5494"
+        },
+        "frameworkAssemblies": [
+          "System.Windows.Forms"
+        ],
+        "compile": {
+          "lib/net461/Emgu.CV.Platform.NetFramework.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net461/Emgu.CV.Platform.NetFramework.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Emgu.runtime.windows.msvc.rt.arm64/19.39.33523": {
+        "type": "package"
+      },
+      "Emgu.runtime.windows.msvc.rt.x64/19.39.33523": {
+        "type": "package"
+      },
+      "Emgu.runtime.windows.msvc.rt.x86/19.39.33523": {
+        "type": "package"
       },
       "Leaf.xNet/5.2.10": {
         "type": "package",
@@ -568,23 +874,23 @@
           }
         }
       },
-      "Microsoft.Bcl.AsyncInterfaces/5.0.0": {
+      "Microsoft.Bcl.AsyncInterfaces/9.0.2": {
         "type": "package",
         "dependencies": {
           "System.Threading.Tasks.Extensions": "4.5.4"
         },
-        "frameworkAssemblies": [
-          "mscorlib"
-        ],
         "compile": {
-          "lib/net461/Microsoft.Bcl.AsyncInterfaces.dll": {
+          "lib/net462/Microsoft.Bcl.AsyncInterfaces.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net461/Microsoft.Bcl.AsyncInterfaces.dll": {
+          "lib/net462/Microsoft.Bcl.AsyncInterfaces.dll": {
             "related": ".xml"
           }
+        },
+        "build": {
+          "buildTransitive/net462/_._": {}
         }
       },
       "Microsoft.VisualBasic/10.3.0": {
@@ -745,6 +1051,27 @@
           "lib/net45/System.Drawing.Primitives.dll": {}
         }
       },
+      "System.IO.Pipelines/9.0.2": {
+        "type": "package",
+        "dependencies": {
+          "System.Buffers": "4.5.1",
+          "System.Memory": "4.5.5",
+          "System.Threading.Tasks.Extensions": "4.5.4"
+        },
+        "compile": {
+          "lib/net462/System.IO.Pipelines.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net462/System.IO.Pipelines.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net462/_._": {}
+        }
+      },
       "System.Memory/4.5.5": {
         "type": "package",
         "dependencies": {
@@ -860,6 +1187,53 @@
           }
         }
       },
+      "System.Text.Encodings.Web/9.0.2": {
+        "type": "package",
+        "dependencies": {
+          "System.Buffers": "4.5.1",
+          "System.Memory": "4.5.5",
+          "System.Runtime.CompilerServices.Unsafe": "6.0.0"
+        },
+        "compile": {
+          "lib/net462/System.Text.Encodings.Web.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net462/System.Text.Encodings.Web.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net462/_._": {}
+        }
+      },
+      "System.Text.Json/9.0.2": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl.AsyncInterfaces": "9.0.2",
+          "System.Buffers": "4.5.1",
+          "System.IO.Pipelines": "9.0.2",
+          "System.Memory": "4.5.5",
+          "System.Runtime.CompilerServices.Unsafe": "6.0.0",
+          "System.Text.Encodings.Web": "9.0.2",
+          "System.Threading.Tasks.Extensions": "4.5.4",
+          "System.ValueTuple": "4.5.0"
+        },
+        "compile": {
+          "lib/net462/System.Text.Json.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net462/System.Text.Json.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net462/System.Text.Json.targets": {}
+        }
+      },
       "System.Threading.Channels/8.0.0": {
         "type": "package",
         "dependencies": {
@@ -894,6 +1268,20 @@
         },
         "runtime": {
           "lib/net461/System.Threading.Tasks.Extensions.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "System.ValueTuple/4.5.0": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "mscorlib"
+        ],
+        "compile": {
+          "ref/net47/System.ValueTuple.dll": {}
+        },
+        "runtime": {
+          "lib/net47/System.ValueTuple.dll": {
             "related": ".xml"
           }
         }
@@ -1002,30 +1390,91 @@
           }
         }
       },
-      "EMGU.CV/4.1.1.3497": {
+      "Emgu.CV/4.9.0.5494": {
         "type": "package",
         "dependencies": {
-          "ZedGraph": "[5.1.7]"
+          "System.Drawing.Primitives": "4.3.0",
+          "System.Runtime": "4.3.1",
+          "System.Runtime.InteropServices.RuntimeInformation": "4.3.0",
+          "System.Text.Json": "8.0.1"
         },
         "compile": {
-          "lib/net35/Emgu.CV.UI.dll": {
-            "related": ".XML"
-          },
-          "lib/net35/Emgu.CV.World.dll": {
+          "lib/netstandard2.0/Emgu.CV.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net35/Emgu.CV.UI.dll": {
-            "related": ".XML"
-          },
-          "lib/net35/Emgu.CV.World.dll": {
+          "lib/netstandard2.0/Emgu.CV.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Emgu.CV.Bitmap/4.9.0.5494": {
+        "type": "package",
+        "dependencies": {
+          "Emgu.CV": "4.9.0.5494",
+          "System.Drawing.Common": "8.0.1"
+        },
+        "compile": {
+          "lib/netstandard2.0/Emgu.CV.Bitmap.dll": {
             "related": ".xml"
           }
         },
-        "build": {
-          "build/EMGU.CV.targets": {}
+        "runtime": {
+          "lib/netstandard2.0/Emgu.CV.Bitmap.dll": {
+            "related": ".xml"
+          }
         }
+      },
+      "Emgu.CV.runtime.windows/4.9.0.5494": {
+        "type": "package",
+        "dependencies": {
+          "Emgu.CV": "4.9.0.5494",
+          "Emgu.runtime.windows.msvc.rt.arm64": "19.39.33523",
+          "Emgu.runtime.windows.msvc.rt.x64": "19.39.33523",
+          "Emgu.runtime.windows.msvc.rt.x86": "19.39.33523"
+        },
+        "native": {
+          "runtimes/win-arm64/native/cvextern.dll": {}
+        }
+      },
+      "Emgu.CV.UI/4.9.0.5494": {
+        "type": "package",
+        "dependencies": {
+          "Emgu.CV.Bitmap": "4.9.0.5494"
+        },
+        "frameworkAssemblies": [
+          "System.Windows.Forms"
+        ],
+        "compile": {
+          "lib/net461/Emgu.CV.Platform.NetFramework.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net461/Emgu.CV.Platform.NetFramework.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Emgu.runtime.windows.msvc.rt.arm64/19.39.33523": {
+        "type": "package",
+        "native": {
+          "runtimes/win-arm64/native/concrt140.dll": {},
+          "runtimes/win-arm64/native/msvcp140.dll": {},
+          "runtimes/win-arm64/native/msvcp140_1.dll": {},
+          "runtimes/win-arm64/native/msvcp140_2.dll": {},
+          "runtimes/win-arm64/native/msvcp140_atomic_wait.dll": {},
+          "runtimes/win-arm64/native/msvcp140_codecvt_ids.dll": {},
+          "runtimes/win-arm64/native/vcruntime140.dll": {},
+          "runtimes/win-arm64/native/vcruntime140_1.dll": {}
+        }
+      },
+      "Emgu.runtime.windows.msvc.rt.x64/19.39.33523": {
+        "type": "package"
+      },
+      "Emgu.runtime.windows.msvc.rt.x86/19.39.33523": {
+        "type": "package"
       },
       "Leaf.xNet/5.2.10": {
         "type": "package",
@@ -1046,23 +1495,23 @@
           }
         }
       },
-      "Microsoft.Bcl.AsyncInterfaces/5.0.0": {
+      "Microsoft.Bcl.AsyncInterfaces/9.0.2": {
         "type": "package",
         "dependencies": {
           "System.Threading.Tasks.Extensions": "4.5.4"
         },
-        "frameworkAssemblies": [
-          "mscorlib"
-        ],
         "compile": {
-          "lib/net461/Microsoft.Bcl.AsyncInterfaces.dll": {
+          "lib/net462/Microsoft.Bcl.AsyncInterfaces.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net461/Microsoft.Bcl.AsyncInterfaces.dll": {
+          "lib/net462/Microsoft.Bcl.AsyncInterfaces.dll": {
             "related": ".xml"
           }
+        },
+        "build": {
+          "buildTransitive/net462/_._": {}
         }
       },
       "Microsoft.VisualBasic/10.3.0": {
@@ -1223,6 +1672,27 @@
           "lib/net45/System.Drawing.Primitives.dll": {}
         }
       },
+      "System.IO.Pipelines/9.0.2": {
+        "type": "package",
+        "dependencies": {
+          "System.Buffers": "4.5.1",
+          "System.Memory": "4.5.5",
+          "System.Threading.Tasks.Extensions": "4.5.4"
+        },
+        "compile": {
+          "lib/net462/System.IO.Pipelines.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net462/System.IO.Pipelines.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net462/_._": {}
+        }
+      },
       "System.Memory/4.5.5": {
         "type": "package",
         "dependencies": {
@@ -1338,6 +1808,53 @@
           }
         }
       },
+      "System.Text.Encodings.Web/9.0.2": {
+        "type": "package",
+        "dependencies": {
+          "System.Buffers": "4.5.1",
+          "System.Memory": "4.5.5",
+          "System.Runtime.CompilerServices.Unsafe": "6.0.0"
+        },
+        "compile": {
+          "lib/net462/System.Text.Encodings.Web.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net462/System.Text.Encodings.Web.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net462/_._": {}
+        }
+      },
+      "System.Text.Json/9.0.2": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl.AsyncInterfaces": "9.0.2",
+          "System.Buffers": "4.5.1",
+          "System.IO.Pipelines": "9.0.2",
+          "System.Memory": "4.5.5",
+          "System.Runtime.CompilerServices.Unsafe": "6.0.0",
+          "System.Text.Encodings.Web": "9.0.2",
+          "System.Threading.Tasks.Extensions": "4.5.4",
+          "System.ValueTuple": "4.5.0"
+        },
+        "compile": {
+          "lib/net462/System.Text.Json.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net462/System.Text.Json.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net462/System.Text.Json.targets": {}
+        }
+      },
       "System.Threading.Channels/8.0.0": {
         "type": "package",
         "dependencies": {
@@ -1372,6 +1889,20 @@
         },
         "runtime": {
           "lib/net461/System.Threading.Tasks.Extensions.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "System.ValueTuple/4.5.0": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "mscorlib"
+        ],
+        "compile": {
+          "ref/net47/System.ValueTuple.dll": {}
+        },
+        "runtime": {
+          "lib/net47/System.ValueTuple.dll": {
             "related": ".xml"
           }
         }
@@ -1480,30 +2011,93 @@
           }
         }
       },
-      "EMGU.CV/4.1.1.3497": {
+      "Emgu.CV/4.9.0.5494": {
         "type": "package",
         "dependencies": {
-          "ZedGraph": "[5.1.7]"
+          "System.Drawing.Primitives": "4.3.0",
+          "System.Runtime": "4.3.1",
+          "System.Runtime.InteropServices.RuntimeInformation": "4.3.0",
+          "System.Text.Json": "8.0.1"
         },
         "compile": {
-          "lib/net35/Emgu.CV.UI.dll": {
-            "related": ".XML"
-          },
-          "lib/net35/Emgu.CV.World.dll": {
+          "lib/netstandard2.0/Emgu.CV.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net35/Emgu.CV.UI.dll": {
-            "related": ".XML"
-          },
-          "lib/net35/Emgu.CV.World.dll": {
+          "lib/netstandard2.0/Emgu.CV.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Emgu.CV.Bitmap/4.9.0.5494": {
+        "type": "package",
+        "dependencies": {
+          "Emgu.CV": "4.9.0.5494",
+          "System.Drawing.Common": "8.0.1"
+        },
+        "compile": {
+          "lib/netstandard2.0/Emgu.CV.Bitmap.dll": {
             "related": ".xml"
           }
         },
-        "build": {
-          "build/EMGU.CV.targets": {}
+        "runtime": {
+          "lib/netstandard2.0/Emgu.CV.Bitmap.dll": {
+            "related": ".xml"
+          }
         }
+      },
+      "Emgu.CV.runtime.windows/4.9.0.5494": {
+        "type": "package",
+        "dependencies": {
+          "Emgu.CV": "4.9.0.5494",
+          "Emgu.runtime.windows.msvc.rt.arm64": "19.39.33523",
+          "Emgu.runtime.windows.msvc.rt.x64": "19.39.33523",
+          "Emgu.runtime.windows.msvc.rt.x86": "19.39.33523"
+        },
+        "native": {
+          "runtimes/win-x64/native/cvextern.dll": {},
+          "runtimes/win-x64/native/libusb-1.0.dll": {},
+          "runtimes/win-x64/native/opencv_videoio_ffmpeg490_64.dll": {}
+        }
+      },
+      "Emgu.CV.UI/4.9.0.5494": {
+        "type": "package",
+        "dependencies": {
+          "Emgu.CV.Bitmap": "4.9.0.5494"
+        },
+        "frameworkAssemblies": [
+          "System.Windows.Forms"
+        ],
+        "compile": {
+          "lib/net461/Emgu.CV.Platform.NetFramework.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net461/Emgu.CV.Platform.NetFramework.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Emgu.runtime.windows.msvc.rt.arm64/19.39.33523": {
+        "type": "package"
+      },
+      "Emgu.runtime.windows.msvc.rt.x64/19.39.33523": {
+        "type": "package",
+        "native": {
+          "runtimes/win-x64/native/concrt140.dll": {},
+          "runtimes/win-x64/native/msvcp140.dll": {},
+          "runtimes/win-x64/native/msvcp140_1.dll": {},
+          "runtimes/win-x64/native/msvcp140_2.dll": {},
+          "runtimes/win-x64/native/msvcp140_atomic_wait.dll": {},
+          "runtimes/win-x64/native/msvcp140_codecvt_ids.dll": {},
+          "runtimes/win-x64/native/vcruntime140.dll": {},
+          "runtimes/win-x64/native/vcruntime140_1.dll": {}
+        }
+      },
+      "Emgu.runtime.windows.msvc.rt.x86/19.39.33523": {
+        "type": "package"
       },
       "Leaf.xNet/5.2.10": {
         "type": "package",
@@ -1524,23 +2118,23 @@
           }
         }
       },
-      "Microsoft.Bcl.AsyncInterfaces/5.0.0": {
+      "Microsoft.Bcl.AsyncInterfaces/9.0.2": {
         "type": "package",
         "dependencies": {
           "System.Threading.Tasks.Extensions": "4.5.4"
         },
-        "frameworkAssemblies": [
-          "mscorlib"
-        ],
         "compile": {
-          "lib/net461/Microsoft.Bcl.AsyncInterfaces.dll": {
+          "lib/net462/Microsoft.Bcl.AsyncInterfaces.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net461/Microsoft.Bcl.AsyncInterfaces.dll": {
+          "lib/net462/Microsoft.Bcl.AsyncInterfaces.dll": {
             "related": ".xml"
           }
+        },
+        "build": {
+          "buildTransitive/net462/_._": {}
         }
       },
       "Microsoft.VisualBasic/10.3.0": {
@@ -1701,6 +2295,27 @@
           "lib/net45/System.Drawing.Primitives.dll": {}
         }
       },
+      "System.IO.Pipelines/9.0.2": {
+        "type": "package",
+        "dependencies": {
+          "System.Buffers": "4.5.1",
+          "System.Memory": "4.5.5",
+          "System.Threading.Tasks.Extensions": "4.5.4"
+        },
+        "compile": {
+          "lib/net462/System.IO.Pipelines.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net462/System.IO.Pipelines.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net462/_._": {}
+        }
+      },
       "System.Memory/4.5.5": {
         "type": "package",
         "dependencies": {
@@ -1816,6 +2431,53 @@
           }
         }
       },
+      "System.Text.Encodings.Web/9.0.2": {
+        "type": "package",
+        "dependencies": {
+          "System.Buffers": "4.5.1",
+          "System.Memory": "4.5.5",
+          "System.Runtime.CompilerServices.Unsafe": "6.0.0"
+        },
+        "compile": {
+          "lib/net462/System.Text.Encodings.Web.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net462/System.Text.Encodings.Web.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net462/_._": {}
+        }
+      },
+      "System.Text.Json/9.0.2": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl.AsyncInterfaces": "9.0.2",
+          "System.Buffers": "4.5.1",
+          "System.IO.Pipelines": "9.0.2",
+          "System.Memory": "4.5.5",
+          "System.Runtime.CompilerServices.Unsafe": "6.0.0",
+          "System.Text.Encodings.Web": "9.0.2",
+          "System.Threading.Tasks.Extensions": "4.5.4",
+          "System.ValueTuple": "4.5.0"
+        },
+        "compile": {
+          "lib/net462/System.Text.Json.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net462/System.Text.Json.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net462/System.Text.Json.targets": {}
+        }
+      },
       "System.Threading.Channels/8.0.0": {
         "type": "package",
         "dependencies": {
@@ -1850,6 +2512,20 @@
         },
         "runtime": {
           "lib/net461/System.Threading.Tasks.Extensions.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "System.ValueTuple/4.5.0": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "mscorlib"
+        ],
+        "compile": {
+          "ref/net47/System.ValueTuple.dll": {}
+        },
+        "runtime": {
+          "lib/net47/System.ValueTuple.dll": {
             "related": ".xml"
           }
         }
@@ -1958,29 +2634,91 @@
           }
         }
       },
-      "EMGU.CV/4.1.1.3497": {
+      "Emgu.CV/4.9.0.5494": {
         "type": "package",
         "dependencies": {
-          "ZedGraph": "[5.1.7]"
+          "System.Drawing.Primitives": "4.3.0",
+          "System.Runtime": "4.3.1",
+          "System.Runtime.InteropServices.RuntimeInformation": "4.3.0",
+          "System.Text.Json": "8.0.1"
         },
         "compile": {
-          "lib/net35/Emgu.CV.UI.dll": {
-            "related": ".XML"
-          },
-          "lib/net35/Emgu.CV.World.dll": {
+          "lib/netstandard2.0/Emgu.CV.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net35/Emgu.CV.UI.dll": {
-            "related": ".XML"
-          },
-          "lib/net35/Emgu.CV.World.dll": {
+          "lib/netstandard2.0/Emgu.CV.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Emgu.CV.Bitmap/4.9.0.5494": {
+        "type": "package",
+        "dependencies": {
+          "Emgu.CV": "4.9.0.5494",
+          "System.Drawing.Common": "8.0.1"
+        },
+        "compile": {
+          "lib/netstandard2.0/Emgu.CV.Bitmap.dll": {
             "related": ".xml"
           }
         },
-        "build": {
-          "build/EMGU.CV.targets": {}
+        "runtime": {
+          "lib/netstandard2.0/Emgu.CV.Bitmap.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Emgu.CV.runtime.windows/4.9.0.5494": {
+        "type": "package",
+        "dependencies": {
+          "Emgu.CV": "4.9.0.5494",
+          "Emgu.runtime.windows.msvc.rt.arm64": "19.39.33523",
+          "Emgu.runtime.windows.msvc.rt.x64": "19.39.33523",
+          "Emgu.runtime.windows.msvc.rt.x86": "19.39.33523"
+        },
+        "native": {
+          "runtimes/win-x86/native/cvextern.dll": {},
+          "runtimes/win-x86/native/libusb-1.0.dll": {},
+          "runtimes/win-x86/native/opencv_videoio_ffmpeg490.dll": {}
+        }
+      },
+      "Emgu.CV.UI/4.9.0.5494": {
+        "type": "package",
+        "dependencies": {
+          "Emgu.CV.Bitmap": "4.9.0.5494"
+        },
+        "frameworkAssemblies": [
+          "System.Windows.Forms"
+        ],
+        "compile": {
+          "lib/net461/Emgu.CV.Platform.NetFramework.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net461/Emgu.CV.Platform.NetFramework.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Emgu.runtime.windows.msvc.rt.arm64/19.39.33523": {
+        "type": "package"
+      },
+      "Emgu.runtime.windows.msvc.rt.x64/19.39.33523": {
+        "type": "package"
+      },
+      "Emgu.runtime.windows.msvc.rt.x86/19.39.33523": {
+        "type": "package",
+        "native": {
+          "runtimes/win-x86/native/concrt140.dll": {},
+          "runtimes/win-x86/native/msvcp140.dll": {},
+          "runtimes/win-x86/native/msvcp140_1.dll": {},
+          "runtimes/win-x86/native/msvcp140_2.dll": {},
+          "runtimes/win-x86/native/msvcp140_atomic_wait.dll": {},
+          "runtimes/win-x86/native/msvcp140_codecvt_ids.dll": {},
+          "runtimes/win-x86/native/vcruntime140.dll": {}
         }
       },
       "Leaf.xNet/5.2.10": {
@@ -2002,23 +2740,23 @@
           }
         }
       },
-      "Microsoft.Bcl.AsyncInterfaces/5.0.0": {
+      "Microsoft.Bcl.AsyncInterfaces/9.0.2": {
         "type": "package",
         "dependencies": {
           "System.Threading.Tasks.Extensions": "4.5.4"
         },
-        "frameworkAssemblies": [
-          "mscorlib"
-        ],
         "compile": {
-          "lib/net461/Microsoft.Bcl.AsyncInterfaces.dll": {
+          "lib/net462/Microsoft.Bcl.AsyncInterfaces.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net461/Microsoft.Bcl.AsyncInterfaces.dll": {
+          "lib/net462/Microsoft.Bcl.AsyncInterfaces.dll": {
             "related": ".xml"
           }
+        },
+        "build": {
+          "buildTransitive/net462/_._": {}
         }
       },
       "Microsoft.VisualBasic/10.3.0": {
@@ -2179,6 +2917,27 @@
           "lib/net45/System.Drawing.Primitives.dll": {}
         }
       },
+      "System.IO.Pipelines/9.0.2": {
+        "type": "package",
+        "dependencies": {
+          "System.Buffers": "4.5.1",
+          "System.Memory": "4.5.5",
+          "System.Threading.Tasks.Extensions": "4.5.4"
+        },
+        "compile": {
+          "lib/net462/System.IO.Pipelines.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net462/System.IO.Pipelines.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net462/_._": {}
+        }
+      },
       "System.Memory/4.5.5": {
         "type": "package",
         "dependencies": {
@@ -2294,6 +3053,53 @@
           }
         }
       },
+      "System.Text.Encodings.Web/9.0.2": {
+        "type": "package",
+        "dependencies": {
+          "System.Buffers": "4.5.1",
+          "System.Memory": "4.5.5",
+          "System.Runtime.CompilerServices.Unsafe": "6.0.0"
+        },
+        "compile": {
+          "lib/net462/System.Text.Encodings.Web.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net462/System.Text.Encodings.Web.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net462/_._": {}
+        }
+      },
+      "System.Text.Json/9.0.2": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl.AsyncInterfaces": "9.0.2",
+          "System.Buffers": "4.5.1",
+          "System.IO.Pipelines": "9.0.2",
+          "System.Memory": "4.5.5",
+          "System.Runtime.CompilerServices.Unsafe": "6.0.0",
+          "System.Text.Encodings.Web": "9.0.2",
+          "System.Threading.Tasks.Extensions": "4.5.4",
+          "System.ValueTuple": "4.5.0"
+        },
+        "compile": {
+          "lib/net462/System.Text.Json.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net462/System.Text.Json.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net462/System.Text.Json.targets": {}
+        }
+      },
       "System.Threading.Channels/8.0.0": {
         "type": "package",
         "dependencies": {
@@ -2328,6 +3134,20 @@
         },
         "runtime": {
           "lib/net461/System.Threading.Tasks.Extensions.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "System.ValueTuple/4.5.0": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "mscorlib"
+        ],
+        "compile": {
+          "ref/net47/System.ValueTuple.dll": {}
+        },
+        "runtime": {
+          "lib/net47/System.ValueTuple.dll": {
             "related": ".xml"
           }
         }
@@ -2448,31 +3268,146 @@
         "lib/netstandard2.0/BrotliSharpLib.xml"
       ]
     },
-    "EMGU.CV/4.1.1.3497": {
-      "sha512": "DlcLFslJUygVWeUeHZuGDoF59lYgR+8ig2AUoSZJCJYY7AYVYy1Zor0Z+qYYr22jnLW2KHrra2MCOMPm7WL8lw==",
+    "Emgu.CV/4.9.0.5494": {
+      "sha512": "arnHdpnI14Ov98BmiWOsijAO3qvs2Z5+nBD2uavJI24CRTRSvkCXKZoMmhJVA48QdCdWO8HkO4wMqEezL4Bz/A==",
       "type": "package",
-      "path": "emgu.cv/4.1.1.3497",
+      "path": "emgu.cv/4.9.0.5494",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "Emgu.CV.License.txt",
-        "build/EMGU.CV.targets",
-        "build/x64/concrt140.dll",
-        "build/x64/cvextern.dll",
-        "build/x64/msvcp140.dll",
-        "build/x64/opencv_videoio_ffmpeg411_64.dll",
-        "build/x64/vcruntime140.dll",
-        "build/x86/concrt140.dll",
-        "build/x86/cvextern.dll",
-        "build/x86/msvcp140.dll",
-        "build/x86/opencv_videoio_ffmpeg411.dll",
-        "build/x86/vcruntime140.dll",
-        "emgu.cv.4.1.1.3497.nupkg.sha512",
+        "LICENSE.txt",
+        "docs/README.md",
+        "emgu.cv.4.9.0.5494.nupkg.sha512",
         "emgu.cv.nuspec",
-        "lib/net35/Emgu.CV.UI.XML",
-        "lib/net35/Emgu.CV.UI.dll",
-        "lib/net35/Emgu.CV.World.dll",
-        "lib/net35/Emgu.CV.World.xml"
+        "icon.png",
+        "lib/net8.0-ios16.1/Emgu.CV.dll",
+        "lib/net8.0-ios16.1/Emgu.CV.xml",
+        "lib/net8.0-maccatalyst16.1/Emgu.CV.dll",
+        "lib/net8.0-maccatalyst16.1/Emgu.CV.xml",
+        "lib/netstandard2.0/Emgu.CV.dll",
+        "lib/netstandard2.0/Emgu.CV.xml",
+        "lib/xamarinios10/Emgu.CV.dll",
+        "lib/xamarinios10/Emgu.CV.xml"
+      ]
+    },
+    "Emgu.CV.Bitmap/4.9.0.5494": {
+      "sha512": "0ukJNIRXF5RXffF3ly0ujLtX0ojQGIHM7jmKkZuuvLSu2ubhVHZdZeqIBVa95/P7B6YDyC10vkGFhMSiFUeoOw==",
+      "type": "package",
+      "path": "emgu.cv.bitmap/4.9.0.5494",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.txt",
+        "docs/README.md",
+        "emgu.cv.bitmap.4.9.0.5494.nupkg.sha512",
+        "emgu.cv.bitmap.nuspec",
+        "lib/netstandard2.0/Emgu.CV.Bitmap.dll",
+        "lib/netstandard2.0/Emgu.CV.Bitmap.xml",
+        "nuget_icon.png"
+      ]
+    },
+    "Emgu.CV.runtime.windows/4.9.0.5494": {
+      "sha512": "sByLvyNCzQCScjKHLRm1NrghPUOClXRxVibCav3ou8scflQA28aWB1P+nBMjyBE1qIQ1CGA+h5UB9XGtBSf5xg==",
+      "type": "package",
+      "path": "emgu.cv.runtime.windows/4.9.0.5494",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.txt",
+        "docs/README.md",
+        "docs/build_info_arm64.inc",
+        "docs/build_info_x64.inc",
+        "docs/build_info_x86.inc",
+        "emgu.cv.runtime.windows.4.9.0.5494.nupkg.sha512",
+        "emgu.cv.runtime.windows.nuspec",
+        "icon.png",
+        "runtimes/win-arm64/native/cvextern.dll",
+        "runtimes/win-x64/native/cvextern.dll",
+        "runtimes/win-x64/native/libusb-1.0.dll",
+        "runtimes/win-x64/native/opencv_videoio_ffmpeg490_64.dll",
+        "runtimes/win-x86/native/cvextern.dll",
+        "runtimes/win-x86/native/libusb-1.0.dll",
+        "runtimes/win-x86/native/opencv_videoio_ffmpeg490.dll"
+      ]
+    },
+    "Emgu.CV.UI/4.9.0.5494": {
+      "sha512": "cxnZaykeqZwgunkM5uQZUgYbu2cN3je6QKY8hkWPuA+Rb0d04FMoCiwQ5SARcMxQ1blH5+poNsMYd9RCuIU42Q==",
+      "type": "package",
+      "path": "emgu.cv.ui/4.9.0.5494",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.txt",
+        "docs/README.md",
+        "emgu.cv.ui.4.9.0.5494.nupkg.sha512",
+        "emgu.cv.ui.nuspec",
+        "icon.png",
+        "lib/net461/Emgu.CV.Platform.NetFramework.dll",
+        "lib/net461/Emgu.CV.Platform.NetFramework.xml",
+        "lib/netcoreapp3.1/Emgu.CV.Platform.NetCore.dll",
+        "lib/netcoreapp3.1/Emgu.CV.Platform.NetCore.xml"
+      ]
+    },
+    "Emgu.runtime.windows.msvc.rt.arm64/19.39.33523": {
+      "sha512": "idtjLwgIM9eSdOSv9vB320N+5ha647ByAD20cx9mQ5bf1/pqOPg4+YIVy2Z5Yh/S1DxfIfn8kWHA9QbtKjDeCQ==",
+      "type": "package",
+      "path": "emgu.runtime.windows.msvc.rt.arm64/19.39.33523",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.txt",
+        "emgu.runtime.windows.msvc.rt.arm64.19.39.33523.nupkg.sha512",
+        "emgu.runtime.windows.msvc.rt.arm64.nuspec",
+        "icon.png",
+        "runtimes/win-arm64/native/concrt140.dll",
+        "runtimes/win-arm64/native/msvcp140.dll",
+        "runtimes/win-arm64/native/msvcp140_1.dll",
+        "runtimes/win-arm64/native/msvcp140_2.dll",
+        "runtimes/win-arm64/native/msvcp140_atomic_wait.dll",
+        "runtimes/win-arm64/native/msvcp140_codecvt_ids.dll",
+        "runtimes/win-arm64/native/vcruntime140.dll",
+        "runtimes/win-arm64/native/vcruntime140_1.dll"
+      ]
+    },
+    "Emgu.runtime.windows.msvc.rt.x64/19.39.33523": {
+      "sha512": "P6ibPhYDbQbDykWrgpvelZRjdc0tU6F6YcdRe3DEtKfdi5A+QXNuyg0HcMsUcQBvZMIVzezjohHhWbwamTDGLw==",
+      "type": "package",
+      "path": "emgu.runtime.windows.msvc.rt.x64/19.39.33523",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.txt",
+        "emgu.runtime.windows.msvc.rt.x64.19.39.33523.nupkg.sha512",
+        "emgu.runtime.windows.msvc.rt.x64.nuspec",
+        "icon.png",
+        "runtimes/win-x64/native/concrt140.dll",
+        "runtimes/win-x64/native/msvcp140.dll",
+        "runtimes/win-x64/native/msvcp140_1.dll",
+        "runtimes/win-x64/native/msvcp140_2.dll",
+        "runtimes/win-x64/native/msvcp140_atomic_wait.dll",
+        "runtimes/win-x64/native/msvcp140_codecvt_ids.dll",
+        "runtimes/win-x64/native/vcruntime140.dll",
+        "runtimes/win-x64/native/vcruntime140_1.dll"
+      ]
+    },
+    "Emgu.runtime.windows.msvc.rt.x86/19.39.33523": {
+      "sha512": "WwCxayYRgG+o7sZ16NEaIsOajRytEtjJ8/bnqKziomZahp9LkWUwxfeSvttAYSCKNFCMQUoDS90Fa0NaIm10Pg==",
+      "type": "package",
+      "path": "emgu.runtime.windows.msvc.rt.x86/19.39.33523",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.txt",
+        "emgu.runtime.windows.msvc.rt.x86.19.39.33523.nupkg.sha512",
+        "emgu.runtime.windows.msvc.rt.x86.nuspec",
+        "icon.png",
+        "runtimes/win-x86/native/concrt140.dll",
+        "runtimes/win-x86/native/msvcp140.dll",
+        "runtimes/win-x86/native/msvcp140_1.dll",
+        "runtimes/win-x86/native/msvcp140_2.dll",
+        "runtimes/win-x86/native/msvcp140_atomic_wait.dll",
+        "runtimes/win-x86/native/msvcp140_codecvt_ids.dll",
+        "runtimes/win-x86/native/vcruntime140.dll"
       ]
     },
     "Leaf.xNet/5.2.10": {
@@ -2491,26 +3426,30 @@
         "lib/netstandard2.0/Leaf.xNet.xml"
       ]
     },
-    "Microsoft.Bcl.AsyncInterfaces/5.0.0": {
-      "sha512": "W8DPQjkMScOMTtJbPwmPyj9c3zYSFGawDW3jwlBOOsnY+EzZFLgNQ/UMkK35JmkNOVPdCyPr2Tw7Vv9N+KA3ZQ==",
+    "Microsoft.Bcl.AsyncInterfaces/9.0.2": {
+      "sha512": "1CED0BGD7dCKsbe7tDhzpPB2Qdi9x35QChu6zkBEI4s0T5bDkkttGReqQnOeOfRNSxtP2WvpX6Ik/0O93XDuMw==",
       "type": "package",
-      "path": "microsoft.bcl.asyncinterfaces/5.0.0",
+      "path": "microsoft.bcl.asyncinterfaces/9.0.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
         "LICENSE.TXT",
+        "PACKAGE.md",
         "THIRD-PARTY-NOTICES.TXT",
-        "lib/net461/Microsoft.Bcl.AsyncInterfaces.dll",
-        "lib/net461/Microsoft.Bcl.AsyncInterfaces.xml",
+        "buildTransitive/net461/Microsoft.Bcl.AsyncInterfaces.targets",
+        "buildTransitive/net462/_._",
+        "buildTransitive/net8.0/_._",
+        "buildTransitive/netcoreapp2.0/Microsoft.Bcl.AsyncInterfaces.targets",
+        "lib/net462/Microsoft.Bcl.AsyncInterfaces.dll",
+        "lib/net462/Microsoft.Bcl.AsyncInterfaces.xml",
         "lib/netstandard2.0/Microsoft.Bcl.AsyncInterfaces.dll",
         "lib/netstandard2.0/Microsoft.Bcl.AsyncInterfaces.xml",
         "lib/netstandard2.1/Microsoft.Bcl.AsyncInterfaces.dll",
         "lib/netstandard2.1/Microsoft.Bcl.AsyncInterfaces.xml",
-        "microsoft.bcl.asyncinterfaces.5.0.0.nupkg.sha512",
+        "microsoft.bcl.asyncinterfaces.9.0.2.nupkg.sha512",
         "microsoft.bcl.asyncinterfaces.nuspec",
-        "useSharedDesignerContext.txt",
-        "version.txt"
+        "useSharedDesignerContext.txt"
       ]
     },
     "Microsoft.VisualBasic/10.3.0": {
@@ -2811,6 +3750,34 @@
         "ref/xamarinwatchos10/_._",
         "system.drawing.primitives.4.3.0.nupkg.sha512",
         "system.drawing.primitives.nuspec"
+      ]
+    },
+    "System.IO.Pipelines/9.0.2": {
+      "sha512": "UIBaK7c/A3FyQxmX/747xw4rCUkm1BhNiVU617U5jweNJssNjLJkPUGhBsrlDG0BpKWCYKsncD+Kqpy4KmvZZQ==",
+      "type": "package",
+      "path": "system.io.pipelines/9.0.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "PACKAGE.md",
+        "THIRD-PARTY-NOTICES.TXT",
+        "buildTransitive/net461/System.IO.Pipelines.targets",
+        "buildTransitive/net462/_._",
+        "buildTransitive/net8.0/_._",
+        "buildTransitive/netcoreapp2.0/System.IO.Pipelines.targets",
+        "lib/net462/System.IO.Pipelines.dll",
+        "lib/net462/System.IO.Pipelines.xml",
+        "lib/net8.0/System.IO.Pipelines.dll",
+        "lib/net8.0/System.IO.Pipelines.xml",
+        "lib/net9.0/System.IO.Pipelines.dll",
+        "lib/net9.0/System.IO.Pipelines.xml",
+        "lib/netstandard2.0/System.IO.Pipelines.dll",
+        "lib/netstandard2.0/System.IO.Pipelines.xml",
+        "system.io.pipelines.9.0.2.nupkg.sha512",
+        "system.io.pipelines.nuspec",
+        "useSharedDesignerContext.txt"
       ]
     },
     "System.Memory/4.5.5": {
@@ -3137,6 +4104,109 @@
         "version.txt"
       ]
     },
+    "System.Text.Encodings.Web/9.0.2": {
+      "sha512": "/kCGdrXg0PXrvkHYyHubXJHcmCAvJrxTZ7g4XS6UCxY1JW79aMjtUW6UYNECHJmiyFZsZ/vUuWOM4CtNpiNt8Q==",
+      "type": "package",
+      "path": "system.text.encodings.web/9.0.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "PACKAGE.md",
+        "THIRD-PARTY-NOTICES.TXT",
+        "buildTransitive/net461/System.Text.Encodings.Web.targets",
+        "buildTransitive/net462/_._",
+        "buildTransitive/net8.0/_._",
+        "buildTransitive/netcoreapp2.0/System.Text.Encodings.Web.targets",
+        "lib/net462/System.Text.Encodings.Web.dll",
+        "lib/net462/System.Text.Encodings.Web.xml",
+        "lib/net8.0/System.Text.Encodings.Web.dll",
+        "lib/net8.0/System.Text.Encodings.Web.xml",
+        "lib/net9.0/System.Text.Encodings.Web.dll",
+        "lib/net9.0/System.Text.Encodings.Web.xml",
+        "lib/netstandard2.0/System.Text.Encodings.Web.dll",
+        "lib/netstandard2.0/System.Text.Encodings.Web.xml",
+        "runtimes/browser/lib/net8.0/System.Text.Encodings.Web.dll",
+        "runtimes/browser/lib/net8.0/System.Text.Encodings.Web.xml",
+        "runtimes/browser/lib/net9.0/System.Text.Encodings.Web.dll",
+        "runtimes/browser/lib/net9.0/System.Text.Encodings.Web.xml",
+        "system.text.encodings.web.9.0.2.nupkg.sha512",
+        "system.text.encodings.web.nuspec",
+        "useSharedDesignerContext.txt"
+      ]
+    },
+    "System.Text.Json/9.0.2": {
+      "sha512": "4TY2Yokh5Xp8XHFhsY9y84yokS7B0rhkaZCXuRiKppIiKwPVH4lVSFD9EEFzRpXdBM5ZeZXD43tc2vB6njEwwQ==",
+      "type": "package",
+      "path": "system.text.json/9.0.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "PACKAGE.md",
+        "THIRD-PARTY-NOTICES.TXT",
+        "analyzers/dotnet/roslyn3.11/cs/System.Text.Json.SourceGeneration.dll",
+        "analyzers/dotnet/roslyn3.11/cs/cs/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn3.11/cs/de/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn3.11/cs/es/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn3.11/cs/fr/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn3.11/cs/it/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn3.11/cs/ja/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn3.11/cs/ko/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn3.11/cs/pl/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn3.11/cs/pt-BR/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn3.11/cs/ru/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn3.11/cs/tr/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn3.11/cs/zh-Hans/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn3.11/cs/zh-Hant/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.0/cs/System.Text.Json.SourceGeneration.dll",
+        "analyzers/dotnet/roslyn4.0/cs/cs/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.0/cs/de/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.0/cs/es/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.0/cs/fr/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.0/cs/it/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.0/cs/ja/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.0/cs/ko/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.0/cs/pl/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.0/cs/pt-BR/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.0/cs/ru/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.0/cs/tr/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.0/cs/zh-Hans/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.0/cs/zh-Hant/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/System.Text.Json.SourceGeneration.dll",
+        "analyzers/dotnet/roslyn4.4/cs/cs/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/de/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/es/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/fr/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/it/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/ja/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/ko/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/pl/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/pt-BR/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/ru/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/tr/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/zh-Hans/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/zh-Hant/System.Text.Json.SourceGeneration.resources.dll",
+        "buildTransitive/net461/System.Text.Json.targets",
+        "buildTransitive/net462/System.Text.Json.targets",
+        "buildTransitive/net8.0/System.Text.Json.targets",
+        "buildTransitive/netcoreapp2.0/System.Text.Json.targets",
+        "buildTransitive/netstandard2.0/System.Text.Json.targets",
+        "lib/net462/System.Text.Json.dll",
+        "lib/net462/System.Text.Json.xml",
+        "lib/net8.0/System.Text.Json.dll",
+        "lib/net8.0/System.Text.Json.xml",
+        "lib/net9.0/System.Text.Json.dll",
+        "lib/net9.0/System.Text.Json.xml",
+        "lib/netstandard2.0/System.Text.Json.dll",
+        "lib/netstandard2.0/System.Text.Json.xml",
+        "system.text.json.9.0.2.nupkg.sha512",
+        "system.text.json.nuspec",
+        "useSharedDesignerContext.txt"
+      ]
+    },
     "System.Threading.Channels/8.0.0": {
       "sha512": "CMaFr7v+57RW7uZfZkPExsPB6ljwzhjACWW1gfU35Y56rk72B/Wu+sTqxVmGSk4SFUlPc3cjeKND0zktziyjBA==",
       "type": "package",
@@ -3206,6 +4276,50 @@
         "version.txt"
       ]
     },
+    "System.ValueTuple/4.5.0": {
+      "sha512": "okurQJO6NRE/apDIP23ajJ0hpiNmJ+f0BwOlB/cSqTLQlw5upkf+5+96+iG2Jw40G1fCVCyPz/FhIABUjMR+RQ==",
+      "type": "package",
+      "path": "system.valuetuple/4.5.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/MonoAndroid10/_._",
+        "lib/MonoTouch10/_._",
+        "lib/net461/System.ValueTuple.dll",
+        "lib/net461/System.ValueTuple.xml",
+        "lib/net47/System.ValueTuple.dll",
+        "lib/net47/System.ValueTuple.xml",
+        "lib/netcoreapp2.0/_._",
+        "lib/netstandard1.0/System.ValueTuple.dll",
+        "lib/netstandard1.0/System.ValueTuple.xml",
+        "lib/netstandard2.0/_._",
+        "lib/portable-net40+sl4+win8+wp8/System.ValueTuple.dll",
+        "lib/portable-net40+sl4+win8+wp8/System.ValueTuple.xml",
+        "lib/uap10.0.16299/_._",
+        "lib/xamarinios10/_._",
+        "lib/xamarinmac20/_._",
+        "lib/xamarintvos10/_._",
+        "lib/xamarinwatchos10/_._",
+        "ref/MonoAndroid10/_._",
+        "ref/MonoTouch10/_._",
+        "ref/net461/System.ValueTuple.dll",
+        "ref/net47/System.ValueTuple.dll",
+        "ref/netcoreapp2.0/_._",
+        "ref/netstandard2.0/_._",
+        "ref/portable-net40+sl4+win8+wp8/System.ValueTuple.dll",
+        "ref/uap10.0.16299/_._",
+        "ref/xamarinios10/_._",
+        "ref/xamarinmac20/_._",
+        "ref/xamarintvos10/_._",
+        "ref/xamarinwatchos10/_._",
+        "system.valuetuple.4.5.0.nupkg.sha512",
+        "system.valuetuple.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    },
     "Titanium.Web.Proxy/3.2.0": {
       "sha512": "XHchT17Cqr4lX+p4+T4qMPOMfBBvXgIkjy6imy4guNWxLTPKyCaLv/VTiHgk4CwXnXTHlga7KWT1agNCbjwYYg==",
       "type": "package",
@@ -3271,8 +4385,15 @@
   },
   "projectFileDependencyGroups": {
     ".NETFramework,Version=v4.8": [
-      "Emgu.CV >= 4.1.1.3497",
+      "Emgu.CV >= 4.9.0.5494",
+      "Emgu.CV.Bitmap >= 4.9.0.5494",
+      "Emgu.CV.UI >= 4.9.0.5494",
+      "Emgu.CV.runtime.windows >= 4.9.0.5494",
+      "Emgu.runtime.windows.msvc.rt.arm64 >= 19.39.33523",
+      "Emgu.runtime.windows.msvc.rt.x64 >= 19.39.33523",
+      "Emgu.runtime.windows.msvc.rt.x86 >= 19.39.33523",
       "Leaf.xNet >= 5.2.10",
+      "Microsoft.Bcl.AsyncInterfaces >= 9.0.2",
       "Microsoft.VisualBasic >= 10.3.0",
       "Otp.NET >= 1.4.0",
       "Serilog >= 4.2.0",
@@ -3281,6 +4402,7 @@
       "System.Drawing.Primitives >= 4.3.0",
       "System.Runtime >= 4.3.1",
       "System.Runtime.InteropServices.RuntimeInformation >= 4.3.0",
+      "System.Text.Json >= 9.0.2",
       "Titanium.Web.Proxy >= 3.2.0",
       "ZedGraph >= 5.1.7"
     ]
@@ -3330,11 +4452,39 @@
         "dependencies": {
           "Emgu.CV": {
             "target": "Package",
-            "version": "[4.1.1.3497, )"
+            "version": "[4.9.0.5494, )"
+          },
+          "Emgu.CV.Bitmap": {
+            "target": "Package",
+            "version": "[4.9.0.5494, )"
+          },
+          "Emgu.CV.UI": {
+            "target": "Package",
+            "version": "[4.9.0.5494, )"
+          },
+          "Emgu.CV.runtime.windows": {
+            "target": "Package",
+            "version": "[4.9.0.5494, )"
+          },
+          "Emgu.runtime.windows.msvc.rt.arm64": {
+            "target": "Package",
+            "version": "[19.39.33523, )"
+          },
+          "Emgu.runtime.windows.msvc.rt.x64": {
+            "target": "Package",
+            "version": "[19.39.33523, )"
+          },
+          "Emgu.runtime.windows.msvc.rt.x86": {
+            "target": "Package",
+            "version": "[19.39.33523, )"
           },
           "Leaf.xNet": {
             "target": "Package",
             "version": "[5.2.10, )"
+          },
+          "Microsoft.Bcl.AsyncInterfaces": {
+            "target": "Package",
+            "version": "[9.0.2, )"
           },
           "Microsoft.VisualBasic": {
             "target": "Package",
@@ -3367,6 +4517,10 @@
           "System.Runtime.InteropServices.RuntimeInformation": {
             "target": "Package",
             "version": "[4.3.0, )"
+          },
+          "System.Text.Json": {
+            "target": "Package",
+            "version": "[9.0.2, )"
           },
           "Titanium.Web.Proxy": {
             "target": "Package",

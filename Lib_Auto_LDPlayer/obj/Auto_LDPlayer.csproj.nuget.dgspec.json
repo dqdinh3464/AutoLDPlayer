@@ -45,11 +45,39 @@
           "dependencies": {
             "Emgu.CV": {
               "target": "Package",
-              "version": "[4.1.1.3497, )"
+              "version": "[4.9.0.5494, )"
+            },
+            "Emgu.CV.Bitmap": {
+              "target": "Package",
+              "version": "[4.9.0.5494, )"
+            },
+            "Emgu.CV.UI": {
+              "target": "Package",
+              "version": "[4.9.0.5494, )"
+            },
+            "Emgu.CV.runtime.windows": {
+              "target": "Package",
+              "version": "[4.9.0.5494, )"
+            },
+            "Emgu.runtime.windows.msvc.rt.arm64": {
+              "target": "Package",
+              "version": "[19.39.33523, )"
+            },
+            "Emgu.runtime.windows.msvc.rt.x64": {
+              "target": "Package",
+              "version": "[19.39.33523, )"
+            },
+            "Emgu.runtime.windows.msvc.rt.x86": {
+              "target": "Package",
+              "version": "[19.39.33523, )"
             },
             "Leaf.xNet": {
               "target": "Package",
               "version": "[5.2.10, )"
+            },
+            "Microsoft.Bcl.AsyncInterfaces": {
+              "target": "Package",
+              "version": "[9.0.2, )"
             },
             "Microsoft.VisualBasic": {
               "target": "Package",
@@ -82,6 +110,10 @@
             "System.Runtime.InteropServices.RuntimeInformation": {
               "target": "Package",
               "version": "[4.3.0, )"
+            },
+            "System.Text.Json": {
+              "target": "Package",
+              "version": "[9.0.2, )"
             },
             "Titanium.Web.Proxy": {
               "target": "Package",

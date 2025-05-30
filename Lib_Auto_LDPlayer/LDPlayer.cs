@@ -805,44 +805,7 @@ namespace Auto_LDPlayer
             link = link.Replace("&", "\\&");
             Adb(ldType, nameOrId, $"shell am start -a android.intent.action.VIEW -d \"{link}\"");
             Delay(1);
-            ClickText(ldType, nameOrId, "Always", 0, 0);
-        }
-
-        public static bool ClickText(LDType ldType, string nameOrId, string text, int xC = 0, int yC = 0)
-        {
-            checked
-            {
-                try
-                {
-                    var result = DumpScreen(ldType, nameOrId);
-                    if (result.Contains(text))
-                    {
-                        var arrStr = result.Split(new char[] { '>' });
-                        foreach (var str in arrStr)
-                        {
-                            if (str.Contains(text))
-                            {
-                                var element = str;
-                                element = Strings.Mid(element, element.IndexOf("bounds=") + 10);
-                                element = Strings.Mid(element, 1, element.IndexOf("\"") - 1);
-                                var array3 = element.Split(new char[] { ']' });
-                                var array4 = array3[0].Split(new char[] { ',' });
-                                var array5 = array3[1].Replace("[", "").Split(new char[] { ',' });
-                                
-                                var num = (int)Math.Round(unchecked((double)(Convert.ToInt16(array4[0]) + Convert.ToInt16(array5[0])) / 2.0 + 10.0));
-                                var num2 = (int)Math.Round((double)(unchecked(Convert.ToInt16(array4[1]) + Convert.ToInt16(array5[1]))) / 2.0);
-                                Tap(ldType, nameOrId, num + xC, num2 + yC);
-
-                                return true;
-                            }
-                        }
-                    }
-                }
-                catch
-                {
-                }
-                return false;
-            }
+            WaitClickFindText(ldType, nameOrId, "Always", 5);
         }
 
         public static string DumpScreen(LDType ldType, string nameOrId)
